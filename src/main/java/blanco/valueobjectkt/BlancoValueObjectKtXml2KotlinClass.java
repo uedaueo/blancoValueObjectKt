@@ -301,7 +301,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
          * blancoValueObjectではプロパティ名の前にfをつける流儀であるが、
          * kotlinについては暗黙のgetter/setterを使う都合上、つけない。
          */
-        final BlancoCgField field = fCgFactory.createField(getFieldNameAdjustered(argClassStructure, argFieldStructure),
+        final BlancoCgField field = fCgFactory.createField(argFieldStructure.getName(),
                 argFieldStructure.getType(), null);
 
         /*
