@@ -549,16 +549,18 @@ public class BlancoValueObjectKtXml2KotlinClass {
         method.getLangDoc().getDescriptionList().add("</UL>");
         method.setReturn(fCgFactory.createReturn("java.lang.String",
                 "バリューオブジェクトの文字列表現。"));
-        method.getAnnotationList().add("Override");
 
         /*
          * 当面の間、blancoValueObjectKt ではtoStringのoverrideを許しません。
+         * 2020/04/20 hmatsumoto
+         * overrideを設定しました。
          */
+        method.setOverride(true);
         method.setFinal(true);
 
         final List<java.lang.String> listLine = method.getLineList();
 
-        listLine.add("final StringBuffer buf = new StringBuffer();");
+        listLine.add("val buf = StringBuffer();");
         listLine.add("buf.append(\"" + argClassStructure.getPackage() + "."
                 + argClassStructure.getName() + "[\");");
         for (int indexField = 0; indexField < argClassStructure.getFieldList()
@@ -566,18 +568,18 @@ public class BlancoValueObjectKtXml2KotlinClass {
             final BlancoValueObjectKtFieldStructure field = (BlancoValueObjectKtFieldStructure) argClassStructure
                     .getFieldList().get(indexField);
 
-            final String fieldNameAdjustered = (argClassStructure
-                    .getAdjustFieldName() == false ? field.getName()
-                    : BlancoNameAdjuster.toClassName(field.getName()));
-
+            /*
+             * 2020/04/20 hmatsumoto
+             * フィールド名にfをつけないように修正
+             */
             if (field.getType().endsWith("[]") == false) {
                 listLine.add("buf.append(\"" + (indexField == 0 ? "" : ",")
-                        + field.getName() + "=\" + f" + fieldNameAdjustered
+                        + field.getName() + "=\" + " + field.getName()
                         + ");");
             } else {
                 // 2006.05.31 t.iga 配列の場合には、先に
                 // その配列自身がnullかどうかのチェックが必要です。
-                listLine.add("if (f" + fieldNameAdjustered + " == null) {");
+                listLine.add("if (" + field.getName() + " == null) {");
                 // 0番目の項目である場合にはカンマなしの特別扱いをします。
                 listLine.add("buf.append(" + (indexField == 0 ? "\"" :
                 // 0番目ではない場合には、常にカンマを付与します。
@@ -590,12 +592,12 @@ public class BlancoValueObjectKtXml2KotlinClass {
                         + (indexField == 0 ? "\"" :
                         // 0番目ではない場合には、常にカンマを付与します。
                                 "\",") + field.getName() + "=[\");");
-                listLine.add("for (int index = 0; index < f"
-                        + fieldNameAdjustered + ".length; index++) {");
+                listLine.add("for (int index = 0; index < "
+                        + field.getName() + ".length; index++) {");
                 // 2006.05.31 t.iga
                 // ArrayListなどのtoStringと同様になるように、カンマのあとに半角スペースを付与するようにします。
-                listLine.add("buf.append((index == 0 ? \"\" : \", \") + f"
-                        + fieldNameAdjustered + "[index]);");
+                listLine.add("buf.append((index == 0 ? \"\" : \", \") + "
+                        + field.getName() + "[index]);");
                 listLine.add("}");
                 listLine.add("buf.append(\"]\");");
                 listLine.add("}");
