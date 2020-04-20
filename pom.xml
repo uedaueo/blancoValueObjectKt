@@ -5,7 +5,7 @@
 	<groupId>blanco.valueobjectkt</groupId>
 	<artifactId>blanco-valueobjectkt</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.3</version>
+	<version>0.0.4</version>
 	<name>blanco-valueobject-kt</name>
 	<url>https://igapyon.github.io/blancofw-maven2</url>
 
@@ -158,6 +158,19 @@
 			<version>3.13</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.10.3</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.10.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>
