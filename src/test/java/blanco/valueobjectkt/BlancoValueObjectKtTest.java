@@ -33,6 +33,7 @@ public class BlancoValueObjectKtTest {
         input.setTargetdir("sample/blanco");
         input.setTargetStyle("maven");
         input.setVerbose(true);
+        input.setLineSeparator("LF");
 
         BlancoValueObjectKtProcessImpl imple = new BlancoValueObjectKtProcessImpl();
         try {

@@ -43,6 +43,38 @@ public class BlancoValueObjectKtProcessImpl implements BlancoValueObjectKtProces
             }
 
             /*
+             * 改行コードを決定します。
+             */
+            String LF = "\n";
+            String CR = "\r";
+            String CRLF = CR + LF;
+            String lineSeparatorMark = input.getLineSeparator();
+            String lineSeparator = "";
+            if ("LF".equals(lineSeparatorMark)) {
+                lineSeparator = LF;
+            } else if ("CR".equals(lineSeparatorMark)) {
+                lineSeparator = CR;
+            } else if ("CRLF".equals(lineSeparatorMark)) {
+                lineSeparator = CRLF;
+            }
+            if (lineSeparator.length() != 0) {
+                System.setProperty("line.separator", lineSeparator);
+                if (input.getVerbose()) {
+                    System.out.println("lineSeparator try to change to " + lineSeparatorMark);
+                    String newProp = System.getProperty("line.separator");
+                    String newMark = "other";
+                    if (LF.equals(newProp)) {
+                        newMark = "LF";
+                    } else if (CR.equals(newProp)) {
+                        newMark = "CR";
+                    } else if (CRLF.equals(newProp)) {
+                        newMark = "CRLF";
+                    }
+                    System.out.println("New System Props = " + newMark);
+                }
+            }
+
+            /*
              * targetdir, targetStyleの処理。
              * 生成されたコードの保管場所を設定する。
              * targetstyle = blanco:

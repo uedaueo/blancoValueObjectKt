@@ -67,6 +67,8 @@ public class BlancoValueObjectKtBatchProcess {
                 input.setSheetType(arg.substring(11));
             } else if (arg.startsWith("-targetStyle=")) {
                 input.setTargetStyle(arg.substring(13));
+            } else if (arg.startsWith("-lineSeparator=")) {
+                input.setLineSeparator(arg.substring(15));
             } else if (arg.equals("-?") || arg.equals("-help")) {
                 usage();
                 System.exit(END_SUCCESS);
@@ -160,7 +162,7 @@ public class BlancoValueObjectKtBatchProcess {
      */
     public static final void usage() {
         System.out.println("BlancoValueObjectKtBatchProcess: Usage:");
-        System.out.println("  java blanco.valueobjectkt.task.BlancoValueObjectKtBatchProcess -verbose=値1 -metadir=値2 -targetdir=値3 -tmpdir=値4 -encoding=値5 -xmlrootelement=値6 -sheetType=値7 -targetStyle=値8");
+        System.out.println("  java blanco.valueobjectkt.task.BlancoValueObjectKtBatchProcess -verbose=値1 -metadir=値2 -targetdir=値3 -tmpdir=値4 -encoding=値5 -xmlrootelement=値6 -sheetType=値7 -targetStyle=値8 -lineSeparator=値9");
         System.out.println("    -verbose");
         System.out.println("      説明[verboseモードで動作させるかどうか。]");
         System.out.println("      型[真偽]");
@@ -192,6 +194,10 @@ public class BlancoValueObjectKtBatchProcess {
         System.out.println("      説明[出力先フォルダの書式を指定します。<br>\nblanco: [targetdir]/main<br>\nmaven: [targetdir]/main/java<br>\nfree: [targetdir](targetdirが無指定の場合はblanco/main)]");
         System.out.println("      型[文字列]");
         System.out.println("      デフォルト値[blanco]");
+        System.out.println("    -lineSeparator");
+        System.out.println("      説明[行末記号をしていします。LF=0x0a, CR=0x0d, CFLF=0x0d0x0a とします。LFがデフォルトです。]");
+        System.out.println("      型[文字列]");
+        System.out.println("      デフォルト値[LF]");
         System.out.println("    -? , -help");
         System.out.println("      説明[使い方を表示します。]");
     }
