@@ -388,9 +388,7 @@ public class BlancoValueObjectKtXmlParser {
         String classAnnotation = BlancoXmlBindingUtil.getTextContent(
                 elementCommon, "annotation");
         if (BlancoStringUtil.null2Blank(classAnnotation).length() > 0) {
-            String [] annotations = classAnnotation.split("\\\\\\\\");
-            List<String> annotationList = new ArrayList<>(Arrays.asList(annotations));
-            objClassStructure.setAnnotationList(annotationList);
+            objClassStructure.setAnnotationList(createAnnotaionList(classAnnotation));
         }
 
         objClassStructure.setAccess(BlancoXmlBindingUtil.getTextContent(
@@ -599,10 +597,7 @@ public class BlancoValueObjectKtXmlParser {
                 /* method の annnotation に対応 */
                 String methodAnnotation = BlancoXmlBindingUtil.getTextContent(elementList, "annotation");
                 if (BlancoStringUtil.null2Blank(methodAnnotation).length() != 0) {
-                    String [] annotations = methodAnnotation.split("\\\\\\\\");
-                    List<String> annotationList = new ArrayList<>(Arrays.asList(annotations));
-
-                    fieldStructure.setAnnotationList(annotationList);
+                    fieldStructure.setAnnotationList(createAnnotaionList(methodAnnotation));
                 }
 
                 // abstract に対応
@@ -717,5 +712,30 @@ public class BlancoValueObjectKtXmlParser {
         }
 
         return classList;
+    }
+
+    private List<String> createAnnotaionList(String annotations) {
+        List<String> annotationList = new ArrayList<>();
+        final String[] lines = BlancoNameUtil.splitString(annotations, '\n');
+        StringBuffer sb = new StringBuffer();
+        for (String line : lines) {
+            if (line.startsWith("@")) {
+                if (sb.length() > 0) {
+                    annotationList.add(sb.toString());
+                    sb = new StringBuffer();
+                }
+                line = line.substring(1);
+            }
+            sb.append(line + System.getProperty("line.separator", "\n"));
+        }
+        if (sb.length() > 0) {
+            annotationList.add(sb.toString());
+        }
+        if (this.isVerbose()) {
+            for (String ann : annotationList) {
+                System.out.println("Ann: " + ann);
+            }
+        }
+        return annotationList;
     }
 }
