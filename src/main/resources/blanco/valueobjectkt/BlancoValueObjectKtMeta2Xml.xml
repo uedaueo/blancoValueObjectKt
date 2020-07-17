@@ -92,6 +92,9 @@
         <propertykey name="package" waitX="2">
           <value>パッケージ</value>
         </propertykey>
+        <propertykey name="generic" waitX="2">
+          <value>総称型</value>
+        </propertykey>
         <propertykey name="annotation" waitX="2">
           <value>アノテーション</value>
         </propertykey>

@@ -384,6 +384,14 @@ public class BlancoValueObjectKtXmlParser {
             }
         }
 
+        /* クラスの総称型に対応 */
+        String classGenerics = BlancoXmlBindingUtil.getTextContent(
+                elementCommon, "generic");
+        if (BlancoStringUtil.null2Blank(classGenerics).length() > 0) {
+            objClassStructure.setGeneric(classGenerics);
+        }
+
+
         /* クラスの annotation に対応 */
         String classAnnotation = BlancoXmlBindingUtil.getTextContent(
                 elementCommon, "annotation");
@@ -510,88 +518,22 @@ public class BlancoValueObjectKtXmlParser {
                  * 型の取得．ここで Kotlin 風の型名に変えておく
                  */
                 String phpType = BlancoXmlBindingUtil.getTextContent(elementList, "type");
-                String javaType = phpType;
-                if ("boolean".equalsIgnoreCase(phpType)) {
-                    javaType = "kotlin.Boolean";
-                } else
-                if ("integer".equalsIgnoreCase(phpType)) {
-                    javaType = "kotlin.Int";
-                } else
-                if ("double".equalsIgnoreCase(phpType)) {
-                    javaType = "kotlin.Double";
-                } else
-                if ("float".equalsIgnoreCase(phpType)) {
-                    javaType = "kotlin.Double";
-                } else
-                if ("string".equalsIgnoreCase(phpType)) {
-                    javaType = "kotlin.String";
-                } else
-                if ("datetime".equalsIgnoreCase(phpType)) {
-                    javaType = "java.util.Date";
-                } else
-                if ("array".equalsIgnoreCase(phpType)) {
-                    javaType = "kotlin.collections.ArrayList";
-                } else
-                if ("object".equalsIgnoreCase(phpType)) {
-                    javaType = "kotlin.Any";
-                } else {
-                    /* この名前の package を探す */
-                    String packageName = argClassList.get(phpType);
-                    if (packageName != null) {
-                        javaType = packageName + "." + phpType;
-                    }
+                if (BlancoStringUtil.null2Blank(phpType).length() == 0) {
+                    // 型は必須
+                    throw new IllegalArgumentException(fMsg.getMbvoji04(
+                            objClassStructure.getName(),
+                            fieldStructure.getName()
+                    ));
 
-                    /* その他はそのまま記述する */
-                    System.out.println("/* tueda */ Unknown php type: " + javaType);
                 }
-
-                fieldStructure.setType(javaType);
+                String kotlinType = parsePhpTypes(phpType, argClassList, false);
+                fieldStructure.setType(kotlinType);
 
                 /* Generic に対応 */
                 String phpGeneric = BlancoXmlBindingUtil.getTextContent(elementList, "generic");
                 if (BlancoStringUtil.null2Blank(phpGeneric).length() != 0) {
-                    String javaGeneric = phpGeneric;
-                    if ("boolean".equalsIgnoreCase(phpGeneric)) {
-                        javaGeneric = "kotlin.Boolean";
-                    } else
-                    if ("integer".equalsIgnoreCase(phpGeneric)) {
-                        javaGeneric = "kotlin.Int";
-                    } else
-                    if ("double".equalsIgnoreCase(phpGeneric)) {
-                        javaGeneric = "kotlin.Double";
-                    } else
-                    if ("float".equalsIgnoreCase(phpGeneric)) {
-                        javaGeneric = "kotlin.Double";
-                    } else
-                    if ("string".equalsIgnoreCase(phpGeneric)) {
-                        javaGeneric = "kotlin.String";
-                    } else
-                    if ("datetime".equalsIgnoreCase(phpGeneric)) {
-                        javaGeneric = "java.util.Date";
-                    } else
-                    if ("array".equalsIgnoreCase(phpGeneric)) {
-                        throw new IllegalArgumentException(fMsg.getMbvoji06(
-                                objClassStructure.getName(),
-                                fieldStructure.getName(),
-                                phpGeneric,
-                                phpGeneric
-                        ));
-                    } else
-                    if ("object".equalsIgnoreCase(phpGeneric)) {
-                        javaGeneric = "kotlin.Any";
-                    } else {
-                    /* この名前の package を探す */
-                        String packageName = argClassList.get(phpGeneric);
-                        if (packageName != null) {
-                            javaGeneric = packageName + "." + phpGeneric;
-                        }
-
-                    /* その他はそのまま記述する */
-                        System.out.println("/* tueda */ Unknown php type: " + javaGeneric);
-                    }
-
-                    fieldStructure.setGeneric(javaGeneric);
-                    fieldStructure.setType(javaType);
+                    String kotlinGeneric = parsePhpTypes(phpGeneric, argClassList, true);
+                    fieldStructure.setGeneric(kotlinGeneric);
                 }
 
                 /* method の annnotation に対応 */
@@ -737,5 +679,49 @@ public class BlancoValueObjectKtXmlParser {
             }
         }
         return annotationList;
+    }
+
+    private String parsePhpTypes(String phpType, final Map<String, String> argClassList, boolean isGeneric) {
+        String kotlinType = phpType;
+        if (BlancoStringUtil.null2Blank(phpType).length() != 0) {
+            if ("boolean".equalsIgnoreCase(phpType)) {
+                kotlinType = "kotlin.Boolean";
+            } else
+            if ("integer".equalsIgnoreCase(phpType)) {
+                kotlinType = "kotlin.Int";
+            } else
+            if ("double".equalsIgnoreCase(phpType)) {
+                kotlinType = "kotlin.Double";
+            } else
+            if ("float".equalsIgnoreCase(phpType)) {
+                kotlinType = "kotlin.Double";
+            } else
+            if ("string".equalsIgnoreCase(phpType)) {
+                kotlinType = "kotlin.String";
+            } else
+            if ("datetime".equalsIgnoreCase(phpType)) {
+                kotlinType = "java.util.Date";
+            } else
+            if ("array".equalsIgnoreCase(phpType)) {
+                if (isGeneric) {
+                    throw new IllegalArgumentException("Cannot use array for Generics.");
+                } else {
+                    kotlinType = "kotlin.collections.ArrayList";
+                }
+            } else
+            if ("object".equalsIgnoreCase(phpType)) {
+                kotlinType = "kotlin.Any";
+            } else {
+                /* この名前の package を探す */
+                String packageName = argClassList.get(phpType);
+                if (packageName != null) {
+                    kotlinType = packageName + "." + phpType;
+                }
+
+                /* その他はそのまま記述する */
+                System.out.println("/* tueda */ Unknown php type: " + kotlinType);
+            }
+        }
+        return kotlinType;
     }
 }

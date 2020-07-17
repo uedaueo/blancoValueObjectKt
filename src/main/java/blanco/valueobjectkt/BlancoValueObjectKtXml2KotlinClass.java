@@ -196,6 +196,12 @@ public class BlancoValueObjectKtXml2KotlinClass {
         }
         fCgClass.setAbstract(argClassStructure.getAbstract());
 
+        // クラスの総称型に対応
+        if (BlancoStringUtil.null2Blank(argClassStructure.getGeneric()).length() > 0) {
+            System.out.println("!!!! Generics = " + argClassStructure.getGeneric());
+            fCgClass.setGenerics(argClassStructure.getGeneric());
+        }
+
         // 継承
         if (BlancoStringUtil.null2Blank(argClassStructure.getExtends())
                 .length() > 0) {

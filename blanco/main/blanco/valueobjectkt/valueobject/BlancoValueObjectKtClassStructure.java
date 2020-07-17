@@ -21,6 +21,13 @@ public class BlancoValueObjectKtClassStructure {
     private String fPackage;
 
     /**
+     * クラスの総称型を指定します。
+     *
+     * フィールド: [generic]。
+     */
+    private String fGeneric;
+
+    /**
      * クラスの説明です。
      *
      * フィールド: [description]。
@@ -187,6 +194,28 @@ public class BlancoValueObjectKtClassStructure {
      */
     public String getPackage() {
         return fPackage;
+    }
+
+    /**
+     * フィールド [generic] の値を設定します。
+     *
+     * フィールドの説明: [クラスの総称型を指定します。]。
+     *
+     * @param argGeneric フィールド[generic]に設定する値。
+     */
+    public void setGeneric(final String argGeneric) {
+        fGeneric = argGeneric;
+    }
+
+    /**
+     * フィールド [generic] の値を取得します。
+     *
+     * フィールドの説明: [クラスの総称型を指定します。]。
+     *
+     * @return フィールド[generic]から取得した値。
+     */
+    public String getGeneric() {
+        return fGeneric;
     }
 
     /**
@@ -571,6 +600,7 @@ public class BlancoValueObjectKtClassStructure {
         buf.append("blanco.valueobjectkt.valueobject.BlancoValueObjectKtClassStructure[");
         buf.append("name=" + fName);
         buf.append(",package=" + fPackage);
+        buf.append(",generic=" + fGeneric);
         buf.append(",description=" + fDescription);
         buf.append(",descriptionList=" + fDescriptionList);
         buf.append(",annotationList=" + fAnnotationList);
@@ -615,6 +645,9 @@ public class BlancoValueObjectKtClassStructure {
         // Name: fPackage
         // Type: java.lang.String
         target.fPackage = this.fPackage;
+        // Name: fGeneric
+        // Type: java.lang.String
+        target.fGeneric = this.fGeneric;
         // Name: fDescription
         // Type: java.lang.String
         target.fDescription = this.fDescription;
