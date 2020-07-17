@@ -319,8 +319,10 @@ public class BlancoValueObjectKtXml2KotlinClass {
             field.getType().setGenerics(generic);
         }
 
-        System.out.println("!!! type = " + argFieldStructure.getType());
-        System.out.println("!!! generic = " + field.getType().getGenerics());
+        if (this.isVerbose()) {
+            System.out.println("!!! type = " + argFieldStructure.getType());
+            System.out.println("!!! generic = " + field.getType().getGenerics());
+        }
 
         /*
          * 当面の間、blancoValueObjectKt ではprivateやgetter/setter,
@@ -383,7 +385,13 @@ public class BlancoValueObjectKtXml2KotlinClass {
              * とはいえ、blancoValueObjectKt では当面abstractプロパティはサポートしません。
              */
 
-            String defaultRawValue = argFieldStructure.getDefault();
+            /*
+             * defaultKt があればそちらを優先します。
+             */
+            String defaultRawValue = argFieldStructure.getDefaultKt();
+            if (defaultRawValue == null || defaultRawValue.length() == 0) {
+                defaultRawValue = argFieldStructure.getDefault();
+            }
             if (defaultRawValue == null || defaultRawValue.length() <= 0) {
                 System.err.println("/* tueda */ フィールドにデフォルト値が設定されていません。blancoValueObjectKtは当面の間、abstractフィールドはサポートしませんので、必ずデフォルト値を設定してください。");
                 throw new IllegalArgumentException(fMsg
@@ -392,48 +400,46 @@ public class BlancoValueObjectKtXml2KotlinClass {
 
             // フィールドのデフォルト値を設定します。
             field.getLangDoc().getDescriptionList().add(
-                    BlancoCgSourceUtil.escapeStringAsLangDoc(BlancoCgSupportedLang.KOTLIN, fBundle.getXml2javaclassFieldDefault(argFieldStructure
-                            .getDefault())));
+                    BlancoCgSourceUtil.escapeStringAsLangDoc(BlancoCgSupportedLang.KOTLIN, fBundle.getXml2javaclassFieldDefault(defaultRawValue)));
             if (argClassStructure.getAdjustDefaultValue() == false) {
                 // デフォルト値の変形がoffの場合には、定義書上の値をそのまま採用。
-                field.setDefault(argFieldStructure.getDefault());
+                field.setDefault(defaultRawValue);
             } else {
 
                 if (type.equals("kotlin.String")) {
                     // ダブルクオートを付与します。
                     field.setDefault("\""
                             + BlancoJavaSourceUtil
-                                    .escapeStringAsJavaSource(argFieldStructure
-                                            .getDefault()) + "\"");
+                                    .escapeStringAsJavaSource(defaultRawValue) + "\"");
                 } else if (type.equals("boolean") || type.equals("short")
                         || type.equals("int") || type.equals("long")) {
-                    field.setDefault(argFieldStructure.getDefault());
+                    field.setDefault(defaultRawValue);
                 } else if (type.equals("kotlin.Boolean")
                         || type.equals("kotlin.Int")
                         || type.equals("kotlin.Long")) {
                     field.setDefault("" /* kotlin には new は不要です */
                             + BlancoNameUtil.trimJavaPackage(type) + "("
-                            + argFieldStructure.getDefault() + ")");
+                            + defaultRawValue + ")");
                 } else if (type.equals("java.lang.Short")) {
                     field.setDefault("new "
                             + BlancoNameUtil.trimJavaPackage(type)
-                            + "((short) " + argFieldStructure.getDefault()
+                            + "((short) " + defaultRawValue
                             + ")");
                 } else if (type.equals("java.math.BigDecimal")) {
                     fCgSourceFile.getImportList().add("java.math.BigDecimal");
                     // 文字列からBigDecimalへと変換します。
                     field.setDefault("new BigDecimal(\""
-                            + argFieldStructure.getDefault() + "\")");
+                            + defaultRawValue + "\")");
                 } else if (type.equals("kotlin.collections.List")
                         || type.equals("kotlin.collections.ArrayList")) {
                     // ArrayListの場合には、与えられた文字をそのまま採用します。
                     // TODO 第2世代blancoValueObject採用場合には、全クラスインポートが妥当。
                     fCgSourceFile.getImportList().add(type);
-                    field.setDefault(argFieldStructure.getDefault());
+                    field.setDefault(defaultRawValue);
                 } else {
                     throw new IllegalArgumentException(fMsg.getMbvoji05(
                             argClassStructure.getName(), argFieldStructure
-                                    .getName(), argFieldStructure.getDefault(),
+                                    .getName(), defaultRawValue,
                             type));
                 }
             }

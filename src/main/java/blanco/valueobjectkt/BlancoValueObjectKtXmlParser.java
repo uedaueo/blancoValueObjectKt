@@ -572,6 +572,9 @@ public class BlancoValueObjectKtXmlParser {
 
                 fieldStructure.setDefault(BlancoXmlBindingUtil.getTextContent(
                         elementList, "default"));
+                fieldStructure.setDefaultKt(BlancoXmlBindingUtil.getTextContent(
+                        elementList, "defaultKt"));
+
                 fieldStructure.setMinLength(BlancoXmlBindingUtil
                         .getTextContent(elementList, "minLength"));
                 fieldStructure.setMaxLength(BlancoXmlBindingUtil

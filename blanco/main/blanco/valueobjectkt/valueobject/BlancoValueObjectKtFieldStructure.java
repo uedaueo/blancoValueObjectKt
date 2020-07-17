@@ -50,6 +50,13 @@ public class BlancoValueObjectKtFieldStructure {
     private String fDefault;
 
     /**
+     * Kotlin優先デフォルト値を指定します。
+     *
+     * フィールド: [defaultKt]。
+     */
+    private String fDefaultKt;
+
+    /**
      * abstract変数かどうか
      *
      * フィールド: [abstract]。
@@ -269,6 +276,28 @@ public class BlancoValueObjectKtFieldStructure {
      */
     public String getDefault() {
         return fDefault;
+    }
+
+    /**
+     * フィールド [defaultKt] の値を設定します。
+     *
+     * フィールドの説明: [Kotlin優先デフォルト値を指定します。]。
+     *
+     * @param argDefaultKt フィールド[defaultKt]に設定する値。
+     */
+    public void setDefaultKt(final String argDefaultKt) {
+        fDefaultKt = argDefaultKt;
+    }
+
+    /**
+     * フィールド [defaultKt] の値を取得します。
+     *
+     * フィールドの説明: [Kotlin優先デフォルト値を指定します。]。
+     *
+     * @return フィールド[defaultKt]から取得した値。
+     */
+    public String getDefaultKt() {
+        return fDefaultKt;
     }
 
     /**
@@ -561,6 +590,7 @@ public class BlancoValueObjectKtFieldStructure {
         buf.append(",generic=" + fGeneric);
         buf.append(",annotationList=" + fAnnotationList);
         buf.append(",default=" + fDefault);
+        buf.append(",defaultKt=" + fDefaultKt);
         buf.append(",abstract=" + fAbstract);
         buf.append(",nullable=" + fNullable);
         buf.append(",value=" + fValue);
@@ -621,6 +651,9 @@ public class BlancoValueObjectKtFieldStructure {
         // Name: fDefault
         // Type: java.lang.String
         target.fDefault = this.fDefault;
+        // Name: fDefaultKt
+        // Type: java.lang.String
+        target.fDefaultKt = this.fDefaultKt;
         // Name: fAbstract
         // Type: java.lang.Boolean
         target.fAbstract = this.fAbstract;

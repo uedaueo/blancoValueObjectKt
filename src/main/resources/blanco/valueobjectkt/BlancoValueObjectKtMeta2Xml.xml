@@ -184,6 +184,9 @@
         <tablecolumn name="default">
           <value>デフォルト</value>
         </tablecolumn>
+        <tablecolumn name="defaultKt">
+          <value>デフォルト(Kt)</value>
+        </tablecolumn>
         <tablecolumn name="abstract">
           <value>abstract</value>
         </tablecolumn>
