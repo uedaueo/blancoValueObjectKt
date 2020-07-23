@@ -319,10 +319,10 @@ public class BlancoValueObjectKtXml2KotlinClass {
             field.getType().setGenerics(generic);
         }
 
-        if (this.isVerbose()) {
-            System.out.println("!!! type = " + argFieldStructure.getType());
-            System.out.println("!!! generic = " + field.getType().getGenerics());
-        }
+//        if (this.isVerbose()) {
+//            System.out.println("!!! type = " + argFieldStructure.getType());
+//            System.out.println("!!! generic = " + field.getType().getGenerics());
+//        }
 
         /*
          * 当面の間、blancoValueObjectKt ではprivateやgetter/setter,
@@ -365,7 +365,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
         field.getLangDoc().getDescriptionList().add(
                 fBundle.getXml2javaclassFieldName(argFieldStructure.getName()));
 
-        if (argFieldStructure.getDefault() != null) {
+        if (argFieldStructure.getDefault() != null || argFieldStructure.getDefaultKt() != null) {
             final String type = field.getType().getName();
 
             if (type.equals("java.util.Date")) {
