@@ -304,9 +304,11 @@ public class BlancoValueObjectKtXml2KotlinClass {
         }
 
         /* 型を決定します。typeKtが設定されている場合はそちらを優先します */
+        boolean isKtPreferred = true;
         String typeRaw = argFieldStructure.getTypeKt();
         if (typeRaw == null || typeRaw.length() == 0) {
             typeRaw = argFieldStructure.getType();
+            isKtPreferred = false;
         }
 
         /*
@@ -322,7 +324,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
          * genericKt が設定されている場合はそちらを優先します。
          */
         String genericRaw = argFieldStructure.getGenericKt();
-        if (genericRaw == null || genericRaw.length() == 0) {
+        if (!isKtPreferred && (genericRaw == null || genericRaw.length() == 0)) {
             genericRaw = argFieldStructure.getGeneric();
         }
         if (genericRaw != null && genericRaw.length() > 0) {
@@ -399,10 +401,10 @@ public class BlancoValueObjectKtXml2KotlinClass {
              * defaultKt があればそちらを優先します。
              */
             String defaultRawValue = argFieldStructure.getDefaultKt();
-            if (defaultRawValue == null || defaultRawValue.length() == 0) {
+            if (!isKtPreferred && (defaultRawValue == null || defaultRawValue.length() == 0)) {
                 defaultRawValue = argFieldStructure.getDefault();
             }
-            if (defaultRawValue == null || defaultRawValue.length() <= 0) {
+            if (!isConstArg && (defaultRawValue == null || defaultRawValue.length() <= 0)) {
                 System.err.println("/* tueda */ フィールドにデフォルト値が設定されていません。blancoValueObjectKtは当面の間、abstractフィールドはサポートしませんので、必ずデフォルト値を設定してください。");
                 throw new IllegalArgumentException(fMsg
                         .getMbvoji08(argClassStructure.getName(), argFieldStructure.getName()));
