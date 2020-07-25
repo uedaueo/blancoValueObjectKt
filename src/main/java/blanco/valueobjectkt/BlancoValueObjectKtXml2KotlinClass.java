@@ -303,20 +303,30 @@ public class BlancoValueObjectKtXml2KotlinClass {
             /* 対応言語を増やす場合はここに case を追記します */
         }
 
+        /* 型を決定します。typeKtが設定されている場合はそちらを優先します */
+        String typeRaw = argFieldStructure.getTypeKt();
+        if (typeRaw == null || typeRaw.length() == 0) {
+            typeRaw = argFieldStructure.getType();
+        }
+
         /*
          * blancoValueObjectではプロパティ名の前にfをつける流儀であるが、
          * kotlinについては暗黙のgetter/setterを使う都合上、つけない。
          */
         final BlancoCgField field = fCgFactory.createField(argFieldStructure.getName(),
-                argFieldStructure.getType(), null);
+                typeRaw, null);
 
         /*
          * Generic に対応します。blancoCg 側では <> が付いている前提かつ
          * package部をtrimするので、ここで設定しないと正しく設定されません。
+         * genericKt が設定されている場合はそちらを優先します。
          */
-        String generic = argFieldStructure.getGeneric();
-        if (generic != null && generic.length() > 0) {
-            field.getType().setGenerics(generic);
+        String genericRaw = argFieldStructure.getGenericKt();
+        if (genericRaw == null || genericRaw.length() == 0) {
+            genericRaw = argFieldStructure.getGeneric();
+        }
+        if (genericRaw != null && genericRaw.length() > 0) {
+            field.getType().setGenerics(genericRaw);
         }
 
 //        if (this.isVerbose()) {

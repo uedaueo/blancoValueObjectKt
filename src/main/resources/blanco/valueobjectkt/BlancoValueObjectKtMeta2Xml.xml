@@ -184,6 +184,15 @@
         <tablecolumn name="default">
           <value>デフォルト</value>
         </tablecolumn>
+        <tablecolumn name="typeKt">
+          <value>型(Kt)</value>
+        </tablecolumn>
+        <tablecolumn name="genericKt">
+          <value>総称型(Kt)</value>
+        </tablecolumn>
+        <tablecolumn name="annotationKt">
+          <value>アノテーション(Kt)</value>
+        </tablecolumn>
         <tablecolumn name="defaultKt">
           <value>デフォルト(Kt)</value>
         </tablecolumn>

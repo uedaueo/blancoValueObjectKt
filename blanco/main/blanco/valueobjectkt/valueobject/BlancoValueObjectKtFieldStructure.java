@@ -35,7 +35,7 @@ public class BlancoValueObjectKtFieldStructure {
     private String fGeneric;
 
     /**
-     * アノテーション文字列です（＠は除く）
+     * アノテーション文字列です
      *
      * フィールド: [annotationList]。
      * デフォルト: [new java.util.ArrayList&lt;java.lang.String&gt;()]。
@@ -48,6 +48,28 @@ public class BlancoValueObjectKtFieldStructure {
      * フィールド: [default]。
      */
     private String fDefault;
+
+    /**
+     * Kotlin優先型名をパッケージ名のフル修飾付で指定します。
+     *
+     * フィールド: [typeKt]。
+     */
+    private String fTypeKt;
+
+    /**
+     * Kotlin優先型が期待する総称型の具体的な型名を指定します．
+     *
+     * フィールド: [genericKt]。
+     */
+    private String fGenericKt;
+
+    /**
+     * Kotlin優先アノテーション文字列です
+     *
+     * フィールド: [annotationListKt]。
+     * デフォルト: [new java.util.ArrayList&lt;java.lang.String&gt;()]。
+     */
+    private List<java.lang.String> fAnnotationListKt = new java.util.ArrayList<java.lang.String>();
 
     /**
      * Kotlin優先デフォルト値を指定します。
@@ -236,7 +258,7 @@ public class BlancoValueObjectKtFieldStructure {
     /**
      * フィールド [annotationList] の値を設定します。
      *
-     * フィールドの説明: [アノテーション文字列です（＠は除く）]。
+     * フィールドの説明: [アノテーション文字列です]。
      *
      * @param argAnnotationList フィールド[annotationList]に設定する値。
      */
@@ -247,7 +269,7 @@ public class BlancoValueObjectKtFieldStructure {
     /**
      * フィールド [annotationList] の値を取得します。
      *
-     * フィールドの説明: [アノテーション文字列です（＠は除く）]。
+     * フィールドの説明: [アノテーション文字列です]。
      * デフォルト: [new java.util.ArrayList&lt;java.lang.String&gt;()]。
      *
      * @return フィールド[annotationList]から取得した値。
@@ -276,6 +298,73 @@ public class BlancoValueObjectKtFieldStructure {
      */
     public String getDefault() {
         return fDefault;
+    }
+
+    /**
+     * フィールド [typeKt] の値を設定します。
+     *
+     * フィールドの説明: [Kotlin優先型名をパッケージ名のフル修飾付で指定します。]。
+     *
+     * @param argTypeKt フィールド[typeKt]に設定する値。
+     */
+    public void setTypeKt(final String argTypeKt) {
+        fTypeKt = argTypeKt;
+    }
+
+    /**
+     * フィールド [typeKt] の値を取得します。
+     *
+     * フィールドの説明: [Kotlin優先型名をパッケージ名のフル修飾付で指定します。]。
+     *
+     * @return フィールド[typeKt]から取得した値。
+     */
+    public String getTypeKt() {
+        return fTypeKt;
+    }
+
+    /**
+     * フィールド [genericKt] の値を設定します。
+     *
+     * フィールドの説明: [Kotlin優先型が期待する総称型の具体的な型名を指定します．]。
+     *
+     * @param argGenericKt フィールド[genericKt]に設定する値。
+     */
+    public void setGenericKt(final String argGenericKt) {
+        fGenericKt = argGenericKt;
+    }
+
+    /**
+     * フィールド [genericKt] の値を取得します。
+     *
+     * フィールドの説明: [Kotlin優先型が期待する総称型の具体的な型名を指定します．]。
+     *
+     * @return フィールド[genericKt]から取得した値。
+     */
+    public String getGenericKt() {
+        return fGenericKt;
+    }
+
+    /**
+     * フィールド [annotationListKt] の値を設定します。
+     *
+     * フィールドの説明: [Kotlin優先アノテーション文字列です]。
+     *
+     * @param argAnnotationListKt フィールド[annotationListKt]に設定する値。
+     */
+    public void setAnnotationListKt(final List<java.lang.String> argAnnotationListKt) {
+        fAnnotationListKt = argAnnotationListKt;
+    }
+
+    /**
+     * フィールド [annotationListKt] の値を取得します。
+     *
+     * フィールドの説明: [Kotlin優先アノテーション文字列です]。
+     * デフォルト: [new java.util.ArrayList&lt;java.lang.String&gt;()]。
+     *
+     * @return フィールド[annotationListKt]から取得した値。
+     */
+    public List<java.lang.String> getAnnotationListKt() {
+        return fAnnotationListKt;
     }
 
     /**
@@ -590,6 +679,9 @@ public class BlancoValueObjectKtFieldStructure {
         buf.append(",generic=" + fGeneric);
         buf.append(",annotationList=" + fAnnotationList);
         buf.append(",default=" + fDefault);
+        buf.append(",typeKt=" + fTypeKt);
+        buf.append(",genericKt=" + fGenericKt);
+        buf.append(",annotationListKt=" + fAnnotationListKt);
         buf.append(",defaultKt=" + fDefaultKt);
         buf.append(",abstract=" + fAbstract);
         buf.append(",nullable=" + fNullable);
@@ -651,6 +743,23 @@ public class BlancoValueObjectKtFieldStructure {
         // Name: fDefault
         // Type: java.lang.String
         target.fDefault = this.fDefault;
+        // Name: fTypeKt
+        // Type: java.lang.String
+        target.fTypeKt = this.fTypeKt;
+        // Name: fGenericKt
+        // Type: java.lang.String
+        target.fGenericKt = this.fGenericKt;
+        // Name: fAnnotationListKt
+        // Type: java.util.List
+        if (this.fAnnotationListKt != null) {
+            final java.util.Iterator<java.lang.String> iterator = this.fAnnotationListKt.iterator();
+            for (; iterator.hasNext();) {
+                java.lang.String loopSource = iterator.next();
+                java.lang.String loopTarget = null;
+                loopTarget = loopSource;
+                target.fAnnotationListKt.add(loopTarget);
+            }
+        }
         // Name: fDefaultKt
         // Type: java.lang.String
         target.fDefaultKt = this.fDefaultKt;

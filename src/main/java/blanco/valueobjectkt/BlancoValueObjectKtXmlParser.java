@@ -542,6 +542,20 @@ public class BlancoValueObjectKtXmlParser {
                     fieldStructure.setAnnotationList(createAnnotaionList(methodAnnotation));
                 }
 
+                /*
+                 * Kotlin型の取得．型名は Kotlin 風に定義されている前提。
+                 */
+                fieldStructure.setTypeKt(BlancoXmlBindingUtil.getTextContent(elementList, "typeKt"));
+
+                /* Kotlin Generic に対応 */
+                fieldStructure.setGenericKt(BlancoXmlBindingUtil.getTextContent(elementList, "genericKt"));
+
+                /* kotlin の annnotation に対応 */
+                String methodAnnotationKt = BlancoXmlBindingUtil.getTextContent(elementList, "annotationKt");
+                if (BlancoStringUtil.null2Blank(methodAnnotationKt).length() != 0) {
+                    fieldStructure.setAnnotationList(createAnnotaionList(methodAnnotationKt));
+                }
+
                 // abstract に対応
                 fieldStructure.setAbstract("true".equals(BlancoXmlBindingUtil
                         .getTextContent(elementList, "abstract")));
