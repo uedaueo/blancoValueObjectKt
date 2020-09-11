@@ -163,6 +163,25 @@
 
       </tableblock>
 
+      <tableblock name="blancovalueobjectkt-delegate" waitY="2" titleheight="3" rowname="delegate">
+        <startstring>バリューオブジェクト定義(Kt)・委譲</startstring>
+        <tablecolumn name="no">
+          <value>No.</value>
+        </tablecolumn>
+        <tablecolumn name="name">
+          <value>フィールド名</value>
+        </tablecolumn>
+        <tablecolumn name="type">
+          <value>型</value>
+        </tablecolumn>
+        <tablecolumn name="generic">
+          <value>総称型</value>
+        </tablecolumn>
+        <tablecolumn name="description">
+          <value>説明</value>
+        </tablecolumn>
+      </tableblock>
+
       <tableblock name="blancovalueobjectphp-list" waitY="2" titleheight="3" rowname="field">
         <startstring>バリューオブジェクト定義(php)・一覧</startstring>
 

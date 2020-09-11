@@ -138,6 +138,14 @@ public class BlancoValueObjectKtClassStructure {
     private List<blanco.valueobjectkt.valueobject.BlancoValueObjectKtFieldStructure> fFieldList = new java.util.ArrayList<blanco.valueobjectkt.valueobject.BlancoValueObjectKtFieldStructure>();
 
     /**
+     * 委譲を記憶するリストを指定します。
+     *
+     * フィールド: [delegateList]。
+     * デフォルト: [new java.util.ArrayList&lt;blanco.valueobjectkt.valueobject.BlancoValueObjectKtDelegateStructure&gt;()]。
+     */
+    private List<blanco.valueobjectkt.valueobject.BlancoValueObjectKtDelegateStructure> fDelegateList = new java.util.ArrayList<blanco.valueobjectkt.valueobject.BlancoValueObjectKtDelegateStructure>();
+
+    /**
      * ファイル説明
      *
      * フィールド: [fileDescription]。
@@ -539,6 +547,29 @@ public class BlancoValueObjectKtClassStructure {
     }
 
     /**
+     * フィールド [delegateList] の値を設定します。
+     *
+     * フィールドの説明: [委譲を記憶するリストを指定します。]。
+     *
+     * @param argDelegateList フィールド[delegateList]に設定する値。
+     */
+    public void setDelegateList(final List<blanco.valueobjectkt.valueobject.BlancoValueObjectKtDelegateStructure> argDelegateList) {
+        fDelegateList = argDelegateList;
+    }
+
+    /**
+     * フィールド [delegateList] の値を取得します。
+     *
+     * フィールドの説明: [委譲を記憶するリストを指定します。]。
+     * デフォルト: [new java.util.ArrayList&lt;blanco.valueobjectkt.valueobject.BlancoValueObjectKtDelegateStructure&gt;()]。
+     *
+     * @return フィールド[delegateList]から取得した値。
+     */
+    public List<blanco.valueobjectkt.valueobject.BlancoValueObjectKtDelegateStructure> getDelegateList() {
+        return fDelegateList;
+    }
+
+    /**
      * フィールド [fileDescription] の値を設定します。
      *
      * フィールドの説明: [ファイル説明]。
@@ -615,6 +646,7 @@ public class BlancoValueObjectKtClassStructure {
         buf.append(",extends=" + fExtends);
         buf.append(",implementsList=" + fImplementsList);
         buf.append(",fieldList=" + fFieldList);
+        buf.append(",delegateList=" + fDelegateList);
         buf.append(",fileDescription=" + fFileDescription);
         buf.append(",constructorArgList=" + fConstructorArgList);
         buf.append("]");
@@ -728,6 +760,17 @@ public class BlancoValueObjectKtClassStructure {
                 blanco.valueobjectkt.valueobject.BlancoValueObjectKtFieldStructure loopTarget = null;
                 // フィールド[generics]はサポート外の型[blanco.valueobjectkt.valueobject.BlancoValueObjectKtFieldStructure]です。
                 target.fFieldList.add(loopTarget);
+            }
+        }
+        // Name: fDelegateList
+        // Type: java.util.List
+        if (this.fDelegateList != null) {
+            final java.util.Iterator<blanco.valueobjectkt.valueobject.BlancoValueObjectKtDelegateStructure> iterator = this.fDelegateList.iterator();
+            for (; iterator.hasNext();) {
+                blanco.valueobjectkt.valueobject.BlancoValueObjectKtDelegateStructure loopSource = iterator.next();
+                blanco.valueobjectkt.valueobject.BlancoValueObjectKtDelegateStructure loopTarget = null;
+                // フィールド[generics]はサポート外の型[blanco.valueobjectkt.valueobject.BlancoValueObjectKtDelegateStructure]です。
+                target.fDelegateList.add(loopTarget);
             }
         }
         // Name: fFileDescription

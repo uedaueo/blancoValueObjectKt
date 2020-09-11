@@ -13,10 +13,7 @@ import blanco.cg.BlancoCgObjectFactory;
 import blanco.cg.BlancoCgSupportedLang;
 import blanco.cg.transformer.BlancoCgTransformerFactory;
 import blanco.cg.util.BlancoCgSourceUtil;
-import blanco.cg.valueobject.BlancoCgClass;
-import blanco.cg.valueobject.BlancoCgField;
-import blanco.cg.valueobject.BlancoCgMethod;
-import blanco.cg.valueobject.BlancoCgSourceFile;
+import blanco.cg.valueobject.*;
 import blanco.commons.util.BlancoJavaSourceUtil;
 import blanco.commons.util.BlancoNameAdjuster;
 import blanco.commons.util.BlancoNameUtil;
@@ -24,6 +21,7 @@ import blanco.commons.util.BlancoStringUtil;
 import blanco.valueobjectkt.message.BlancoValueObjectKtMessage;
 import blanco.valueobjectkt.resourcebundle.BlancoValueObjectKtResourceBundle;
 import blanco.valueobjectkt.valueobject.BlancoValueObjectKtClassStructure;
+import blanco.valueobjectkt.valueobject.BlancoValueObjectKtDelegateStructure;
 import blanco.valueobjectkt.valueobject.BlancoValueObjectKtFieldStructure;
 
 import java.io.File;
@@ -221,6 +219,26 @@ public class BlancoValueObjectKtXml2KotlinClass {
             fCgClass.getAnnotationList().add("XmlRootElement");
             fCgSourceFile.getImportList().add(
                     "javax.xml.bind.annotation.XmlRootElement");
+        }
+
+        // 委譲
+        for (int index = 0; index < argClassStructure.getDelegateList().size(); index++) {
+            final BlancoValueObjectKtDelegateStructure delegateStructure = argClassStructure.getDelegateList().get(index);
+            BlancoCgType type = fCgFactory.createType(
+                    delegateStructure.getType()
+            );
+            if (delegateStructure.getGeneric() != null && delegateStructure.getGeneric().length() > 0) {
+                type.setGenerics(delegateStructure.getGeneric());
+            }
+            type.setDescription(delegateStructure.getDescription()); // 1行目のみ採用
+
+            /*
+             * 委譲は、implements と constructorArgs の組合せで実現されます。
+             * すなわち、インタフェイス名をキーにコンストラクタ引数を値として
+             * Mapに登録しておくことで、委譲を定義します。
+             */
+            fCgClass.getImplementInterfaceList().add(type);
+            fCgClass.getDelegateMap().put(type.getName(), delegateStructure.getName());
         }
 
         // クラスのJavaDocを設定します。
