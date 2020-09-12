@@ -98,7 +98,7 @@ public class BlancoValueObjectKtProcessImpl implements BlancoValueObjectKtProces
             }
             /* style が free だったらtargetdirをそのまま使う */
             if (input.getVerbose()) {
-                System.out.println("/* tueda */ TARGETDIR = " + strTarget);
+                System.out.println("TARGETDIR = " + strTarget);
             }
 
             // テンポラリディレクトリを作成。
@@ -134,24 +134,6 @@ public class BlancoValueObjectKtProcessImpl implements BlancoValueObjectKtProces
                 xml2KotlinClass.setXmlRootElement(input.getXmlrootelement());
                 xml2KotlinClass.setSheetLang(new BlancoCgSupportedLang().convertToInt(input.getSheetType()));
                 xml2KotlinClass.process(fileMeta2[index], new File(strTarget));
-
-                // 単体試験コードの自動生成機能は 0.9.1以降では削除されました。
-            }
-
-            // 次にメタディレクトリとして指定されているディレクトリを走査
-            final File[] fileMeta3 = fileMetadir.listFiles();
-            for (int index = 0; index < fileMeta3.length; index++) {
-                if (fileMeta3[index].getName().endsWith(".xml") == false) {
-                    continue;
-                }
-
-                final BlancoValueObjectKtXml2KotlinClass xml2JavaClass = new BlancoValueObjectKtXml2KotlinClass();
-                xml2JavaClass.setEncoding(input.getEncoding());
-                xml2JavaClass.setVerbose(input.getVerbose());
-                xml2JavaClass.setTargetStyleAdvanced(isTargetStyleAdvanced);
-                xml2JavaClass.setXmlRootElement(input.getXmlrootelement());
-                xml2JavaClass.setSheetLang(new BlancoCgSupportedLang().convertToInt(input.getSheetType()));
-                xml2JavaClass.process(fileMeta3[index], new File(strTarget));
 
                 // 単体試験コードの自動生成機能は 0.9.1以降では削除されました。
             }

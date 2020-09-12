@@ -80,6 +80,8 @@ public class BlancoValueObjectKtXmlParser {
             return null;
         }
 
+        System.out.println("[blancoValueObjectKt: " + argMetaXmlSourceFile.getName() + " を処理します。]");
+
         return parse(documentMeta);
 
     }
@@ -132,9 +134,9 @@ public class BlancoValueObjectKtXmlParser {
                     elementSheet.getAtts().add(attr);
 
                     /* tueda DEBUG */
-                    if (this.isVerbose()) {
-                        System.out.println("/* tueda */ style = " + BlancoXmlBindingUtil.getAttribute(elementSheet, "style"));
-                    }
+//                    if (this.isVerbose()) {
+//                        System.out.println("/* tueda */ style = " + BlancoXmlBindingUtil.getAttribute(elementSheet, "style"));
+//                    }
 
                     break;
                 }
@@ -496,11 +498,11 @@ public class BlancoValueObjectKtXmlParser {
         if (sb.length() > 0) {
             annotationList.add(sb.toString());
         }
-        if (this.isVerbose()) {
-            for (String ann : annotationList) {
-                System.out.println("Ann: " + ann);
-            }
-        }
+//        if (this.isVerbose()) {
+//            for (String ann : annotationList) {
+//                System.out.println("Ann: " + ann);
+//            }
+//        }
         return annotationList;
     }
 
@@ -542,7 +544,7 @@ public class BlancoValueObjectKtXmlParser {
                 }
 
                 /* その他はそのまま記述する */
-                System.out.println("/* tueda */ Unknown php type: " + kotlinType);
+                System.out.println("Unknown php type: " + kotlinType);
             }
         }
         return kotlinType;
@@ -641,7 +643,9 @@ public class BlancoValueObjectKtXmlParser {
         }
         if (packageName != null) {
             className = packageName + "." + className;
-            System.out.println("/* tueda */ Extends : " + className);
+            if (isVerbose()) {
+                System.out.println("Extends = " + className);
+            }
         }
         argClassStructure.setExtends(className);
     }
@@ -691,7 +695,7 @@ public class BlancoValueObjectKtXmlParser {
 
             final String importName = BlancoXmlBindingUtil
                     .getTextContent(elementList, "name");
-            System.out.println("/* tueda */ import = " + importName);
+//            System.out.println("/* tueda */ import = " + importName);
             if (importName == null || importName.trim().length() == 0) {
                 continue;
             }
@@ -732,6 +736,12 @@ public class BlancoValueObjectKtXmlParser {
              */
             delegateStructure.setType(BlancoXmlBindingUtil.getTextContent(elementList, "type"));
 
+            if (delegateStructure.getType() == null || delegateStructure.getType().length() == 0) {
+                throw new IllegalArgumentException(fBundle.getXml2sourceFileErr007(
+                        argClassStructure.getName(),
+                        delegateStructure.getName()
+                ));
+            }
             /* Kotlin Generic に対応 */
             delegateStructure.setGeneric(BlancoXmlBindingUtil.getTextContent(elementList, "generic"));
 

@@ -155,7 +155,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
 
         /* tueda DEBUG */
         if (this.isVerbose()) {
-            System.out.println("/* tueda */ structure2Source argDirectoryTarget : " + argDirectoryTarget.getAbsolutePath());
+            System.out.println("structure2Source argDirectoryTarget : " + argDirectoryTarget.getAbsolutePath());
         }
 
         // BlancoCgObjectFactoryクラスのインスタンスを取得します。
@@ -170,9 +170,9 @@ public class BlancoValueObjectKtXml2KotlinClass {
         fCgSourceFile.getClassList().add(fCgClass);
 
         // クラスのアクセスを設定。
-        if (isVerbose()) {
-            System.out.println("/* tueda */ class access = " + argClassStructure.getAccess());
-        }
+//        if (isVerbose()) {
+//            System.out.println("/* tueda */ class access = " + argClassStructure.getAccess());
+//        }
         String access = argClassStructure.getAccess();
         // data クラスかどうか
         if (argClassStructure.getData()) {
@@ -196,7 +196,9 @@ public class BlancoValueObjectKtXml2KotlinClass {
 
         // クラスの総称型に対応
         if (BlancoStringUtil.null2Blank(argClassStructure.getGeneric()).length() > 0) {
-            System.out.println("!!!! Generics = " + argClassStructure.getGeneric());
+            if (isVerbose()) {
+                System.out.println("Class Generics = " + argClassStructure.getGeneric());
+            }
             fCgClass.setGenerics(argClassStructure.getGeneric());
         }
 
@@ -252,7 +254,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
         if (annotationList != null && annotationList.size() > 0) {
             fCgClass.getAnnotationList().addAll(argClassStructure.getAnnotationList());
             /* tueda DEBUG */
-            System.out.println("/* tueda */ structure2Source : class annotation = " + argClassStructure.getAnnotationList().get(0));
+//            System.out.println("/* tueda */ structure2Source : class annotation = " + argClassStructure.getAnnotationList().get(0));
         }
 
         /* クラスの import を設定します */
@@ -479,7 +481,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
         List annotationList = argFieldStructure.getAnnotationList();
         if (annotationList != null && annotationList.size() > 0) {
             field.getAnnotationList().addAll(annotationList);
-            System.out.println("/* tueda */ method annotation = " + field.getAnnotationList().get(0));
+//            System.out.println("/* tueda */ method annotation = " + field.getAnnotationList().get(0));
         }
     }
 

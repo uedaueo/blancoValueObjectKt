@@ -540,6 +540,31 @@ public class BlancoValueObjectKtResourceBundle {
     }
 
     /**
+     * bundle[BlancoValueObjectKt], key[XML2SOURCE_FILE.ERR007]
+     *
+     * [クラス名[{0}]の委譲フィールド[{1}]の型名が指定されていません。] (ja)<br>
+     *
+     * @param arg0 置換文字列{0}を置換する値。java.lang.String型を与えてください。
+     * @param arg1 置換文字列{1}を置換する値。java.lang.String型を与えてください。
+     * @return key[XML2SOURCE_FILE.ERR007]に対応する値。外部から読み込みができない場合には、定義書の値を戻します。必ずnull以外の値が戻ります。
+     */
+    public String getXml2sourceFileErr007(final String arg0, final String arg1) {
+        // 初期値として定義書の値を利用します。
+        String strFormat = "クラス名[{0}]の委譲フィールド[{1}]の型名が指定されていません。";
+        try {
+            if (fResourceBundle != null) {
+                strFormat = fResourceBundle.getString("XML2SOURCE_FILE.ERR007");
+            }
+        } catch (MissingResourceException ex) {
+        }
+        final MessageFormat messageFormat = new MessageFormat(strFormat);
+        final StringBuffer strbuf = new StringBuffer();
+        // 与えられた引数を元に置換文字列を置き換えます。
+        messageFormat.format(new Object[] {arg0, arg1}, strbuf, null);
+        return strbuf.toString();
+    }
+
+    /**
      * bundle[BlancoValueObjectKt], key[XML2SOURCE_FILE.FIELD.NAME]
      *
      * [フィールド [{0}]] (ja)<br>
