@@ -604,9 +604,9 @@ public class BlancoValueObjectKtXml2KotlinClass {
 
         final List<java.lang.String> listLine = method.getLineList();
 
-        listLine.add("val buf = StringBuffer();");
+        listLine.add("val buf = StringBuffer()");
         listLine.add("buf.append(\"" + argClassStructure.getPackage() + "."
-                + argClassStructure.getName() + "[\");");
+                + argClassStructure.getName() + "[\")");
         for (int indexField = 0; indexField < argClassStructure.getFieldList()
                 .size(); indexField++) {
             final BlancoValueObjectKtFieldStructure field = (BlancoValueObjectKtFieldStructure) argClassStructure
@@ -619,7 +619,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
             if (field.getType().endsWith("[]") == false) {
                 listLine.add("buf.append(\"" + (indexField == 0 ? "" : ",")
                         + field.getName() + "=\" + " + field.getName()
-                        + ");");
+                        + ")");
             } else {
                 // 2006.05.31 t.iga 配列の場合には、先に
                 // その配列自身がnullかどうかのチェックが必要です。
@@ -627,7 +627,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
                 // 0番目の項目である場合にはカンマなしの特別扱いをします。
                 listLine.add("buf.append(" + (indexField == 0 ? "\"" :
                 // 0番目ではない場合には、常にカンマを付与します。
-                        "\",") + field.getName() + "=null\");");
+                        "\",") + field.getName() + "=null\")");
                 listLine.add("} else {");
 
                 // 配列の場合にはディープにtoStringします。
@@ -635,20 +635,20 @@ public class BlancoValueObjectKtXml2KotlinClass {
                 // 0番目の項目である場合にはカンマなしの特別扱いをします。
                         + (indexField == 0 ? "\"" :
                         // 0番目ではない場合には、常にカンマを付与します。
-                                "\",") + field.getName() + "=[\");");
+                                "\",") + field.getName() + "=[\")");
                 listLine.add("for (int index = 0; index < "
                         + field.getName() + ".length; index++) {");
                 // 2006.05.31 t.iga
                 // ArrayListなどのtoStringと同様になるように、カンマのあとに半角スペースを付与するようにします。
                 listLine.add("buf.append((index == 0 ? \"\" : \", \") + "
-                        + field.getName() + "[index]);");
+                        + field.getName() + "[index])");
                 listLine.add("}");
-                listLine.add("buf.append(\"]\");");
+                listLine.add("buf.append(\"]\")");
                 listLine.add("}");
             }
         }
-        listLine.add("buf.append(\"]\");");
-        listLine.add("return buf.toString();");
+        listLine.add("buf.append(\"]\")");
+        listLine.add("return buf.toString()");
     }
 
     /**
