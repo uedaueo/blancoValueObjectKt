@@ -184,7 +184,15 @@ public class BlancoValueObjectKtXml2KotlinClass {
         }
         fCgClass.setAccess(access);
         // Finalクラスかどうか。
-        fCgClass.setFinal(argClassStructure.getFinal());
+        if (argClassStructure.getData() && !argClassStructure.getFinal()) {
+            if (this.isVerbose()) {
+                System.out.println(fMsg
+                        .getMbvoji09(argClassStructure.getName()));
+            }
+            fCgClass.setFinal(true);
+        } else {
+            fCgClass.setFinal(argClassStructure.getFinal());
+        }
         // 抽象クラスかどうか。
         // kotlin では dataクラスは抽象クラスになれない
         if (argClassStructure.getData() && argClassStructure.getAbstract()) {

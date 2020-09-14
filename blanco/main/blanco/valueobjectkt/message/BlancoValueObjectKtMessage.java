@@ -185,9 +185,26 @@ public class BlancoValueObjectKtMessage {
     }
 
     /**
-     * メッセージ定義ID[BlancoValueObjectKt]、キー[MBVOJA01]の文字列を取得します。
+     * メッセージ定義ID[BlancoValueObjectKt]、キー[MBVOJI09]の文字列を取得します。
      *
      * No.10:
+     * 文字列[クラス名[{0}] kotlinではdataクラスは必ずfinal扱いとなります。]
+     *
+     * @param arg0 置換文字列{0}の値。
+     * @return メッセージ文字列。
+     */
+    public String getMbvoji09(final String arg0) {
+        if (arg0 == null) {
+            throw new IllegalArgumentException("メソッド[getMbvoji09]のパラメータ[arg0]にnullが与えられました。しかし、このパラメータにnullを与えることはできません。");
+        }
+
+        return "[MBVOJI09] " + fBundle.getMbvoji09(arg0);
+    }
+
+    /**
+     * メッセージ定義ID[BlancoValueObjectKt]、キー[MBVOJA01]の文字列を取得します。
+     *
+     * No.11:
      * 文字列[メタディレクトリ[{0}]が存在しません。]
      *
      * @param arg0 置換文字列{0}の値。

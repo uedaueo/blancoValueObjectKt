@@ -513,7 +513,8 @@ public class BlancoValueObjectKtXmlParser {
                 kotlinType = "kotlin.Boolean";
             } else
             if ("integer".equalsIgnoreCase(phpType)) {
-                kotlinType = "kotlin.Int";
+                // integer 型は 64 bit に変換する
+                kotlinType = "kotlin.Long";
             } else
             if ("double".equalsIgnoreCase(phpType)) {
                 kotlinType = "kotlin.Double";
