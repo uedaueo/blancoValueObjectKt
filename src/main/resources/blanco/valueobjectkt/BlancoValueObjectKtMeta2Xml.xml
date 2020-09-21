@@ -98,6 +98,9 @@
         <propertykey name="annotation" waitX="2">
           <value>アノテーション</value>
         </propertykey>
+        <propertykey name="annotationKt" waitX="2">
+          <value>アノテーション(Kt)</value>
+        </propertykey>
         <propertykey name="description" waitX="2">
           <value>説明</value>
         </propertykey>

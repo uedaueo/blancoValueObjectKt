@@ -590,9 +590,13 @@ public class BlancoValueObjectKtXmlParser {
         }
 
 
-        /* クラスの annotation に対応 */
+        /* クラスの annotation に対応, (Kt) があればそちらを優先 */
         String classAnnotation = BlancoXmlBindingUtil.getTextContent(
-                argElementCommon, "annotation");
+                argElementCommon, "annotationKt");
+        if (BlancoStringUtil.null2Blank(classAnnotation).length() == 0) {
+            classAnnotation = BlancoXmlBindingUtil.getTextContent(
+                    argElementCommon, "annotation");
+        }
         if (BlancoStringUtil.null2Blank(classAnnotation).length() > 0) {
             argClassStructure.setAnnotationList(createAnnotaionList(classAnnotation));
         }
