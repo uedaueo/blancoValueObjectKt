@@ -174,6 +174,10 @@ public class BlancoValueObjectKtXml2KotlinClass {
 //            System.out.println("/* tueda */ class access = " + argClassStructure.getAccess());
 //        }
         String access = argClassStructure.getAccess();
+        // kotlin ではデフォルトで public
+        if ("public".equals(access)) {
+            access = "";
+        }
         // data クラスかどうか
         if (argClassStructure.getData()) {
             if (access != null && access.length() > 0) {
