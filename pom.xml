@@ -5,7 +5,7 @@
 	<groupId>blanco.valueobjectkt</groupId>
 	<artifactId>blanco-valueobjectkt</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.17</version>
+	<version>0.0.18</version>
 	<name>blanco-valueobject-kt</name>
 	<url>https://igapyon.github.io/blancofw-maven2</url>
 
@@ -391,20 +391,20 @@
 			</plugin>
 
 			<!-- copy jar files into lib directory. -->
-			<plugin>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>install</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/lib</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+<!--			<plugin>-->
+<!--				<artifactId>maven-dependency-plugin</artifactId>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<phase>install</phase>-->
+<!--						<goals>-->
+<!--							<goal>copy-dependencies</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<outputDirectory>${project.build.directory}/lib</outputDirectory>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
 
 			<plugin>
 				<groupId>com.github.github</groupId>

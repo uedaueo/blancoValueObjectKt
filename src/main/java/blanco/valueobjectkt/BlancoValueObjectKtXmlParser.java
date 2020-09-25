@@ -447,6 +447,10 @@ public class BlancoValueObjectKtXmlParser {
     }
 
     public static Map<String, String> createClassListFromSheets(final File[] argFileMeta) {
+        return createClassListFromSheets(argFileMeta, null, null);
+    }
+
+    public static Map<String, String> createClassListFromSheets(final File[] argFileMeta, String packageSuffix, String overridePackage) {
         Map<String, String> classList = new HashMap<String, String>();
 
         for (int index = 0; index < argFileMeta.length; index++) {
@@ -474,7 +478,6 @@ public class BlancoValueObjectKtXmlParser {
             final List<BlancoXmlElement> listSheet = BlancoXmlBindingUtil
                     .getElementsByTagName(elementRoot, "sheet");
 
-
             for (BlancoXmlElement elementSheet : listSheet) {
             /*
              * Java以外の言語用に記述されたシートにも対応．
@@ -486,9 +489,20 @@ public class BlancoValueObjectKtXmlParser {
                                     common);
                     if (listCommon.size() != 0) {
                         BlancoXmlElement elementCommon = listCommon.get(0);
+
+                        // パッケージ名の置き換えオプションが指定されていれば置き換え
+                        // Suffix があればそちらが優先です。
+                        String myPackage = BlancoXmlBindingUtil.getTextContent(elementCommon, "package");
+
+                        if (packageSuffix != null && packageSuffix.length() > 0) {
+                            myPackage = myPackage + "." + packageSuffix;
+                        } else if (overridePackage != null && overridePackage.length() > 0) {
+                            myPackage = overridePackage;
+                        }
+
                         classList.put(
                                 BlancoXmlBindingUtil.getTextContent(elementCommon, "name"),
-                                BlancoXmlBindingUtil.getTextContent(elementCommon, "package")
+                                myPackage
                         );
 
 //                        System.out.println("/* tueda */ createClassList = " +

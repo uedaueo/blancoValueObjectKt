@@ -120,7 +120,7 @@ public class BlancoValueObjectKtProcessImpl implements BlancoValueObjectKtProces
          * php形式の定義書では，クラスを指定する際にpackage名が指定されていないからです．
          */
             BlancoValueObjectKtXmlParser.classList =
-                    BlancoValueObjectKtXmlParser.createClassListFromSheets(fileMeta2);
+                    BlancoValueObjectKtXmlParser.createClassListFromSheets(fileMeta2, input.getPackageSuffix(), input.getOverridePackage());
 
             for (int index = 0; index < fileMeta2.length; index++) {
                 if (fileMeta2[index].getName().endsWith(".xml") == false) {
