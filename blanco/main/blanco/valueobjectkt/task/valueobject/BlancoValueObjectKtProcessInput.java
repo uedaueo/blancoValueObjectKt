@@ -75,6 +75,20 @@ public class BlancoValueObjectKtProcessInput {
     private String fLineSeparator = "LF";
 
     /**
+     * 定義書で指定されたパッケージ名の後ろに追加するパッケージ文字列を指定します。
+     *
+     * フィールド: [packageSuffix]。
+     */
+    private String fPackageSuffix;
+
+    /**
+     * 定義書で指定されたパッケージ名を上書きします。
+     *
+     * フィールド: [overridePackage]。
+     */
+    private String fOverridePackage;
+
+    /**
      * フィールド [verbose] の値を設定します。
      *
      * フィールドの説明: [verboseモードで動作させるかどうか。]。
@@ -280,6 +294,50 @@ public class BlancoValueObjectKtProcessInput {
     }
 
     /**
+     * フィールド [packageSuffix] の値を設定します。
+     *
+     * フィールドの説明: [定義書で指定されたパッケージ名の後ろに追加するパッケージ文字列を指定します。]。
+     *
+     * @param argPackageSuffix フィールド[packageSuffix]に設定する値。
+     */
+    public void setPackageSuffix(final String argPackageSuffix) {
+        fPackageSuffix = argPackageSuffix;
+    }
+
+    /**
+     * フィールド [packageSuffix] の値を取得します。
+     *
+     * フィールドの説明: [定義書で指定されたパッケージ名の後ろに追加するパッケージ文字列を指定します。]。
+     *
+     * @return フィールド[packageSuffix]から取得した値。
+     */
+    public String getPackageSuffix() {
+        return fPackageSuffix;
+    }
+
+    /**
+     * フィールド [overridePackage] の値を設定します。
+     *
+     * フィールドの説明: [定義書で指定されたパッケージ名を上書きします。]。
+     *
+     * @param argOverridePackage フィールド[overridePackage]に設定する値。
+     */
+    public void setOverridePackage(final String argOverridePackage) {
+        fOverridePackage = argOverridePackage;
+    }
+
+    /**
+     * フィールド [overridePackage] の値を取得します。
+     *
+     * フィールドの説明: [定義書で指定されたパッケージ名を上書きします。]。
+     *
+     * @return フィールド[overridePackage]から取得した値。
+     */
+    public String getOverridePackage() {
+        return fOverridePackage;
+    }
+
+    /**
      * このバリューオブジェクトの文字列表現を取得します。
      *
      * <P>使用上の注意</P>
@@ -303,6 +361,8 @@ public class BlancoValueObjectKtProcessInput {
         buf.append(",sheetType=" + fSheetType);
         buf.append(",targetStyle=" + fTargetStyle);
         buf.append(",lineSeparator=" + fLineSeparator);
+        buf.append(",packageSuffix=" + fPackageSuffix);
+        buf.append(",overridePackage=" + fOverridePackage);
         buf.append("]");
         return buf.toString();
     }
@@ -352,5 +412,11 @@ public class BlancoValueObjectKtProcessInput {
         // Name: fLineSeparator
         // Type: java.lang.String
         target.fLineSeparator = this.fLineSeparator;
+        // Name: fPackageSuffix
+        // Type: java.lang.String
+        target.fPackageSuffix = this.fPackageSuffix;
+        // Name: fOverridePackage
+        // Type: java.lang.String
+        target.fOverridePackage = this.fOverridePackage;
     }
 }

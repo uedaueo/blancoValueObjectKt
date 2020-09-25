@@ -133,6 +133,8 @@ public class BlancoValueObjectKtProcessImpl implements BlancoValueObjectKtProces
                 xml2KotlinClass.setTargetStyleAdvanced(isTargetStyleAdvanced);
                 xml2KotlinClass.setXmlRootElement(input.getXmlrootelement());
                 xml2KotlinClass.setSheetLang(new BlancoCgSupportedLang().convertToInt(input.getSheetType()));
+                xml2KotlinClass.setPackageSuffix(input.getPackageSuffix());
+                xml2KotlinClass.setOverridePackage(input.getOverridePackage());
                 xml2KotlinClass.process(fileMeta2[index], new File(strTarget));
 
                 // 単体試験コードの自動生成機能は 0.9.1以降では削除されました。

@@ -69,6 +69,16 @@ public class BlancoValueObjectKtTask extends Task {
     protected boolean fIsFieldLineSeparatorProcessed = false;
 
     /**
+     * フィールド [packageSuffix] に値がセットされたかどうか。
+     */
+    protected boolean fIsFieldPackageSuffixProcessed = false;
+
+    /**
+     * フィールド [overridePackage] に値がセットされたかどうか。
+     */
+    protected boolean fIsFieldOverridePackageProcessed = false;
+
+    /**
      * verboseモードで動作させるかどうか。
      *
      * @param arg verboseモードで動作させるかどうか。
@@ -294,6 +304,56 @@ public class BlancoValueObjectKtTask extends Task {
     }
 
     /**
+     * Antタスクの[packageSuffix]アトリビュートのセッターメソッド。
+     *
+     * 項目番号: 9<br>
+     * 定義書で指定されたパッケージ名の後ろに追加するパッケージ文字列を指定します。<br>
+     *
+     * @param arg セットしたい値
+     */
+    public void setPackageSuffix(final String arg) {
+        fInput.setPackageSuffix(arg);
+        fIsFieldPackageSuffixProcessed = true;
+    }
+
+    /**
+     * Antタスクの[packageSuffix]アトリビュートのゲッターメソッド。
+     *
+     * 項目番号: 9<br>
+     * 定義書で指定されたパッケージ名の後ろに追加するパッケージ文字列を指定します。<br>
+     *
+     * @return このフィールドの値
+     */
+    public String getPackageSuffix() {
+        return fInput.getPackageSuffix();
+    }
+
+    /**
+     * Antタスクの[overridePackage]アトリビュートのセッターメソッド。
+     *
+     * 項目番号: 10<br>
+     * 定義書で指定されたパッケージ名を上書きします。<br>
+     *
+     * @param arg セットしたい値
+     */
+    public void setOverridePackage(final String arg) {
+        fInput.setOverridePackage(arg);
+        fIsFieldOverridePackageProcessed = true;
+    }
+
+    /**
+     * Antタスクの[overridePackage]アトリビュートのゲッターメソッド。
+     *
+     * 項目番号: 10<br>
+     * 定義書で指定されたパッケージ名を上書きします。<br>
+     *
+     * @return このフィールドの値
+     */
+    public String getOverridePackage() {
+        return fInput.getOverridePackage();
+    }
+
+    /**
      * Antタスクのメイン処理。Apache Antから このメソッドが呼び出されます。
      *
      * @throws BuildException タスクとしての例外が発生した場合。
@@ -317,6 +377,8 @@ public class BlancoValueObjectKtTask extends Task {
             System.out.println("- sheetType:[" + getSheetType() + "]");
             System.out.println("- targetStyle:[" + getTargetStyle() + "]");
             System.out.println("- lineSeparator:[" + getLineSeparator() + "]");
+            System.out.println("- packageSuffix:[" + getPackageSuffix() + "]");
+            System.out.println("- overridePackage:[" + getOverridePackage() + "]");
         }
 
         try {

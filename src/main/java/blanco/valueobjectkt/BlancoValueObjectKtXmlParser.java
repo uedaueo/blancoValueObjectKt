@@ -48,6 +48,24 @@ public class BlancoValueObjectKtXmlParser {
         return fVerbose;
     }
 
+    /*
+     * パッケージ名の上書きに関する設定
+     */
+    private String fPackageSuffix = "";
+    public void setPackageSuffix(String suffix) {
+        this.fPackageSuffix = suffix;
+    }
+    public String getPackageSuffix() {
+        return this.fPackageSuffix;
+    }
+    private String fOverridePackage = "";
+    public void setOverridePackage(String overridePackage) {
+        this.fOverridePackage = overridePackage;
+    }
+    public String getOverridePackage() {
+        return this.fOverridePackage;
+    }
+
     /**
      * blancoValueObjectのリソースバンドルオブジェクト。
      */
@@ -366,6 +384,10 @@ public class BlancoValueObjectKtXmlParser {
             System.out.println("### ERROR ### NO CLASS LIST DEFINED.");
             return null;
         }
+
+        // パッケージ名の置き換えオプションがあれば設定しておく
+        objClassStructure.setPackageSuffix(this.fPackageSuffix);
+        objClassStructure.setOverridePackage(this.fOverridePackage);
 
         // バリューオブジェクト定義(php)・共通
         final BlancoXmlElement elementCommon = listCommon.get(0);

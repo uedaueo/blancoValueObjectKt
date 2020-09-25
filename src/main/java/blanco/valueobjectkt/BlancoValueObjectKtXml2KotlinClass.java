@@ -75,6 +75,24 @@ public class BlancoValueObjectKtXml2KotlinClass {
         return this.fVerbose;
     }
 
+    /*
+     * パッケージ名の上書きに関する設定
+     */
+    private String fPackageSuffix = "";
+    public void setPackageSuffix(String suffix) {
+        this.fPackageSuffix = suffix;
+    }
+    public String getPackageSuffix() {
+        return this.fPackageSuffix;
+    }
+    private String fOverridePackage = "";
+    public void setOverridePackage(String overridePackage) {
+        this.fOverridePackage = overridePackage;
+    }
+    public String getOverridePackage() {
+        return this.fOverridePackage;
+    }
+
     /**
      * 内部的に利用するblancoCg用ファクトリ。
      */
@@ -119,6 +137,8 @@ public class BlancoValueObjectKtXml2KotlinClass {
             final File argDirectoryTarget) throws IOException {
         BlancoValueObjectKtXmlParser parser = new BlancoValueObjectKtXmlParser();
         parser.setVerbose(this.isVerbose());
+        parser.setPackageSuffix(this.fPackageSuffix);
+        parser.setOverridePackage(this.fOverridePackage);
         final BlancoValueObjectKtClassStructure[] structures = parser.parse(argMetaXmlSourceFile);
         for (int index = 0; index < structures.length; index++) {
             // 得られた情報からKotlinソースコードを生成します。
@@ -161,8 +181,16 @@ public class BlancoValueObjectKtXml2KotlinClass {
         // BlancoCgObjectFactoryクラスのインスタンスを取得します。
         fCgFactory = BlancoCgObjectFactory.getInstance();
 
-        fCgSourceFile = fCgFactory.createSourceFile(argClassStructure
-                .getPackage(), null);
+        // パッケージ名の置き換えオプションが指定されていれば置き換え
+        // Suffix があればそちらが優先です。
+        String myPackage = argClassStructure.getPackage();
+        if (argClassStructure.getPackageSuffix() != null && argClassStructure.getPackageSuffix().length() > 0) {
+            myPackage = myPackage + "." + argClassStructure.getPackageSuffix();
+        } else if (argClassStructure.getOverridePackage() != null && argClassStructure.getOverridePackage().length() > 0) {
+            myPackage = argClassStructure.getOverridePackage();
+        }
+
+        fCgSourceFile = fCgFactory.createSourceFile(myPackage, null);
         fCgSourceFile.setEncoding(fEncoding);
 
         // クラスを作成します。

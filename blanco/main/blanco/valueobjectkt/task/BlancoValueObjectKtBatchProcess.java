@@ -69,6 +69,10 @@ public class BlancoValueObjectKtBatchProcess {
                 input.setTargetStyle(arg.substring(13));
             } else if (arg.startsWith("-lineSeparator=")) {
                 input.setLineSeparator(arg.substring(15));
+            } else if (arg.startsWith("-packageSuffix=")) {
+                input.setPackageSuffix(arg.substring(15));
+            } else if (arg.startsWith("-overridePackage=")) {
+                input.setOverridePackage(arg.substring(17));
             } else if (arg.equals("-?") || arg.equals("-help")) {
                 usage();
                 System.exit(END_SUCCESS);
@@ -162,7 +166,7 @@ public class BlancoValueObjectKtBatchProcess {
      */
     public static final void usage() {
         System.out.println("BlancoValueObjectKtBatchProcess: Usage:");
-        System.out.println("  java blanco.valueobjectkt.task.BlancoValueObjectKtBatchProcess -verbose=値1 -metadir=値2 -targetdir=値3 -tmpdir=値4 -encoding=値5 -xmlrootelement=値6 -sheetType=値7 -targetStyle=値8 -lineSeparator=値9");
+        System.out.println("  java blanco.valueobjectkt.task.BlancoValueObjectKtBatchProcess -verbose=値1 -metadir=値2 -targetdir=値3 -tmpdir=値4 -encoding=値5 -xmlrootelement=値6 -sheetType=値7 -targetStyle=値8 -lineSeparator=値9 -packageSuffix=値10 -overridePackage=値11");
         System.out.println("    -verbose");
         System.out.println("      説明[verboseモードで動作させるかどうか。]");
         System.out.println("      型[真偽]");
@@ -198,6 +202,12 @@ public class BlancoValueObjectKtBatchProcess {
         System.out.println("      説明[行末記号をしていします。LF=0x0a, CR=0x0d, CFLF=0x0d0x0a とします。LFがデフォルトです。]");
         System.out.println("      型[文字列]");
         System.out.println("      デフォルト値[LF]");
+        System.out.println("    -packageSuffix");
+        System.out.println("      説明[定義書で指定されたパッケージ名の後ろに追加するパッケージ文字列を指定します。]");
+        System.out.println("      型[文字列]");
+        System.out.println("    -overridePackage");
+        System.out.println("      説明[定義書で指定されたパッケージ名を上書きします。]");
+        System.out.println("      型[文字列]");
         System.out.println("    -? , -help");
         System.out.println("      説明[使い方を表示します。]");
     }
