@@ -423,7 +423,7 @@ public class BlancoValueObjectKtXmlParser {
         if (interfaceList != null && interfaceList.size() != 0) {
             final BlancoXmlElement elementInterfaceRoot = interfaceList.get(0);
 
-            parseInterfacePhp(elementInterfaceRoot, objClassStructure);
+            parseInterfacePhp(elementInterfaceRoot, objClassStructure, argClassList);
         }
 
         // import の一覧作成
@@ -663,7 +663,10 @@ public class BlancoValueObjectKtXmlParser {
     }
 
     /**
-     * バリューオブジェクト定義(php)・継承
+     * バリューオブジェクト定義(php)・継承<br>
+     * <br>
+     * packageSuffix, overridePackage が指定されている場合、
+     * tmp を検索して見つかればそれを優先する。
      * @param argElementExtendsRoot
      * @param argClassStructure
      * @param argClassList
@@ -673,10 +676,11 @@ public class BlancoValueObjectKtXmlParser {
             final BlancoValueObjectKtClassStructure argClassStructure,
             final Map<String, String> argClassList
     ) {
-
         String className = BlancoXmlBindingUtil.getTextContent(argElementExtendsRoot, "name");
         String packageName = BlancoXmlBindingUtil.getTextContent(argElementExtendsRoot, "package");
-        if (packageName == null) {
+        if (packageName == null ||
+                (this.fPackageSuffix != null && this.fPackageSuffix.length() > 0) ||
+                (this.fOverridePackage != null && this.fOverridePackage.length() > 0)) {
             /*
              * このクラスのパッケージ名を探す
              */
@@ -692,29 +696,44 @@ public class BlancoValueObjectKtXmlParser {
     }
 
     /**
-     * バリューオブジェクト定義(php)・実装
+     * バリューオブジェクト定義(php)・実装<br>
+     * <br>
+     * packageSuffix, overridePackage が指定されている場合、
+     * tmp を検索して見つかればそれを優先する。
      * @param argElementInterfaceRoot
      * @param argClassStructure
+     * @param argClassList
      */
     private void parseInterfacePhp(
             final BlancoXmlElement argElementInterfaceRoot,
-            final BlancoValueObjectKtClassStructure argClassStructure
-    ) {
-
+            final BlancoValueObjectKtClassStructure argClassStructure,
+            final Map<String, String> argClassList) {
         final List<BlancoXmlElement> listInterfaceChildNodes = BlancoXmlBindingUtil
-                .getElementsByTagName(argElementInterfaceRoot, "interface");
+                .getElementsByTagName(argElementInterfaceRoot, "import");
         for (int index = 0; index < listInterfaceChildNodes.size(); index++) {
             final BlancoXmlElement elementList = listInterfaceChildNodes
                     .get(index);
 
-            final String interfaceName = BlancoXmlBindingUtil
+            String interfaceName = BlancoXmlBindingUtil
                     .getTextContent(elementList, "name");
             if (interfaceName == null || interfaceName.trim().length() == 0) {
                 continue;
             }
-            argClassStructure.getImplementsList().add(
-                    BlancoXmlBindingUtil
-                            .getTextContent(elementList, "name"));
+            String interfacePackage = BlancoValueObjectKtUtil.getPackageName(interfaceName);
+            String interfaceSimple = BlancoValueObjectKtUtil.getSimpleClassName(interfaceName);
+            if (interfacePackage.length() == 0 ||
+                    (this.fPackageSuffix != null && this.fPackageSuffix.length() > 0) ||
+                    (this.fOverridePackage != null && this.fOverridePackage.length() > 0)) {
+                // このインタフェイスが自動生成されていればそちらを優先
+                interfacePackage = argClassList.get(interfaceSimple);
+                if (interfacePackage != null && interfacePackage.length() >0) {
+                    interfaceName = interfacePackage + "." + interfaceSimple;
+                }
+            }
+            if (isVerbose()) {
+                System.out.println("Implements = " + interfaceName);
+            }
+            argClassStructure.getImplementsList().add(interfaceName);
         }
     }
 
@@ -727,7 +746,6 @@ public class BlancoValueObjectKtXmlParser {
             final BlancoXmlElement argElementImportRoot,
             final BlancoValueObjectKtClassStructure argClassStructure
     ) {
-
         final List<BlancoXmlElement> listImportChildNodes = BlancoXmlBindingUtil
                 .getElementsByTagName(argElementImportRoot, "import");
         for (int index = 0; index < listImportChildNodes.size(); index++) {
