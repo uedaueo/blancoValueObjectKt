@@ -13,7 +13,6 @@ import blanco.cg.BlancoCgSupportedLang;
 import blanco.commons.util.BlancoNameUtil;
 import blanco.commons.util.BlancoStringUtil;
 import blanco.valueobjectkt.message.BlancoValueObjectKtMessage;
-import blanco.valueobjectkt.resourcebundle.BlancoValueObjectKtResourceBundle;
 import blanco.valueobjectkt.valueobject.BlancoValueObjectKtClassStructure;
 import blanco.valueobjectkt.valueobject.BlancoValueObjectKtDelegateStructure;
 import blanco.valueobjectkt.valueobject.BlancoValueObjectKtFieldStructure;
@@ -25,7 +24,6 @@ import blanco.xml.bind.valueobject.BlancoXmlElement;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,23 +63,6 @@ public class BlancoValueObjectKtXmlParser {
     public String getOverridePackage() {
         return this.fOverridePackage;
     }
-
-    /**
-     * blancoValueObjectのリソースバンドルオブジェクト。
-     */
-    private final static BlancoValueObjectKtResourceBundle fBundle = new BlancoValueObjectKtResourceBundle();
-
-    public static Map<String, Integer> mapCommons = new HashMap<String, Integer>() {
-        {put(fBundle.getMeta2xmlElementCommon(), BlancoCgSupportedLang.JAVA);}
-        {put(fBundle.getMeta2xmlElementCommonCs(), BlancoCgSupportedLang.CS);}
-        {put(fBundle.getMeta2xmlElementCommonJs(), BlancoCgSupportedLang.JS);}
-        {put(fBundle.getMeta2xmlElementCommonVb(), BlancoCgSupportedLang.VB);}
-        {put(fBundle.getMeta2xmlElementCommonPhp(), BlancoCgSupportedLang.PHP);}
-        {put(fBundle.getMeta2xmlElementCommonRuby(), BlancoCgSupportedLang.RUBY);}
-        {put(fBundle.getMeta2xmlElementCommonPython(), BlancoCgSupportedLang.PYTHON);}
-    };
-
-    public static Map<String, String> classList = null;
 
     /**
      * 中間XMLファイルのXMLドキュメントをパースして、バリューオブジェクト情報の配列を取得します。
@@ -136,7 +117,7 @@ public class BlancoValueObjectKtXmlParser {
              */
             List<BlancoXmlElement> listCommon = null;
             int sheetLang = BlancoCgSupportedLang.JAVA;
-            for (String common : mapCommons.keySet()) {
+            for (String common : BlancoValueObjectKtUtil.mapCommons.keySet()) {
                 listCommon = BlancoXmlBindingUtil
                         .getElementsByTagName(elementSheet,
                                 common);
@@ -146,7 +127,7 @@ public class BlancoValueObjectKtXmlParser {
                     attr.setQName("style");
                     attr.setLocalName("style");
 
-                    sheetLang = mapCommons.get(common);
+                    sheetLang = BlancoValueObjectKtUtil.mapCommons.get(common);
                     attr.setValue(new BlancoCgSupportedLang().convertToString(sheetLang));
 
                     elementSheet.getAtts().add(attr);
@@ -179,7 +160,7 @@ public class BlancoValueObjectKtXmlParser {
                     objClassStructure = parseElementSheet(elementSheet);
                     break;
                 case BlancoCgSupportedLang.PHP:
-                    objClassStructure = parseElementSheetPhp(elementSheet, classList);
+                    objClassStructure = parseElementSheetPhp(elementSheet, BlancoValueObjectKtUtil.packageMap);
                     /* NOT YET SUPPORT ANOTHER LANGUAGES */
             }
 
@@ -444,77 +425,6 @@ public class BlancoValueObjectKtXmlParser {
         }
 
         return objClassStructure;
-    }
-
-    public static Map<String, String> createClassListFromSheets(final File[] argFileMeta) {
-        return createClassListFromSheets(argFileMeta, null, null);
-    }
-
-    public static Map<String, String> createClassListFromSheets(final File[] argFileMeta, String packageSuffix, String overridePackage) {
-        Map<String, String> classList = new HashMap<String, String>();
-
-        for (int index = 0; index < argFileMeta.length; index++) {
-            File metaXmlSourceFile = argFileMeta[index];
-
-            if (metaXmlSourceFile.getName().endsWith(".xml") == false) {
-                continue;
-            }
-
-            final BlancoXmlDocument documentMeta = new BlancoXmlUnmarshaller()
-                    .unmarshal(metaXmlSourceFile);
-            if (documentMeta == null) {
-                continue;
-            }
-
-            // ルートエレメントを取得します。
-            final BlancoXmlElement elementRoot = BlancoXmlBindingUtil
-                    .getDocumentElement(documentMeta);
-            if (elementRoot == null) {
-                // ルートエレメントが無い場合には処理中断します。
-                continue;
-            }
-
-            // sheet(Excelシート)のリストを取得します。
-            final List<BlancoXmlElement> listSheet = BlancoXmlBindingUtil
-                    .getElementsByTagName(elementRoot, "sheet");
-
-            for (BlancoXmlElement elementSheet : listSheet) {
-            /*
-             * Java以外の言語用に記述されたシートにも対応．
-             */
-                List<BlancoXmlElement> listCommon = null;
-                for (String common : mapCommons.keySet()) {
-                    listCommon = BlancoXmlBindingUtil
-                            .getElementsByTagName(elementSheet,
-                                    common);
-                    if (listCommon.size() != 0) {
-                        BlancoXmlElement elementCommon = listCommon.get(0);
-
-                        // パッケージ名の置き換えオプションが指定されていれば置き換え
-                        // Suffix があればそちらが優先です。
-                        String myPackage = BlancoXmlBindingUtil.getTextContent(elementCommon, "package");
-
-                        if (packageSuffix != null && packageSuffix.length() > 0) {
-                            myPackage = myPackage + "." + packageSuffix;
-                        } else if (overridePackage != null && overridePackage.length() > 0) {
-                            myPackage = overridePackage;
-                        }
-
-                        classList.put(
-                                BlancoXmlBindingUtil.getTextContent(elementCommon, "name"),
-                                myPackage
-                        );
-
-//                        System.out.println("/* tueda */ createClassList = " +
-//                                BlancoXmlBindingUtil.getTextContent(elementCommon, "name") + " : " +
-//                                BlancoXmlBindingUtil.getTextContent(elementCommon, "package"));
-                        break;
-                    }
-                }
-            }
-        }
-
-        return classList;
     }
 
     private List<String> createAnnotaionList(String annotations) {
@@ -796,7 +706,7 @@ public class BlancoValueObjectKtXmlParser {
             delegateStructure.setType(BlancoXmlBindingUtil.getTextContent(elementList, "type"));
 
             if (delegateStructure.getType() == null || delegateStructure.getType().length() == 0) {
-                throw new IllegalArgumentException(fBundle.getXml2sourceFileErr007(
+                throw new IllegalArgumentException(BlancoValueObjectKtUtil.fBundle.getXml2sourceFileErr007(
                         argClassStructure.getName(),
                         delegateStructure.getName()
                 ));

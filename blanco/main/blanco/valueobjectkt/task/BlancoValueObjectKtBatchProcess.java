@@ -73,6 +73,8 @@ public class BlancoValueObjectKtBatchProcess {
                 input.setPackageSuffix(arg.substring(15));
             } else if (arg.startsWith("-overridePackage=")) {
                 input.setOverridePackage(arg.substring(17));
+            } else if (arg.startsWith("-searchTmpdir=")) {
+                input.setSearchTmpdir(arg.substring(14));
             } else if (arg.equals("-?") || arg.equals("-help")) {
                 usage();
                 System.exit(END_SUCCESS);
@@ -166,7 +168,7 @@ public class BlancoValueObjectKtBatchProcess {
      */
     public static final void usage() {
         System.out.println("BlancoValueObjectKtBatchProcess: Usage:");
-        System.out.println("  java blanco.valueobjectkt.task.BlancoValueObjectKtBatchProcess -verbose=値1 -metadir=値2 -targetdir=値3 -tmpdir=値4 -encoding=値5 -xmlrootelement=値6 -sheetType=値7 -targetStyle=値8 -lineSeparator=値9 -packageSuffix=値10 -overridePackage=値11");
+        System.out.println("  java blanco.valueobjectkt.task.BlancoValueObjectKtBatchProcess -verbose=値1 -metadir=値2 -targetdir=値3 -tmpdir=値4 -encoding=値5 -xmlrootelement=値6 -sheetType=値7 -targetStyle=値8 -lineSeparator=値9 -packageSuffix=値10 -overridePackage=値11 -searchTmpdir=値12");
         System.out.println("    -verbose");
         System.out.println("      説明[verboseモードで動作させるかどうか。]");
         System.out.println("      型[真偽]");
@@ -207,6 +209,9 @@ public class BlancoValueObjectKtBatchProcess {
         System.out.println("      型[文字列]");
         System.out.println("    -overridePackage");
         System.out.println("      説明[定義書で指定されたパッケージ名を上書きします。]");
+        System.out.println("      型[文字列]");
+        System.out.println("    -searchTmpdir");
+        System.out.println("      説明[import文作成のために検索するtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。]");
         System.out.println("      型[文字列]");
         System.out.println("    -? , -help");
         System.out.println("      説明[使い方を表示します。]");

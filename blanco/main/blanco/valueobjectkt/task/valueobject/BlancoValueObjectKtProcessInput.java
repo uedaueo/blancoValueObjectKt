@@ -89,6 +89,13 @@ public class BlancoValueObjectKtProcessInput {
     private String fOverridePackage;
 
     /**
+     * import文作成のために検索するtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。
+     *
+     * フィールド: [searchTmpdir]。
+     */
+    private String fSearchTmpdir;
+
+    /**
      * フィールド [verbose] の値を設定します。
      *
      * フィールドの説明: [verboseモードで動作させるかどうか。]。
@@ -338,6 +345,28 @@ public class BlancoValueObjectKtProcessInput {
     }
 
     /**
+     * フィールド [searchTmpdir] の値を設定します。
+     *
+     * フィールドの説明: [import文作成のために検索するtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。]。
+     *
+     * @param argSearchTmpdir フィールド[searchTmpdir]に設定する値。
+     */
+    public void setSearchTmpdir(final String argSearchTmpdir) {
+        fSearchTmpdir = argSearchTmpdir;
+    }
+
+    /**
+     * フィールド [searchTmpdir] の値を取得します。
+     *
+     * フィールドの説明: [import文作成のために検索するtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。]。
+     *
+     * @return フィールド[searchTmpdir]から取得した値。
+     */
+    public String getSearchTmpdir() {
+        return fSearchTmpdir;
+    }
+
+    /**
      * このバリューオブジェクトの文字列表現を取得します。
      *
      * <P>使用上の注意</P>
@@ -363,6 +392,7 @@ public class BlancoValueObjectKtProcessInput {
         buf.append(",lineSeparator=" + fLineSeparator);
         buf.append(",packageSuffix=" + fPackageSuffix);
         buf.append(",overridePackage=" + fOverridePackage);
+        buf.append(",searchTmpdir=" + fSearchTmpdir);
         buf.append("]");
         return buf.toString();
     }
@@ -418,5 +448,8 @@ public class BlancoValueObjectKtProcessInput {
         // Name: fOverridePackage
         // Type: java.lang.String
         target.fOverridePackage = this.fOverridePackage;
+        // Name: fSearchTmpdir
+        // Type: java.lang.String
+        target.fSearchTmpdir = this.fSearchTmpdir;
     }
 }

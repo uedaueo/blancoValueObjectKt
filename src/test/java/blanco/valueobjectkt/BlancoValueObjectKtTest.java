@@ -26,6 +26,24 @@ public class BlancoValueObjectKtTest {
     @Test
     public void testBlancoValueObjectKt() {
         BlancoValueObjectKtProcessInput input = new BlancoValueObjectKtProcessInput();
+        input.setMetadir("meta/objects2");
+        input.setEncoding("UTF-8");
+        input.setSheetType("php");
+        input.setTmpdir("tmpTest2");
+        input.setTargetdir("sample/blanco");
+        input.setTargetStyle("maven");
+        input.setVerbose(true);
+        input.setLineSeparator("LF");
+        input.setPackageSuffix("blanco");
+
+        BlancoValueObjectKtProcessImpl imple = new BlancoValueObjectKtProcessImpl();
+        try {
+            imple.execute(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        input = new BlancoValueObjectKtProcessInput();
         input.setMetadir("meta/objects");
         input.setEncoding("UTF-8");
         input.setSheetType("php");
@@ -35,8 +53,9 @@ public class BlancoValueObjectKtTest {
         input.setVerbose(true);
         input.setLineSeparator("LF");
         input.setPackageSuffix("blanco");
+        input.setSearchTmpdir("tmpTest2");
 
-        BlancoValueObjectKtProcessImpl imple = new BlancoValueObjectKtProcessImpl();
+        imple = new BlancoValueObjectKtProcessImpl();
         try {
             imple.execute(input);
         } catch (IOException e) {

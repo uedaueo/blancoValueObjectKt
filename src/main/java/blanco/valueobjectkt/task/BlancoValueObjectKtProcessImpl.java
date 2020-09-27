@@ -10,10 +10,7 @@
 package blanco.valueobjectkt.task;
 
 import blanco.cg.BlancoCgSupportedLang;
-import blanco.valueobjectkt.BlancoValueObjectKtConstants;
-import blanco.valueobjectkt.BlancoValueObjectKtMeta2Xml;
-import blanco.valueobjectkt.BlancoValueObjectKtXml2KotlinClass;
-import blanco.valueobjectkt.BlancoValueObjectKtXmlParser;
+import blanco.valueobjectkt.*;
 import blanco.valueobjectkt.message.BlancoValueObjectKtMessage;
 import blanco.valueobjectkt.task.valueobject.BlancoValueObjectKtProcessInput;
 
@@ -119,8 +116,7 @@ public class BlancoValueObjectKtProcessImpl implements BlancoValueObjectKtProces
          * まず始めにすべてのシートを検索して，クラス名とpackage名のリストを作ります．
          * php形式の定義書では，クラスを指定する際にpackage名が指定されていないからです．
          */
-            BlancoValueObjectKtXmlParser.classList =
-                    BlancoValueObjectKtXmlParser.createClassListFromSheets(fileMeta2, input.getPackageSuffix(), input.getOverridePackage());
+            BlancoValueObjectKtUtil.processValueObjects(input);
 
             for (int index = 0; index < fileMeta2.length; index++) {
                 if (fileMeta2[index].getName().endsWith(".xml") == false) {
