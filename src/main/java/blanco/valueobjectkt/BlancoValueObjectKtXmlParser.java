@@ -810,7 +810,7 @@ public class BlancoValueObjectKtXmlParser {
             fieldStructure.setRequired("true".equals(BlancoXmlBindingUtil
                     .getTextContent(elementList, "required")));
             if (fieldStructure.getRequired()) {
-                fieldStructure.getAnnotationList().add("NotNull");
+                fieldStructure.getAnnotationList().add("field:NotNull");
                 argClassStructure.getImportList().add("javax.validation.constraints.NotNull");
             }
 
