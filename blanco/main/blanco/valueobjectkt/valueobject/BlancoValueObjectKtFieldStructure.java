@@ -95,6 +95,14 @@ public class BlancoValueObjectKtFieldStructure {
     private Boolean fNullable = false;
 
     /**
+     * 必須変数かどうか。必須の場合は @NotNull アノテーションが付与されます。
+     *
+     * フィールド: [required]。
+     * デフォルト: [false]。
+     */
+    private Boolean fRequired = false;
+
+    /**
      * 変更不可変数かどうか
      *
      * フィールド: [value]。
@@ -436,6 +444,29 @@ public class BlancoValueObjectKtFieldStructure {
     }
 
     /**
+     * フィールド [required] の値を設定します。
+     *
+     * フィールドの説明: [必須変数かどうか。必須の場合は @NotNull アノテーションが付与されます。]。
+     *
+     * @param argRequired フィールド[required]に設定する値。
+     */
+    public void setRequired(final Boolean argRequired) {
+        fRequired = argRequired;
+    }
+
+    /**
+     * フィールド [required] の値を取得します。
+     *
+     * フィールドの説明: [必須変数かどうか。必須の場合は @NotNull アノテーションが付与されます。]。
+     * デフォルト: [false]。
+     *
+     * @return フィールド[required]から取得した値。
+     */
+    public Boolean getRequired() {
+        return fRequired;
+    }
+
+    /**
      * フィールド [value] の値を設定します。
      *
      * フィールドの説明: [変更不可変数かどうか]。
@@ -685,6 +716,7 @@ public class BlancoValueObjectKtFieldStructure {
         buf.append(",defaultKt=" + fDefaultKt);
         buf.append(",abstract=" + fAbstract);
         buf.append(",nullable=" + fNullable);
+        buf.append(",required=" + fRequired);
         buf.append(",value=" + fValue);
         buf.append(",constArg=" + fConstArg);
         buf.append(",description=" + fDescription);
@@ -769,6 +801,9 @@ public class BlancoValueObjectKtFieldStructure {
         // Name: fNullable
         // Type: java.lang.Boolean
         target.fNullable = this.fNullable;
+        // Name: fRequired
+        // Type: java.lang.Boolean
+        target.fRequired = this.fRequired;
         // Name: fValue
         // Type: java.lang.Boolean
         target.fValue = this.fValue;

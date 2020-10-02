@@ -805,6 +805,15 @@ public class BlancoValueObjectKtXmlParser {
             // abstract に対応
             fieldStructure.setAbstract("true".equals(BlancoXmlBindingUtil
                     .getTextContent(elementList, "abstract")));
+
+            // required に対応 (NotNullアノテーションの付与）
+            fieldStructure.setRequired("true".equals(BlancoXmlBindingUtil
+                    .getTextContent(elementList, "required")));
+            if (fieldStructure.getRequired()) {
+                fieldStructure.getAnnotationList().add("NotNull");
+                argClassStructure.getImportList().add("javax.validation.constraints.NotNull");
+            }
+
             // Nullable に対応
             fieldStructure.setNullable("true".equals(BlancoXmlBindingUtil
                     .getTextContent(elementList, "nullable")));
