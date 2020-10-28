@@ -5,7 +5,7 @@
 	<groupId>blanco.valueobjectkt</groupId>
 	<artifactId>blanco-valueobjectkt</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1.0</version>
+	<version>0.1.1</version>
 	<name>blanco-valueobject-kt</name>
 	<url>https://igapyon.github.io/blancofw-maven2</url>
 

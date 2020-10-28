@@ -47,7 +47,7 @@ public class BlancoValueObjectKtDelegateStructure {
      * フィールド: [descriptionList]。
      * デフォルト: [new java.util.ArrayList&lt;java.lang.String&gt;()]。
      */
-    private List<java.lang.String> fDescriptionList = new java.util.ArrayList<java.lang.String>();
+    private List<String> fDescriptionList = new java.util.ArrayList<java.lang.String>();
 
     /**
      * フィールド [no] の値を設定します。
@@ -166,7 +166,7 @@ public class BlancoValueObjectKtDelegateStructure {
      *
      * @param argDescriptionList フィールド[descriptionList]に設定する値。
      */
-    public void setDescriptionList(final List<java.lang.String> argDescriptionList) {
+    public void setDescriptionList(final List<String> argDescriptionList) {
         fDescriptionList = argDescriptionList;
     }
 
@@ -178,7 +178,7 @@ public class BlancoValueObjectKtDelegateStructure {
      *
      * @return フィールド[descriptionList]から取得した値。
      */
-    public List<java.lang.String> getDescriptionList() {
+    public List<String> getDescriptionList() {
         return fDescriptionList;
     }
 
@@ -242,14 +242,6 @@ public class BlancoValueObjectKtDelegateStructure {
         target.fDescription = this.fDescription;
         // Name: fDescriptionList
         // Type: java.util.List
-        if (this.fDescriptionList != null) {
-            final java.util.Iterator<java.lang.String> iterator = this.fDescriptionList.iterator();
-            for (; iterator.hasNext();) {
-                java.lang.String loopSource = iterator.next();
-                java.lang.String loopTarget = null;
-                loopTarget = loopSource;
-                target.fDescriptionList.add(loopTarget);
-            }
-        }
+        // フィールド[fDescriptionList]はサポート外の型[java.util.Listjava.lang.String]です。
     }
 }

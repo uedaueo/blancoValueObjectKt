@@ -15,6 +15,7 @@ import blanco.commons.util.BlancoStringUtil;
 import blanco.valueobjectkt.message.BlancoValueObjectKtMessage;
 import blanco.valueobjectkt.valueobject.BlancoValueObjectKtClassStructure;
 import blanco.valueobjectkt.valueobject.BlancoValueObjectKtDelegateStructure;
+import blanco.valueobjectkt.valueobject.BlancoValueObjectKtExtendsStructure;
 import blanco.valueobjectkt.valueobject.BlancoValueObjectKtFieldStructure;
 import blanco.xml.bind.BlancoXmlBindingUtil;
 import blanco.xml.bind.BlancoXmlUnmarshaller;
@@ -249,8 +250,9 @@ public class BlancoValueObjectKtXmlParser {
                         "blancovalueobject-extends");
         if (extendsList != null && extendsList.size() != 0) {
             final BlancoXmlElement elementExtendsRoot = extendsList.get(0);
-            objClassStructure.setExtends(BlancoXmlBindingUtil.getTextContent(
-                    elementExtendsRoot, "name"));
+            BlancoValueObjectKtExtendsStructure extendsStructure = new BlancoValueObjectKtExtendsStructure();
+            extendsStructure.setType(BlancoXmlBindingUtil.getTextContent(elementExtendsRoot, "name"));
+            objClassStructure.setExtends(extendsStructure);
         }
 
         final List<BlancoXmlElement> interfaceList = BlancoXmlBindingUtil
@@ -587,22 +589,32 @@ public class BlancoValueObjectKtXmlParser {
             final Map<String, String> argClassList
     ) {
         String className = BlancoXmlBindingUtil.getTextContent(argElementExtendsRoot, "name");
-        String packageName = BlancoXmlBindingUtil.getTextContent(argElementExtendsRoot, "package");
-        if (packageName == null ||
-                (this.fPackageSuffix != null && this.fPackageSuffix.length() > 0) ||
-                (this.fOverridePackage != null && this.fOverridePackage.length() > 0)) {
-            /*
-             * このクラスのパッケージ名を探す
-             */
-            packageName = argClassList.get(className);
-        }
-        if (packageName != null) {
-            className = packageName + "." + className;
-            if (isVerbose()) {
-                System.out.println("Extends = " + className);
+        if (BlancoStringUtil.null2Blank(className).length() > 0) {
+            String packageName = BlancoXmlBindingUtil.getTextContent(argElementExtendsRoot, "package");
+            String generics = BlancoXmlBindingUtil.getTextContent(argElementExtendsRoot, "generic");
+            if (packageName == null ||
+                    (this.fPackageSuffix != null && this.fPackageSuffix.length() > 0) ||
+                    (this.fOverridePackage != null && this.fOverridePackage.length() > 0)) {
+                /*
+                 * このクラスのパッケージ名を探す
+                 */
+                packageName = argClassList.get(className);
             }
+            if (packageName != null) {
+                className = packageName + "." + className;
+                if (isVerbose()) {
+                    System.out.println("Extends = " + className);
+                }
+            }
+            BlancoValueObjectKtExtendsStructure extendsStructure = new BlancoValueObjectKtExtendsStructure();
+            argClassStructure.setExtends(extendsStructure);
+            extendsStructure.setType(className);
+            if (BlancoStringUtil.null2Blank(generics).length() > 0) {
+                extendsStructure.setGenerics(generics);
+            }
+        } else if (isVerbose()) {
+            System.out.println("parseExtendsPhp: extends type is not specified. SKIPPED.");
         }
-        argClassStructure.setExtends(className);
     }
 
     /**

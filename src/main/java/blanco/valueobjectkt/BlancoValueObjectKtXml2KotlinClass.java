@@ -243,10 +243,12 @@ public class BlancoValueObjectKtXml2KotlinClass {
         }
 
         // 継承
-        if (BlancoStringUtil.null2Blank(argClassStructure.getExtends())
-                .length() > 0) {
-            fCgClass.getExtendClassList().add(
-                    fCgFactory.createType(argClassStructure.getExtends()));
+        if (argClassStructure.getExtends() != null && BlancoStringUtil.null2Blank(argClassStructure.getExtends().getType()).length() > 0) {
+            BlancoCgType cgType = fCgFactory.createType(argClassStructure.getExtends().getType());
+            fCgClass.getExtendClassList().add(cgType);
+            if (BlancoStringUtil.null2Blank(argClassStructure.getExtends().getGenerics()).length() > 0) {
+                cgType.setGenerics(argClassStructure.getExtends().getGenerics());
+            }
         }
         // 実装
         for (int index = 0; index < argClassStructure.getImplementsList()
