@@ -227,11 +227,17 @@
         <tablecolumn name="nullable">
           <value>Nullable</value>
         </tablecolumn>
+        <tablecolumn name="nullableKt">
+          <value>Nullable(Kt)</value>
+        </tablecolumn>
         <tablecolumn name="required">
           <value>必須</value>
         </tablecolumn>
         <tablecolumn name="fixedValue">
           <value>変更不可変数</value>
+        </tablecolumn>
+        <tablecolumn name="fixedValueKt">
+          <value>変更不可変数(Kt)</value>
         </tablecolumn>
         <tablecolumn name="constructorArg">
           <value>コンストラクタ引数</value>
@@ -243,6 +249,11 @@
         <valuemapping>
           <result>true</result>
           <source>○</source>
+        </valuemapping>
+
+        <valuemapping>
+          <result>not</result>
+          <source>×</source>
         </valuemapping>
 
       </tableblock>

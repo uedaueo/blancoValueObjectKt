@@ -819,19 +819,54 @@ public class BlancoValueObjectKtXmlParser {
                     .getTextContent(elementList, "abstract")));
 
             // required に対応 (NotNullアノテーションの付与）
-            fieldStructure.setRequired("true".equals(BlancoXmlBindingUtil
-                    .getTextContent(elementList, "required")));
+            String requiredKt = BlancoXmlBindingUtil
+                    .getTextContent(elementList, "requiredKt");
+            String required = BlancoXmlBindingUtil
+                    .getTextContent(elementList, "required");
+            if (BlancoStringUtil.null2Blank(requiredKt).length() > 0) {
+                if ("true".equals(requiredKt)) {
+                    required = requiredKt;
+                } else if ("not".equals(requiredKt) &&
+                        BlancoStringUtil.null2Blank(required).length() > 0) {
+                    required = ""; // requiredKt が not の時は required を無視
+                }
+            }
+            fieldStructure.setRequired("true".equals(required));
             if (fieldStructure.getRequired()) {
                 fieldStructure.getAnnotationList().add("field:NotNull");
                 argClassStructure.getImportList().add("javax.validation.constraints.NotNull");
             }
 
             // Nullable に対応
-            fieldStructure.setNullable("true".equals(BlancoXmlBindingUtil
-                    .getTextContent(elementList, "nullable")));
+            String nullableKt = BlancoXmlBindingUtil
+                    .getTextContent(elementList, "nullableKt");
+            String nullable = BlancoXmlBindingUtil
+                    .getTextContent(elementList, "nullable");
+            if (BlancoStringUtil.null2Blank(nullableKt).length() > 0) {
+                if ("true".equals(nullableKt)) {
+                    nullable = nullableKt;
+                } else if ("not".equals(nullableKt) &&
+                BlancoStringUtil.null2Blank(nullable).length() > 0) {
+                    nullable = ""; // nullableKt が not の時は nullable を無視
+                }
+            }
+            fieldStructure.setNullable("true".equals(nullable));
+
             // value に対応
-            fieldStructure.setValue("true".equals(BlancoXmlBindingUtil
-                    .getTextContent(elementList, "fixedValue")));
+            String valueKt = BlancoXmlBindingUtil
+                    .getTextContent(elementList, "fixedValueKt");
+            String value = BlancoXmlBindingUtil
+                    .getTextContent(elementList, "fixedValue");
+            if (BlancoStringUtil.null2Blank(valueKt).length() > 0) {
+                if ("true".equals(valueKt)) {
+                    value = valueKt;
+                } else if ("not".equals(valueKt) &&
+                        BlancoStringUtil.null2Blank(value).length() > 0) {
+                    value = ""; // valueKt が not の時は value を無視
+                }
+            }
+            fieldStructure.setValue("true".equals(value));
+
             // constructorArg に対応
             fieldStructure.setConstArg("true".equals(BlancoXmlBindingUtil
                     .getTextContent(elementList, "constructorArg")));
