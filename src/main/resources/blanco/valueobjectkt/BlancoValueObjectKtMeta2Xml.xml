@@ -233,6 +233,9 @@
         <tablecolumn name="required">
           <value>必須</value>
         </tablecolumn>
+        <tablecolumn name="requiredKt">
+          <value>必須(Kt)</value>
+        </tablecolumn>
         <tablecolumn name="fixedValue">
           <value>変更不可変数</value>
         </tablecolumn>
