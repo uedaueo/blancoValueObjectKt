@@ -176,11 +176,11 @@ public class BlancoValueObjectKtFieldStructure {
     private String fMaxInclusive;
 
     /**
-     * 非ファイナルであることを明示します。Kotlinの場合、デフォルトでファイナルです。
+     * オープンであることを明示します。Kotlinの場合、デフォルトで非オープンです。
      *
-     * フィールド: [notFinal]。
+     * フィールド: [open]。
      */
-    private Boolean fNotFinal;
+    private Boolean fOpen;
 
     /**
      * フィールド [no] の値を設定します。
@@ -697,25 +697,25 @@ public class BlancoValueObjectKtFieldStructure {
     }
 
     /**
-     * フィールド [notFinal] の値を設定します。
+     * フィールド [open] の値を設定します。
      *
-     * フィールドの説明: [非ファイナルであることを明示します。Kotlinの場合、デフォルトでファイナルです。]。
+     * フィールドの説明: [オープンであることを明示します。Kotlinの場合、デフォルトで非オープンです。]。
      *
-     * @param argNotFinal フィールド[notFinal]に設定する値。
+     * @param argOpen フィールド[open]に設定する値。
      */
-    public void setNotFinal(final Boolean argNotFinal) {
-        fNotFinal = argNotFinal;
+    public void setOpen(final Boolean argOpen) {
+        fOpen = argOpen;
     }
 
     /**
-     * フィールド [notFinal] の値を取得します。
+     * フィールド [open] の値を取得します。
      *
-     * フィールドの説明: [非ファイナルであることを明示します。Kotlinの場合、デフォルトでファイナルです。]。
+     * フィールドの説明: [オープンであることを明示します。Kotlinの場合、デフォルトで非オープンです。]。
      *
-     * @return フィールド[notFinal]から取得した値。
+     * @return フィールド[open]から取得した値。
      */
-    public Boolean getNotFinal() {
-        return fNotFinal;
+    public Boolean getOpen() {
+        return fOpen;
     }
 
     /**
@@ -756,7 +756,7 @@ public class BlancoValueObjectKtFieldStructure {
         buf.append(",length=" + fLength);
         buf.append(",minInclusive=" + fMinInclusive);
         buf.append(",maxInclusive=" + fMaxInclusive);
-        buf.append(",notFinal=" + fNotFinal);
+        buf.append(",open=" + fOpen);
         buf.append("]");
         return buf.toString();
     }
@@ -848,8 +848,8 @@ public class BlancoValueObjectKtFieldStructure {
         // Name: fMaxInclusive
         // Type: java.lang.String
         target.fMaxInclusive = this.fMaxInclusive;
-        // Name: fNotFinal
+        // Name: fOpen
         // Type: java.lang.Boolean
-        target.fNotFinal = this.fNotFinal;
+        target.fOpen = this.fOpen;
     }
 }

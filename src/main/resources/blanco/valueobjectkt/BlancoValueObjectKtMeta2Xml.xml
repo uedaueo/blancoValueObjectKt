@@ -245,8 +245,8 @@
         <tablecolumn name="constructorArg">
           <value>コンストラクタ引数</value>
         </tablecolumn>
-        <tablecolumn name="notFinal">
-          <value>非ファイナル</value>
+        <tablecolumn name="open">
+          <value>オープン</value>
         </tablecolumn>
         <tablecolumn name="description">
           <value>説明</value>

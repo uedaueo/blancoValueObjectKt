@@ -403,7 +403,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
          */
         field.setAccess("public");
 
-        if (argFieldStructure.getNotFinal()) {
+        if (argFieldStructure.getOpen()) {
             field.setFinal(false);
         } else {
             field.setFinal(true);
