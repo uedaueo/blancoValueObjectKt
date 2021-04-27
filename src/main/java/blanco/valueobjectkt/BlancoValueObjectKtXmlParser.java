@@ -911,6 +911,10 @@ public class BlancoValueObjectKtXmlParser {
                                 .getName()));
             }
 
+            /* 非ファイナルに対応（kotlinではデフォルトでファイナル） */
+            fieldStructure.setNotFinal("true".equals(BlancoXmlBindingUtil
+                    .getTextContent(elementList, "notFinal")));
+
             argClassStructure.getFieldList().add(fieldStructure);
         }
     }

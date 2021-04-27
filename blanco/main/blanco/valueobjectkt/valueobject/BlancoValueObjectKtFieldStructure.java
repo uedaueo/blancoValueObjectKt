@@ -176,6 +176,13 @@ public class BlancoValueObjectKtFieldStructure {
     private String fMaxInclusive;
 
     /**
+     * 非ファイナルであることを明示します。Kotlinの場合、デフォルトでファイナルです。
+     *
+     * フィールド: [notFinal]。
+     */
+    private Boolean fNotFinal;
+
+    /**
      * フィールド [no] の値を設定します。
      *
      * フィールドの説明: [項目番号。省略可能です。]。
@@ -690,6 +697,28 @@ public class BlancoValueObjectKtFieldStructure {
     }
 
     /**
+     * フィールド [notFinal] の値を設定します。
+     *
+     * フィールドの説明: [非ファイナルであることを明示します。Kotlinの場合、デフォルトでファイナルです。]。
+     *
+     * @param argNotFinal フィールド[notFinal]に設定する値。
+     */
+    public void setNotFinal(final Boolean argNotFinal) {
+        fNotFinal = argNotFinal;
+    }
+
+    /**
+     * フィールド [notFinal] の値を取得します。
+     *
+     * フィールドの説明: [非ファイナルであることを明示します。Kotlinの場合、デフォルトでファイナルです。]。
+     *
+     * @return フィールド[notFinal]から取得した値。
+     */
+    public Boolean getNotFinal() {
+        return fNotFinal;
+    }
+
+    /**
      * このバリューオブジェクトの文字列表現を取得します。
      *
      * <P>使用上の注意</P>
@@ -727,6 +756,7 @@ public class BlancoValueObjectKtFieldStructure {
         buf.append(",length=" + fLength);
         buf.append(",minInclusive=" + fMinInclusive);
         buf.append(",maxInclusive=" + fMaxInclusive);
+        buf.append(",notFinal=" + fNotFinal);
         buf.append("]");
         return buf.toString();
     }
@@ -818,5 +848,8 @@ public class BlancoValueObjectKtFieldStructure {
         // Name: fMaxInclusive
         // Type: java.lang.String
         target.fMaxInclusive = this.fMaxInclusive;
+        // Name: fNotFinal
+        // Type: java.lang.Boolean
+        target.fNotFinal = this.fNotFinal;
     }
 }

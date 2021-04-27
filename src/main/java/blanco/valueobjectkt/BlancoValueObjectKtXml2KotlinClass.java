@@ -399,11 +399,15 @@ public class BlancoValueObjectKtXml2KotlinClass {
 //        }
 
         /*
-         * 当面の間、blancoValueObjectKt ではprivateやgetter/setter,
-         * open には対応しません。
+         * 当面の間、blancoValueObjectKt ではprivateやgetter/setter には対応しません。
          */
         field.setAccess("public");
-        field.setFinal(true);
+
+        if (argFieldStructure.getNotFinal()) {
+            field.setFinal(false);
+        } else {
+            field.setFinal(true);
+        }
 
         // nullable に対応します。
         Boolean isNullable = argFieldStructure.getNullable();
