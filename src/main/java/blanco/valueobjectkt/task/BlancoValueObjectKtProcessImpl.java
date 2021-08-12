@@ -21,7 +21,7 @@ import java.io.IOException;
 public class BlancoValueObjectKtProcessImpl implements BlancoValueObjectKtProcess {
 
     /**
-     * メッセージ。
+     * A message.
      */
     private final BlancoValueObjectKtMessage fMsg = new BlancoValueObjectKtMessage();
 
@@ -40,7 +40,7 @@ public class BlancoValueObjectKtProcessImpl implements BlancoValueObjectKtProces
             }
 
             /*
-             * 改行コードを決定します。
+             * Determines the newline code.
              */
             String LF = "\n";
             String CR = "\r";
@@ -72,20 +72,20 @@ public class BlancoValueObjectKtProcessImpl implements BlancoValueObjectKtProces
             }
 
             /*
-             * targetdir, targetStyleの処理。
-             * 生成されたコードの保管場所を設定する。
+             * Processes targetdir and targetStyle.
+             * Sets the storage location for the generated code.
              * targetstyle = blanco:
-             *  targetdirの下に main ディレクトリを作成
+             *  Creates a main directory under targetdir.
              * targetstyle = maven:
-             *  targetdirの下に main/java ディレクトリを作成
+             *  Creates a main/java directory under targetdir.
              * targetstyle = free:
-             *  targetdirをそのまま使用してディレクトリを作成。
-             *  ただしtargetdirがからの場合はデフォルト文字列(blanco)使用する。
+             *  Creates a directory using targetdir as is.
+             *  However, if targetdir is empty, the default string (blanco) is used.
              * by tueda, 2019/08/30
              */
             String strTarget = input.getTargetdir();
             String style = input.getTargetStyle();
-            // ここを通ったら常にtrue
+            // Always true when passing through here.
             boolean isTargetStyleAdvanced = true;
             if (style != null && BlancoValueObjectKtConstants.TARGET_STYLE_MAVEN.equals(style)) {
                 strTarget = strTarget + "/" + BlancoValueObjectKtConstants.TARGET_DIR_SUFFIX_MAVEN;
@@ -93,12 +93,12 @@ public class BlancoValueObjectKtProcessImpl implements BlancoValueObjectKtProces
                     !BlancoValueObjectKtConstants.TARGET_STYLE_FREE.equals(style)) {
                 strTarget = strTarget + "/" + BlancoValueObjectKtConstants.TARGET_DIR_SUFFIX_BLANCO;
             }
-            /* style が free だったらtargetdirをそのまま使う */
+            /* If style is free, uses targetdir as is. */
             if (input.getVerbose()) {
                 System.out.println("TARGETDIR = " + strTarget);
             }
 
-            // テンポラリディレクトリを作成。
+            // Creates a temporary directory.
             new File(input.getTmpdir()
                     + BlancoValueObjectKtConstants.TARGET_SUBDIRECTORY).mkdirs();
 
@@ -106,15 +106,15 @@ public class BlancoValueObjectKtProcessImpl implements BlancoValueObjectKtProces
                     .getTmpdir()
                     + BlancoValueObjectKtConstants.TARGET_SUBDIRECTORY);
 
-            // XML化されたメタファイルからValueObjectを生成
-            // 最初にテンポラリフォルダを走査
+            // Generates ValueObject from XML-ized meta file.
+            // Scans the temporary folder first.
             final File[] fileMeta2 = new File(input.getTmpdir()
                     + BlancoValueObjectKtConstants.TARGET_SUBDIRECTORY)
                     .listFiles();
 
         /*
-         * まず始めにすべてのシートを検索して，クラス名とpackage名のリストを作ります．
-         * php形式の定義書では，クラスを指定する際にpackage名が指定されていないからです．
+         * First, searches all the sheets and makes a list of structures from the class names.
+         * The reason is that in the PHP-style definitions, the package name is not specified when specifying a class.
          */
             BlancoValueObjectKtUtil.processValueObjects(input);
 
@@ -133,12 +133,12 @@ public class BlancoValueObjectKtProcessImpl implements BlancoValueObjectKtProces
                 xml2KotlinClass.setOverridePackage(input.getOverridePackage());
                 xml2KotlinClass.process(fileMeta2[index], new File(strTarget));
 
-                // 単体試験コードの自動生成機能は 0.9.1以降では削除されました。
+                // The auto-generation of unit test codes has been removed in 0.9.1 and later.
             }
 
             return BlancoValueObjectKtBatchProcess.END_SUCCESS;
         } catch (TransformerException e) {
-            throw new IOException("XML変換の過程で例外が発生しました: " + e.toString());
+            throw new IOException("An exception has occurred during the XML conversion process: " + e.toString());
         }
     }
 

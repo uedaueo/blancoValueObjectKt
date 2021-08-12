@@ -29,13 +29,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * blancoValueObjectの 中間XMLファイル形式をパース(読み書き)するクラス。
+ * A class that parses (reads and writes) the intermediate XML file format of a blancoValueObject.
  *
  * @author IGA Tosiki
  */
 public class BlancoValueObjectKtXmlParser {
     /**
-     * メッセージ。
+     * A message.
      */
     private final BlancoValueObjectKtMessage fMsg = new BlancoValueObjectKtMessage();
 
@@ -48,7 +48,7 @@ public class BlancoValueObjectKtXmlParser {
     }
 
     /*
-     * パッケージ名の上書きに関する設定
+     * Settings for overriding package names.
      */
     private String fPackageSuffix = "";
     public void setPackageSuffix(String suffix) {
@@ -66,11 +66,11 @@ public class BlancoValueObjectKtXmlParser {
     }
 
     /**
-     * 中間XMLファイルのXMLドキュメントをパースして、バリューオブジェクト情報の配列を取得します。
+     * Parses an XML document in an intermediate XML file to get an array of value object information.
      *
      * @param argMetaXmlSourceFile
-     *            中間XMLファイル。
-     * @return パースの結果得られたバリューオブジェクト情報の配列。
+     *            An intermediate XML file.
+     * @return An array of information obtained as a result of parsing.
      */
     public BlancoValueObjectKtClassStructure[] parse(
             final File argMetaXmlSourceFile) {
@@ -87,25 +87,25 @@ public class BlancoValueObjectKtXmlParser {
     }
 
     /**
-     * 中間XMLファイル形式のXMLドキュメントをパースして、バリューオブジェクト情報の配列を取得します。
-     *
+     * Parses an XML document in an intermediate XML file to get an array of value object information.
+     * 
      * @param argXmlDocument
-     *            中間XMLファイルのXMLドキュメント。
-     * @return パースの結果得られたバリューオブジェクト情報の配列。
+     *            XML document of an intermediate XML file.
+     * @return An array of value object information obtained as a result of parsing.
      */
     public BlancoValueObjectKtClassStructure[] parse(
             final BlancoXmlDocument argXmlDocument) {
         final List<BlancoValueObjectKtClassStructure> listStructure = new ArrayList<BlancoValueObjectKtClassStructure>();
 
-        // ルートエレメントを取得します。
+        // Gets the root element.
         final BlancoXmlElement elementRoot = BlancoXmlBindingUtil
                 .getDocumentElement(argXmlDocument);
         if (elementRoot == null) {
-            // ルートエレメントが無い場合には処理中断します。
+            // The process is aborted if there is no root element.
             return null;
         }
 
-        // sheet(Excelシート)のリストを取得します。
+        // Gets a list of sheets (Excel sheets).
         final List<BlancoXmlElement> listSheet = BlancoXmlBindingUtil
                 .getElementsByTagName(elementRoot, "sheet");
 
@@ -114,7 +114,7 @@ public class BlancoValueObjectKtXmlParser {
             final BlancoXmlElement elementSheet = listSheet.get(index);
 
             /*
-             * Java以外の言語用に記述されたシートにも対応．
+             * Supports sheets written for languages other than Java.
              */
             List<BlancoXmlElement> listCommon = null;
             int sheetLang = BlancoCgSupportedLang.JAVA;
@@ -143,11 +143,11 @@ public class BlancoValueObjectKtXmlParser {
             }
 
             if (listCommon == null || listCommon.size() == 0) {
-                // commonが無い場合にはスキップします。
+                // Skips if there is no common.
                 continue;
             }
 
-            // 最初のアイテムのみ処理しています。
+            // Processes only the first item.
             final BlancoXmlElement elementCommon = listCommon.get(0);
             final String name = BlancoXmlBindingUtil.getTextContent(
                     elementCommon, "name");
@@ -166,7 +166,7 @@ public class BlancoValueObjectKtXmlParser {
             }
 
             if (objClassStructure != null) {
-                // 得られた情報を記憶します。
+                // Saves the obtained information.
                 listStructure.add(objClassStructure);
             }
         }
@@ -178,11 +178,11 @@ public class BlancoValueObjectKtXmlParser {
     }
 
     /**
-     * 中間XMLファイル形式の「sheet」XMLエレメントをパースして、バリューオブジェクト情報を取得します。
-     *
+     * Parses the "sheet" XML element in the intermediate XML file to get the value object information.
+     * 
      * @param argElementSheet
-     *            中間XMLファイルの「sheet」XMLエレメント。
-     * @return パースの結果得られたバリューオブジェクト情報。「name」が見つからなかった場合には nullを戻します。
+     *            "sheet" XML element in the intermediate XML file.
+     * @return Value object information obtained as a result of parsing. Null is returned if "name" is not found.
      */
     public BlancoValueObjectKtClassStructure parseElementSheet(
             final BlancoXmlElement argElementSheet) {
@@ -191,7 +191,7 @@ public class BlancoValueObjectKtXmlParser {
                 .getElementsByTagName(argElementSheet,
                         "blancovalueobject-common");
         if (listCommon == null || listCommon.size() == 0) {
-            // commonが無い場合にはスキップします。
+            // Skips if there is no common.
             return null;
         }
         final BlancoXmlElement elementCommon = listCommon.get(0);
@@ -210,8 +210,8 @@ public class BlancoValueObjectKtXmlParser {
                 if (index == 0) {
                     objClassStructure.setDescription(lines[index]);
                 } else {
-                    // 複数行の description については、これを分割して格納します。
-                    // ２行目からは、適切に文字参照エンコーディングが実施されているものと仮定します。
+                    // For a multi-line description, it will be split and stored.
+                    // From the second line, assumes that character reference encoding has been properly implemented. 
                     objClassStructure.getDescriptionList().add(lines[index]);
                 }
             }
@@ -236,7 +236,7 @@ public class BlancoValueObjectKtXmlParser {
 
         if (BlancoStringUtil.null2Blank(objClassStructure.getName()).trim()
                 .length() == 0) {
-            // 名前が無いものはスキップします。
+            // Skips if name is empty.
             return null;
         }
 
@@ -307,8 +307,8 @@ public class BlancoValueObjectKtXmlParser {
                     if (indexLine == 0) {
                         fieldStructure.setDescription(lines[indexLine]);
                     } else {
-                        // 複数行の description については、これを分割して格納します。
-                        // ２行目からは、適切に文字参照エンコーディングが実施されているものと仮定します。
+                        // For a multi-line description, it will be split and stored.
+                        // From the second line, assumes that character reference encoding has been properly implemented.   
                         fieldStructure.getDescriptionList().add(
                                 lines[indexLine]);
                     }
@@ -344,11 +344,11 @@ public class BlancoValueObjectKtXmlParser {
     }
 
     /**
-     * 中間XMLファイル形式の「sheet」XMLエレメント(PHP書式)をパースして、バリューオブジェクト情報を取得します。
+     * Parses the "sheet" XML element (PHP format) in the intermediate XML file to get the value object information.
      *
      * @param argElementSheet
-     *            中間XMLファイルの「sheet」XMLエレメント。
-     * @return パースの結果得られたバリューオブジェクト情報。「name」が見つからなかった場合には nullを戻します。
+     *            "sheet" XML element in the intermediate XML file.
+     * @return Value object information obtained as a result of parsing. Null is returned if "name" is not found.
      */
     public BlancoValueObjectKtClassStructure parseElementSheetPhp(
             final BlancoXmlElement argElementSheet,
@@ -358,30 +358,30 @@ public class BlancoValueObjectKtXmlParser {
                 .getElementsByTagName(argElementSheet,
                         "blancovalueobjectphp-common");
         if (listCommon == null || listCommon.size() == 0) {
-            // commonが無い場合にはスキップします。
+            // Skips if there is no common.
             return null;
         }
 
         if (argClassList == null) {
-            // classList が無い場合もスキップします
+            // Also skips if there is no classList.
             System.out.println("### ERROR ### NO CLASS LIST DEFINED.");
             return null;
         }
 
-        // パッケージ名の置き換えオプションがあれば設定しておく
+        // Sets the option to replace the package name if available.
         objClassStructure.setPackageSuffix(this.fPackageSuffix);
         objClassStructure.setOverridePackage(this.fOverridePackage);
 
-        // バリューオブジェクト定義(php)・共通
+        // Value object definition (PHP) common
         final BlancoXmlElement elementCommon = listCommon.get(0);
         parseCommonPhp(elementCommon, objClassStructure);
         if (BlancoStringUtil.null2Blank(objClassStructure.getName()).trim()
                 .length() == 0) {
-            // 名前が無いものはスキップします。
+            // Skips if name is empty.
             return null;
         }
 
-        // バリューオブジェクト定義(php)・継承
+        // Value object definition (PHP) inheritance
         final List<BlancoXmlElement> extendsList = BlancoXmlBindingUtil
                 .getElementsByTagName(argElementSheet,
                         "blancovalueobjectphp-extends");
@@ -390,7 +390,7 @@ public class BlancoValueObjectKtXmlParser {
             parseExtendsPhp(elementExtendsRoot, objClassStructure, argClassList);
         }
 
-        // バリューオブジェクト定義(Kt)・委譲
+        //         // Value object definition (Kt) delegation
         final List<BlancoXmlElement> delegateList = BlancoXmlBindingUtil
                 .getElementsByTagName(argElementSheet,
                         "blancovalueobjectkt-delegate");
@@ -399,7 +399,7 @@ public class BlancoValueObjectKtXmlParser {
             parseDelegateList(elementDelegateRoot, objClassStructure);
         }
 
-        // バリューオブジェクト定義(php)・実装
+        // Value object definition (PHP) implementation
         final List<BlancoXmlElement> interfaceList = BlancoXmlBindingUtil
                 .getElementsByTagName(argElementSheet,
                         "blancovalueobjectphp-implements");
@@ -409,7 +409,7 @@ public class BlancoValueObjectKtXmlParser {
             parseInterfacePhp(elementInterfaceRoot, objClassStructure, argClassList);
         }
 
-        // import の一覧作成
+        // Creates import list.
         final List<BlancoXmlElement> importList = BlancoXmlBindingUtil
                 .getElementsByTagName(argElementSheet, "blancovalueobjectphp-import");
         if (importList != null && importList.size() != 0) {
@@ -417,7 +417,7 @@ public class BlancoValueObjectKtXmlParser {
             parseImportListPhp(elementImportRoot, objClassStructure);
         }
 
-        // バリューオブジェクト定義(php)・一覧
+        // Value object definition (PHP) list
         final List<BlancoXmlElement> listList = BlancoXmlBindingUtil
                 .getElementsByTagName(argElementSheet, "blancovalueobjectphp-list");
         if (listList != null && listList.size() != 0) {
@@ -461,7 +461,7 @@ public class BlancoValueObjectKtXmlParser {
                 kotlinType = "kotlin.Boolean";
             } else
             if ("integer".equalsIgnoreCase(phpType)) {
-                // integer 型は 64 bit に変換する
+                // Converts integer types to 64 bit
                 kotlinType = "kotlin.Long";
             } else
             if ("double".equalsIgnoreCase(phpType)) {
@@ -486,13 +486,13 @@ public class BlancoValueObjectKtXmlParser {
             if ("object".equalsIgnoreCase(phpType)) {
                 kotlinType = "kotlin.Any";
             } else {
-                /* この名前の package を探す */
+                /* Searches for a package with this name. */
                 String packageName = argClassList.get(phpType);
                 if (packageName != null) {
                     kotlinType = packageName + "." + phpType;
                 }
 
-                /* その他はそのまま記述する */
+                /* Others are written as is. */
                 System.out.println("Unknown php type: " + kotlinType);
             }
         }
@@ -500,7 +500,7 @@ public class BlancoValueObjectKtXmlParser {
     }
 
     /**
-     * バリューオブジェクト定義(php)・共通
+     * Value object definition (PHP) common
      * @param argElementCommon
      * @param argClassStructure
      */
@@ -523,14 +523,14 @@ public class BlancoValueObjectKtXmlParser {
                 if (index == 0) {
                     argClassStructure.setDescription(lines[index]);
                 } else {
-                    // 複数行の description については、これを分割して格納します。
-                    // ２行目からは、適切に文字参照エンコーディングが実施されているものと仮定します。
+                    // For a multi-line description, it will be split and stored.
+                    // From the second line, assumes that character reference encoding has been properly implemented.   
                     argClassStructure.getDescriptionList().add(lines[index]);
                 }
             }
         }
 
-        /* クラスの総称型に対応 */
+        /* Supports generic types of the class. */
         String classGenerics = BlancoXmlBindingUtil.getTextContent(
                 argElementCommon, "generic");
         if (BlancoStringUtil.null2Blank(classGenerics).length() > 0) {
@@ -538,7 +538,7 @@ public class BlancoValueObjectKtXmlParser {
         }
 
 
-        /* クラスの annotation に対応, (Kt) があればそちらを優先 */
+        /* Supports annotation of class. (Kt), if any, takes precedence. */
         String classAnnotation = BlancoXmlBindingUtil.getTextContent(
                 argElementCommon, "annotationKt");
         if (BlancoStringUtil.null2Blank(classAnnotation).length() == 0) {
@@ -575,10 +575,9 @@ public class BlancoValueObjectKtXmlParser {
     }
 
     /**
-     * バリューオブジェクト定義(php)・継承<br>
+     * Value object definition (PHP) inheritance<br>
      * <br>
-     * packageSuffix, overridePackage が指定されている場合、
-     * tmp を検索して見つかればそれを優先する。
+     * If packageSuffix or overridePackage is specified, searches for tmp and give priority to it if found.
      * @param argElementExtendsRoot
      * @param argClassStructure
      * @param argClassList
@@ -596,7 +595,7 @@ public class BlancoValueObjectKtXmlParser {
                     (this.fPackageSuffix != null && this.fPackageSuffix.length() > 0) ||
                     (this.fOverridePackage != null && this.fOverridePackage.length() > 0)) {
                 /*
-                 * このクラスのパッケージ名を探す
+                 * Searches for the package name of this class
                  */
                 packageName = argClassList.get(className);
             }
@@ -618,10 +617,9 @@ public class BlancoValueObjectKtXmlParser {
     }
 
     /**
-     * バリューオブジェクト定義(php)・実装<br>
+     * Value object definition (PHP) implementation<br>
      * <br>
-     * packageSuffix, overridePackage が指定されている場合、
-     * tmp を検索して見つかればそれを優先する。
+     * If packageSuffix or overridePackage is specified, searches for tmp and give priority to it if found.
      * @param argElementInterfaceRoot
      * @param argClassStructure
      * @param argClassList
@@ -646,7 +644,7 @@ public class BlancoValueObjectKtXmlParser {
             if (interfacePackage.length() == 0 ||
                     (this.fPackageSuffix != null && this.fPackageSuffix.length() > 0) ||
                     (this.fOverridePackage != null && this.fOverridePackage.length() > 0)) {
-                // このインタフェイスが自動生成されていればそちらを優先
+                // If this interface is auto-generated, gives priority to it.
                 interfacePackage = argClassList.get(interfaceSimple);
                 if (interfacePackage != null && interfacePackage.length() >0) {
                     interfaceName = interfacePackage + "." + interfaceSimple;
@@ -660,7 +658,7 @@ public class BlancoValueObjectKtXmlParser {
     }
 
     /**
-     * import の一覧作成
+     * Creates a list of import.
      * @param argElementImportRoot
      * @param argClassStructure
      */
@@ -687,7 +685,7 @@ public class BlancoValueObjectKtXmlParser {
     }
 
     /**
-     * バリューオブジェクト定義(Kt)・委譲
+     * Value object definition (Kt) delegation
      * @param argElementListRoot
      * @param argClassStructure
      */
@@ -712,8 +710,7 @@ public class BlancoValueObjectKtXmlParser {
             }
 
             /*
-             * Delegate は Kotlin でのみサポートするので、
-             * 型名は Kotlin 風に定義されている前提。
+             * Delegate is only supported in Kotlin, so the type name is assumed to be defined in Kotlin style.
              */
             delegateStructure.setType(BlancoXmlBindingUtil.getTextContent(elementList, "type"));
 
@@ -723,10 +720,10 @@ public class BlancoValueObjectKtXmlParser {
                         delegateStructure.getName()
                 ));
             }
-            /* Kotlin Generic に対応 */
+            /* Supports Kotlin Generic. */
             delegateStructure.setGeneric(BlancoXmlBindingUtil.getTextContent(elementList, "generic"));
 
-            // 説明
+            // Description
             delegateStructure.setDescription(BlancoXmlBindingUtil
                     .getTextContent(elementList, "description"));
             final String[] lines = BlancoNameUtil.splitString(
@@ -735,8 +732,8 @@ public class BlancoValueObjectKtXmlParser {
                 if (indexLine == 0) {
                     delegateStructure.setDescription(lines[indexLine]);
                 } else {
-                    // 複数行の description については、これを分割して格納します。
-                    // ２行目からは、適切に文字参照エンコーディングが実施されているものと仮定します。
+                    // For a multi-line description, it will be split and stored.
+                    // From the second line, assumes that character reference encoding has been properly implemented. 
                     delegateStructure.getDescriptionList().add(
                             lines[indexLine]);
                 }
@@ -746,7 +743,7 @@ public class BlancoValueObjectKtXmlParser {
     }
 
     /**
-     * バリューオブジェクト定義(php)・一覧
+     * Value object definition (PHP) list
      * @param argElementListRoot
      * @param argClassStructure
      * @param argClassList
@@ -773,11 +770,11 @@ public class BlancoValueObjectKtXmlParser {
             }
 
             /*
-             * 型の取得．ここで Kotlin 風の型名に変えておく
+             * Gets the type. Changes the type name to Kotlin style here.
              */
             String phpType = BlancoXmlBindingUtil.getTextContent(elementList, "type");
             if (BlancoStringUtil.null2Blank(phpType).length() == 0) {
-                // 型は必須
+                // Type is required.
                 throw new IllegalArgumentException(fMsg.getMbvoji04(
                         argClassStructure.getName(),
                         fieldStructure.getName()
@@ -787,38 +784,38 @@ public class BlancoValueObjectKtXmlParser {
             String kotlinType = parsePhpTypes(phpType, argClassList, false);
             fieldStructure.setType(kotlinType);
 
-            /* Generic に対応 */
+            /* Supports Generic. */
             String phpGeneric = BlancoXmlBindingUtil.getTextContent(elementList, "generic");
             if (BlancoStringUtil.null2Blank(phpGeneric).length() != 0) {
                 String kotlinGeneric = parsePhpTypes(phpGeneric, argClassList, true);
                 fieldStructure.setGeneric(kotlinGeneric);
             }
 
-            /* method の annnotation に対応 */
+            /* Supports method annnotation. */
             String methodAnnotation = BlancoXmlBindingUtil.getTextContent(elementList, "annotation");
             if (BlancoStringUtil.null2Blank(methodAnnotation).length() != 0) {
                 fieldStructure.setAnnotationList(createAnnotaionList(methodAnnotation));
             }
 
             /*
-             * Kotlin型の取得．型名は Kotlin 風に定義されている前提。
+             * Obtains types in Kotlin. The type name is assumed to be defined in Kotlin style.
              */
             fieldStructure.setTypeKt(BlancoXmlBindingUtil.getTextContent(elementList, "typeKt"));
 
-            /* Kotlin Generic に対応 */
+            /* Supports Kotlin Generic. */
             fieldStructure.setGenericKt(BlancoXmlBindingUtil.getTextContent(elementList, "genericKt"));
 
-            /* kotlin の annnotation に対応 */
+            /* Supports Kotlin annnotation. */
             String methodAnnotationKt = BlancoXmlBindingUtil.getTextContent(elementList, "annotationKt");
             if (BlancoStringUtil.null2Blank(methodAnnotationKt).length() != 0) {
                 fieldStructure.setAnnotationList(createAnnotaionList(methodAnnotationKt));
             }
 
-            // abstract に対応
+            // Supports abstract.
             fieldStructure.setAbstract("true".equals(BlancoXmlBindingUtil
                     .getTextContent(elementList, "abstract")));
 
-            // required に対応 (NotNullアノテーションの付与）
+            // Supports required. (Giving NotNull annotation)
             String requiredKt = BlancoXmlBindingUtil
                     .getTextContent(elementList, "requiredKt");
             String required = BlancoXmlBindingUtil
@@ -828,7 +825,7 @@ public class BlancoValueObjectKtXmlParser {
                     required = requiredKt;
                 } else if ("not".equals(requiredKt) &&
                         BlancoStringUtil.null2Blank(required).length() > 0) {
-                    required = ""; // requiredKt が not の時は required を無視
+                    required = ""; // Ignores required if requiredKt is "not".
                 }
             }
             fieldStructure.setRequired("true".equals(required));
@@ -837,7 +834,7 @@ public class BlancoValueObjectKtXmlParser {
                 argClassStructure.getImportList().add("javax.validation.constraints.NotNull");
             }
 
-            // Nullable に対応
+            // Supports Nullable.
             String nullableKt = BlancoXmlBindingUtil
                     .getTextContent(elementList, "nullableKt");
             String nullable = BlancoXmlBindingUtil
@@ -847,12 +844,12 @@ public class BlancoValueObjectKtXmlParser {
                     nullable = nullableKt;
                 } else if ("not".equals(nullableKt) &&
                 BlancoStringUtil.null2Blank(nullable).length() > 0) {
-                    nullable = ""; // nullableKt が not の時は nullable を無視
+                    nullable = ""; // Ignores nullable if nullableKt is "not".
                 }
             }
             fieldStructure.setNullable("true".equals(nullable));
 
-            // value に対応
+            // Supports value.
             String valueKt = BlancoXmlBindingUtil
                     .getTextContent(elementList, "fixedValueKt");
             String value = BlancoXmlBindingUtil
@@ -862,12 +859,12 @@ public class BlancoValueObjectKtXmlParser {
                     value = valueKt;
                 } else if ("not".equals(valueKt) &&
                         BlancoStringUtil.null2Blank(value).length() > 0) {
-                    value = ""; // valueKt が not の時は value を無視
+                    value = ""; // Ignores value if valueKt is "not".
                 }
             }
             fieldStructure.setValue("true".equals(value));
 
-            // constructorArg に対応
+            // Supports constructorArg.
             fieldStructure.setConstArg("true".equals(BlancoXmlBindingUtil
                     .getTextContent(elementList, "constructorArg")));
 
@@ -879,8 +876,8 @@ public class BlancoValueObjectKtXmlParser {
                 if (indexLine == 0) {
                     fieldStructure.setDescription(lines[indexLine]);
                 } else {
-                    // 複数行の description については、これを分割して格納します。
-                    // ２行目からは、適切に文字参照エンコーディングが実施されているものと仮定します。
+                    // For a multi-line description, it will be split and stored.
+                    // From the second line, assumes that character reference encoding has been properly implemented.   
                     fieldStructure.getDescriptionList().add(
                             lines[indexLine]);
                 }
@@ -911,7 +908,7 @@ public class BlancoValueObjectKtXmlParser {
                                 .getName()));
             }
 
-            /* 非ファイナルに対応（kotlinではデフォルトでファイナル） */
+            /* Supports non-final (final by default in Kotlin). */
             fieldStructure.setOpen("true".equals(BlancoXmlBindingUtil
                     .getTextContent(elementList, "open")));
 

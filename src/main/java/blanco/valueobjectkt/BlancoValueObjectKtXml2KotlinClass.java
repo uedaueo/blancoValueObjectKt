@@ -29,26 +29,26 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * バリューオブジェクト用中間XMLファイルから Kotlinソースコードを自動生成するクラス。
+ * A class that auto-generates Kotlin source code from intermediate XML files for value objects.
  *
- * blancoValueObjectKtの主たるクラスのひとつです。
+ * This is one of the main classes of blancoValueObjectKt.
  *
  * @author IGA Tosiki
  * @author tueda
  */
 public class BlancoValueObjectKtXml2KotlinClass {
     /**
-     * メッセージ。
+     * A message.
      */
     private final BlancoValueObjectKtMessage fMsg = new BlancoValueObjectKtMessage();
 
     /**
-     * blancoValueObjectのリソースバンドルオブジェクト。
+     * Resource bundle object for blancoValueObject.
      */
     private final BlancoValueObjectKtResourceBundle fBundle = new BlancoValueObjectKtResourceBundle();
 
     /**
-     * 入力シートに期待するプログラミング言語
+     * A programming language expected for the input sheet.
      */
     private int fSheetLang = BlancoCgSupportedLang.JAVA;
 
@@ -57,7 +57,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
     }
 
     /**
-     * ソースコード生成先ディレクトリのスタイル
+     * Style of the source code generation destination directory
      */
     private boolean fTargetStyleAdvanced = false;
     public void setTargetStyleAdvanced(boolean argTargetStyleAdvanced) {
@@ -76,7 +76,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
     }
 
     /*
-     * パッケージ名の上書きに関する設定
+     * Settings for overriding package name.
      */
     private String fPackageSuffix = "";
     public void setPackageSuffix(String suffix) {
@@ -94,22 +94,22 @@ public class BlancoValueObjectKtXml2KotlinClass {
     }
 
     /**
-     * 内部的に利用するblancoCg用ファクトリ。
+     * A factory for blancoCg to be used internally.
      */
     private BlancoCgObjectFactory fCgFactory = null;
 
     /**
-     * 内部的に利用するblancoCg用ソースファイル情報。
+     * Source file information for blancoCg to be used internally.
      */
     private BlancoCgSourceFile fCgSourceFile = null;
 
     /**
-     * 内部的に利用するblancoCg用クラス情報。
+     * Class information for blancoCg to be used internally.
      */
     private BlancoCgClass fCgClass = null;
 
     /**
-     * 自動生成するソースファイルの文字エンコーディング。
+     * Character encoding of auto-generated source files.
      */
     private String fEncoding = null;
 
@@ -124,14 +124,14 @@ public class BlancoValueObjectKtXml2KotlinClass {
     }
 
     /**
-     * バリューオブジェクトを表現する中間XMLファイルから、Javaソースコードを自動生成します。
+     * Auto-generates Kotlin source code from an intermediate XML file representing a value object.
      *
      * @param argMetaXmlSourceFile
-     *            ValueObjectに関するメタ情報が含まれているXMLファイル
+     *            An XML file containing meta-information about the ValueObject.
      * @param argDirectoryTarget
-     *            ソースコード生成先ディレクトリ
+     *            Source code generation destination directory.
      * @throws IOException
-     *             入出力例外が発生した場合
+     *             If an I/O exception occurs.
      */
     public void process(final File argMetaXmlSourceFile,
             final File argDirectoryTarget) throws IOException {
@@ -141,29 +141,27 @@ public class BlancoValueObjectKtXml2KotlinClass {
         parser.setOverridePackage(this.fOverridePackage);
         final BlancoValueObjectKtClassStructure[] structures = parser.parse(argMetaXmlSourceFile);
         for (int index = 0; index < structures.length; index++) {
-            // 得られた情報からKotlinソースコードを生成します。
+            // Generates Kotlin source code from the obtained information.
             structure2Source(structures[index], argDirectoryTarget);
         }
     }
 
     /**
-     * 与えられたクラス情報バリューオブジェクトから、ソースコードを自動生成します。
+     * Auto-generates source code from a given class information value object.
      *
      * @param argClassStructure
-     *            クラス情報
+     *            Class information.
      * @param argDirectoryTarget
-     *            Kotlinソースコードの出力先ディレクトリ
+     *            Output directory for Kotlin source code.
      * @throws IOException
-     *             入出力例外が発生した場合。
+     *             If an I/O exception occurs.
      */
     public void structure2Source(
             final BlancoValueObjectKtClassStructure argClassStructure,
             final File argDirectoryTarget) throws IOException {
         /*
-         * 出力ディレクトリはant taskのtargetStyel引数で
-         * 指定された書式で出力されます。
-         * 従来と互換性を保つために、指定がない場合は blanco/main
-         * となります。
+         * The output directory will be in the format specified by the targetStyle argument of the ant task.
+         * For compatibility, the output directory will be blanco/main if it is not specified.
          * by tueda, 2019/08/30
          */
         String strTarget = argDirectoryTarget
@@ -178,11 +176,11 @@ public class BlancoValueObjectKtXml2KotlinClass {
             System.out.println("structure2Source argDirectoryTarget : " + argDirectoryTarget.getAbsolutePath());
         }
 
-        // BlancoCgObjectFactoryクラスのインスタンスを取得します。
+        // Gets an instance of the BlancoCgObjectFactory class.
         fCgFactory = BlancoCgObjectFactory.getInstance();
 
-        // パッケージ名の置き換えオプションが指定されていれば置き換え
-        // Suffix があればそちらが優先です。
+        // Replaces the package name if the Replace option is specified.
+        // If Suffix is present, it takes precedence.
         String myPackage = argClassStructure.getPackage();
         if (argClassStructure.getPackageSuffix() != null && argClassStructure.getPackageSuffix().length() > 0) {
             myPackage = myPackage + "." + argClassStructure.getPackageSuffix();
@@ -193,20 +191,20 @@ public class BlancoValueObjectKtXml2KotlinClass {
         fCgSourceFile = fCgFactory.createSourceFile(myPackage, null);
         fCgSourceFile.setEncoding(fEncoding);
 
-        // クラスを作成します。
+        // Creates a class.
         fCgClass = fCgFactory.createClass(argClassStructure.getName(), "");
         fCgSourceFile.getClassList().add(fCgClass);
 
-        // クラスのアクセスを設定。
+        // Sets access to the class.
 //        if (isVerbose()) {
 //            System.out.println("/* tueda */ class access = " + argClassStructure.getAccess());
 //        }
         String access = argClassStructure.getAccess();
-        // kotlin ではデフォルトで public
+        // In Kotlin, it is public by default.
         if ("public".equals(access)) {
             access = "";
         }
-        // data クラスかどうか
+        // Whether it is a data class or not.
         if (argClassStructure.getData()) {
             if (access != null && access.length() > 0) {
                 access += " data";
@@ -215,7 +213,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
             }
         }
         fCgClass.setAccess(access);
-        // Finalクラスかどうか。
+        // Whether it is a Final class or not.
         if (argClassStructure.getData() && !argClassStructure.getFinal()) {
             if (this.isVerbose()) {
                 System.out.println(fMsg
@@ -225,16 +223,16 @@ public class BlancoValueObjectKtXml2KotlinClass {
         } else {
             fCgClass.setFinal(argClassStructure.getFinal());
         }
-        // 抽象クラスかどうか。
-        // kotlin では dataクラスは抽象クラスになれない
+        // Whether it is an abstract class or not.
+        // The data class cannot be an abstract class in Kotlin.
         if (argClassStructure.getData() && argClassStructure.getAbstract()) {
-            System.err.println("/* tueda */ dataクラスに対してabstractが指定されています");
+            System.err.println("/* tueda */ Abstract has been specified for the data class");
             throw new IllegalArgumentException(fMsg
                     .getMbvoji07(argClassStructure.getName()));
         }
         fCgClass.setAbstract(argClassStructure.getAbstract());
 
-        // クラスの総称型に対応
+        // Supports generic types of classes
         if (BlancoStringUtil.null2Blank(argClassStructure.getGeneric()).length() > 0) {
             if (isVerbose()) {
                 System.out.println("Class Generics = " + argClassStructure.getGeneric());
@@ -242,7 +240,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
             fCgClass.setGenerics(argClassStructure.getGeneric());
         }
 
-        // 継承
+        // Inheritance
         if (argClassStructure.getExtends() != null && BlancoStringUtil.null2Blank(argClassStructure.getExtends().getType()).length() > 0) {
             BlancoCgType cgType = fCgFactory.createType(argClassStructure.getExtends().getType());
             fCgClass.getExtendClassList().add(cgType);
@@ -250,7 +248,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
                 cgType.setGenerics(argClassStructure.getExtends().getGenerics());
             }
         }
-        // 実装
+        // Implementation
         for (int index = 0; index < argClassStructure.getImplementsList()
                 .size(); index++) {
             final String impl = (String) argClassStructure.getImplementsList()
@@ -265,7 +263,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
                     "javax.xml.bind.annotation.XmlRootElement");
         }
 
-        // 委譲
+        // Delegation
         for (int index = 0; index < argClassStructure.getDelegateList().size(); index++) {
             final BlancoValueObjectKtDelegateStructure delegateStructure = argClassStructure.getDelegateList().get(index);
             BlancoCgType type = fCgFactory.createType(
@@ -274,24 +272,23 @@ public class BlancoValueObjectKtXml2KotlinClass {
             if (delegateStructure.getGeneric() != null && delegateStructure.getGeneric().length() > 0) {
                 type.setGenerics(delegateStructure.getGeneric());
             }
-            type.setDescription(delegateStructure.getDescription()); // 1行目のみ採用
+            type.setDescription(delegateStructure.getDescription()); // Adopts only the first line.
 
             /*
-             * 委譲は、implements と constructorArgs の組合せで実現されます。
-             * すなわち、インタフェイス名をキーにコンストラクタ引数を値として
-             * Mapに登録しておくことで、委譲を定義します。
+             * Delegation is achieved by a combination of implements and constructorArgs.
+             *  In other words, delegation is defined by registering the constructor arguments as values in the Map with the interface name as the key.
              */
             fCgClass.getImplementInterfaceList().add(type);
             fCgClass.getDelegateMap().put(type.getName(), delegateStructure.getName());
         }
 
-        // クラスのJavaDocを設定します。
+        // Sets the JavaDoc for the class.
         fCgClass.setDescription(argClassStructure.getDescription());
         for (String line : argClassStructure.getDescriptionList()) {
             fCgClass.getLangDoc().getDescriptionList().add(line);
         }
 
-        /* クラスのannotation を設定します */
+        /* Sets the annotation for the class. */
         List annotationList = argClassStructure.getAnnotationList();
         if (annotationList != null && annotationList.size() > 0) {
             fCgClass.getAnnotationList().addAll(argClassStructure.getAnnotationList());
@@ -299,7 +296,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
 //            System.out.println("/* tueda */ structure2Source : class annotation = " + argClassStructure.getAnnotationList().get(0));
         }
 
-        /* クラスの import を設定します */
+        /* Sets the import for the class. */
         for (int index = 0; index < argClassStructure.getImportList()
                 .size(); index++) {
             final String imported = (String) argClassStructure.getImportList()
@@ -309,11 +306,11 @@ public class BlancoValueObjectKtXml2KotlinClass {
 
         for (int indexField = 0; indexField < argClassStructure.getFieldList()
                 .size(); indexField++) {
-            // おのおののフィールドを処理します。
+            // Processes each field.
             final BlancoValueObjectKtFieldStructure fieldStructure = (BlancoValueObjectKtFieldStructure) argClassStructure
                     .getFieldList().get(indexField);
 
-            // 必須項目が未設定の場合には例外処理を実施します。
+            // If a required field is not set, exception processing will be performed.
             if (fieldStructure.getName() == null) {
                 throw new IllegalArgumentException(fMsg
                         .getMbvoji03(argClassStructure.getName()));
@@ -323,36 +320,36 @@ public class BlancoValueObjectKtXml2KotlinClass {
                         argClassStructure.getName(), fieldStructure.getName()));
             }
 
-            // フィールドの生成。
+            // Generates a field.
             buildField(argClassStructure, fieldStructure);
 
-//            // セッターメソッドの生成。
+//            // Generates a setter method.
 //            buildMethodSet(argClassStructure, fieldStructure);
 //
-//            // ゲッターメソッドの生成。
+//            // Generates a getter method.
 //            buildMethodGet(argClassStructure, fieldStructure);
         }
 
         if (argClassStructure.getGenerateToString()) {
-            // toStringメソッドの生成。
+            // Generates toString method.
             buildMethodToString(argClassStructure);
         }
 
-        // TODO copyTo メソッドの生成有無を外部フラグ化するかどうか検討すること。
+        // TODO: Considers whether to externally flag whether to generate copyTo method.
 //        BlancoBeanUtils.generateCopyToMethod(fCgSourceFile, fCgClass);
 
-        // 収集された情報を元に実際のソースコードを自動生成。
+        // Auto-generates the actual source code based on the collected information.
         BlancoCgTransformerFactory.getKotlinSourceTransformer().transform(
                 fCgSourceFile, fileBlancoMain);
     }
 
     /**
-     * クラスにフィールドを生成します。
+     * Generates a field in the class.
      *
      * @param argClassStructure
-     *            クラス情報。
+     *            Class information.
      * @param argFieldStructure
-     *            フィールド情報。
+     *            Field information.
      */
     private void buildField(
             final BlancoValueObjectKtClassStructure argClassStructure,
@@ -362,10 +359,10 @@ public class BlancoValueObjectKtXml2KotlinClass {
             case BlancoCgSupportedLang.PHP:
                 if (argFieldStructure.getType() == "kotlin.Int") argFieldStructure.setType("kotlin.Long");
                 break;
-            /* 対応言語を増やす場合はここに case を追記します */
+            /* If you want to add more languages, add the case here. */
         }
 
-        /* 型を決定します。typeKtが設定されている場合はそちらを優先します */
+        /* Determines the type; if typeKt is set, it will take precedence. */
         boolean isKtPreferred = true;
         String typeRaw = argFieldStructure.getTypeKt();
         if (typeRaw == null || typeRaw.length() == 0) {
@@ -374,16 +371,14 @@ public class BlancoValueObjectKtXml2KotlinClass {
         }
 
         /*
-         * blancoValueObjectではプロパティ名の前にfをつける流儀であるが、
-         * kotlinについては暗黙のgetter/setterを使う都合上、つけない。
+         * In blancoValueObject, the property name is prefixed with "f", but in Kotlin, it is not prefixed because of the implicit getter/setter.
          */
         final BlancoCgField field = fCgFactory.createField(argFieldStructure.getName(),
                 typeRaw, null);
 
         /*
-         * Generic に対応します。blancoCg 側では <> が付いている前提かつ
-         * package部をtrimするので、ここで設定しないと正しく設定されません。
-         * genericKt が設定されている場合はそちらを優先します。
+         * Supports Generic. Since blancoCg assumes that <> is attached and trims the package part, it will not be set correctly if it is not set here.
+         * If genericKt is set, it will take precedence.
          */
         String genericRaw = argFieldStructure.getGenericKt();
         if (!isKtPreferred && (genericRaw == null || genericRaw.length() == 0)) {
@@ -399,7 +394,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
 //        }
 
         /*
-         * 当面の間、blancoValueObjectKt ではprivateやgetter/setter には対応しません。
+         * For the time being, private and getter/setter are not supported in blancoValueObjectKt.
          */
         field.setAccess("public");
 
@@ -409,7 +404,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
             field.setFinal(true);
         }
 
-        // nullable に対応します。
+        // Supports nullable.
         Boolean isNullable = argFieldStructure.getNullable();
         if (isNullable != null && isNullable) {
             field.setNotnull(false);
@@ -417,7 +412,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
             field.setNotnull(true);
         }
 
-        // value / variable に対応します。
+        // Supports value / variable.
         Boolean isValue = argFieldStructure.getValue();
         if (isValue != null && isValue) {
             field.setConst(true);
@@ -426,7 +421,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
         }
 
         /*
-         * filed がconstructotr引数かどうをチェック
+         * Checks if filed is a constructotr argument.
          */
         Boolean isConstArg = argFieldStructure.getConstArg();
         if (isConstArg != null && isConstArg) {
@@ -435,7 +430,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
             fCgClass.getFieldList().add(field);
         }
 
-        // フィールドのJavaDocを設定します。
+        // Sets the JavaDoc for the field.
         field.setDescription(argFieldStructure.getDescription());
         for (String line : argFieldStructure.getDescriptionList()) {
             field.getLangDoc().getDescriptionList().add(line);
@@ -448,7 +443,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
 
             if (type.equals("java.util.Date")) {
                 /*
-                 * java.util.Date 型ではデフォルト値を許容しません。
+                 * java.util.Date type does not allow default values.
                  */
                 throw new IllegalArgumentException(fMsg.getMbvoji05(
                         argClassStructure.getName(), argFieldStructure
@@ -457,35 +452,34 @@ public class BlancoValueObjectKtXml2KotlinClass {
             }
 
             /*
-             * kotlinでは プロパティのデフォルト値は原則必須
-             * ただし、abstract クラスにおいては、プロパティに abstract 修飾子が
-             * ついている場合は省略可。
-             * とはいえ、blancoValueObjectKt では当面abstractプロパティはサポートしません。
+             * In Kotlin, the default value of a property is mandatory in principle.
+             * However, in the abstract class, it can be omitted if the property has the abstract modifier.
+             * Nevertheless, blancoValueObjectKt will not support abstract properties for the time being.
              */
 
             /*
-             * defaultKt があればそちらを優先します。
+             * If there is a defaultKt, it will take precedence.
              */
             String defaultRawValue = argFieldStructure.getDefaultKt();
             if (!isKtPreferred && (defaultRawValue == null || defaultRawValue.length() == 0)) {
                 defaultRawValue = argFieldStructure.getDefault();
             }
             if (!isConstArg && (defaultRawValue == null || defaultRawValue.length() <= 0)) {
-                System.err.println("/* tueda */ フィールドにデフォルト値が設定されていません。blancoValueObjectKtは当面の間、abstractフィールドはサポートしませんので、必ずデフォルト値を設定してください。");
+                System.err.println("/* tueda */ The field does not have a default value. blancoValueObjectKt will not support abstract fields for the time being, so be sure to set the default value.");
                 throw new IllegalArgumentException(fMsg
                         .getMbvoji08(argClassStructure.getName(), argFieldStructure.getName()));
             }
 
-            // フィールドのデフォルト値を設定します。
+            // Sets the default value for the field.
             field.getLangDoc().getDescriptionList().add(
                     BlancoCgSourceUtil.escapeStringAsLangDoc(BlancoCgSupportedLang.KOTLIN, fBundle.getXml2javaclassFieldDefault(defaultRawValue)));
             if (argClassStructure.getAdjustDefaultValue() == false) {
-                // デフォルト値の変形がoffの場合には、定義書上の値をそのまま採用。
+                // If the variant of the default value is off, the value on the definition sheet is adopted as it is.
                 field.setDefault(defaultRawValue);
             } else {
 
                 if (type.equals("kotlin.String")) {
-                    // ダブルクオートを付与します。
+                    // Adds double-quotes.
                     field.setDefault("\""
                             + BlancoJavaSourceUtil
                                     .escapeStringAsJavaSource(defaultRawValue) + "\"");
@@ -495,7 +489,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
                 } else if (type.equals("kotlin.Boolean")
                         || type.equals("kotlin.Int")
                         || type.equals("kotlin.Long")) {
-                    field.setDefault("" /* kotlin には new は不要です */
+                    field.setDefault("" /* Kotlin doesn't need "new". */
                             + BlancoNameUtil.trimJavaPackage(type) + "("
                             + defaultRawValue + ")");
                 } else if (type.equals("java.lang.Short")) {
@@ -505,13 +499,13 @@ public class BlancoValueObjectKtXml2KotlinClass {
                             + ")");
                 } else if (type.equals("java.math.BigDecimal")) {
                     fCgSourceFile.getImportList().add("java.math.BigDecimal");
-                    // 文字列からBigDecimalへと変換します。
+                    // Converts a string to BigDecimal.
                     field.setDefault("new BigDecimal(\""
                             + defaultRawValue + "\")");
                 } else if (type.equals("kotlin.collections.List")
                         || type.equals("kotlin.collections.ArrayList")) {
-                    // ArrayListの場合には、与えられた文字をそのまま採用します。
-                    // TODO 第2世代blancoValueObject採用場合には、全クラスインポートが妥当。
+                    // In the case of ArrayList, it will adopt the given character as is.
+                    // TODO: In the case of second generation blancoValueObject adoption, all class imports are appropriate.
                     fCgSourceFile.getImportList().add(type);
                     field.setDefault(defaultRawValue);
                 } else {
@@ -523,7 +517,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
             }
         }
 
-        /* メソッドの annotation を設定します */
+        /* Sets the annotation for the method. */
         List annotationList = argFieldStructure.getAnnotationList();
         if (annotationList != null && annotationList.size() > 0) {
             field.getAnnotationList().addAll(annotationList);
@@ -532,22 +526,22 @@ public class BlancoValueObjectKtXml2KotlinClass {
     }
 
     /**
-     * setメソッドを生成します。
+     * Generates a set method.
      *
      * @param argFieldStructure
-     *            フィールド情報。
+     *            Field information.
      */
     private void buildMethodSet(
             final BlancoValueObjectKtClassStructure argClassStructure,
             final BlancoValueObjectKtFieldStructure argFieldStructure) {
-        // おのおののフィールドに対するセッターメソッドを生成します。
+        // Generates a setter method for each field.
         final BlancoCgMethod method = fCgFactory.createMethod("set"
                 + getFieldNameAdjustered(argClassStructure, argFieldStructure),
                 fBundle.getXml2javaclassSetJavadoc01(argFieldStructure
                         .getName()));
         fCgClass.getMethodList().add(method);
 
-        // メソッドの JavaDoc設定。
+        // JavaDoc configuration of the method.
         if (argFieldStructure.getDescription() != null) {
             method.getLangDoc().getDescriptionList().add(
                     fBundle.getXml2javaclassSetJavadoc02(argFieldStructure
@@ -565,7 +559,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
                         fBundle.getXml2javaclassSetArgJavadoc(argFieldStructure
                                 .getName())));
 
-        // メソッドの実装
+        // Method implementation.
         method.getLineList().add(
                 "f"
                         + getFieldNameAdjustered(argClassStructure,
@@ -577,22 +571,22 @@ public class BlancoValueObjectKtXml2KotlinClass {
     }
 
     /**
-     * getメソッドを生成します。
+     * Generates a get method.
      *
      * @param argFieldStructure
-     *            フィールド情報。
+     *            Field information.
      */
     private void buildMethodGet(
             final BlancoValueObjectKtClassStructure argClassStructure,
             final BlancoValueObjectKtFieldStructure argFieldStructure) {
-        // おのおののフィールドに対するゲッターメソッドを生成します。
+        // Generates a getter method for each field.
         final BlancoCgMethod method = fCgFactory.createMethod("get"
                 + getFieldNameAdjustered(argClassStructure, argFieldStructure),
                 fBundle.getXml2javaclassGetJavadoc01(argFieldStructure
                         .getName()));
         fCgClass.getMethodList().add(method);
 
-        // メソッドの JavaDoc設定。
+        // JavaDoc configuration of the method.
         if (argFieldStructure.getDescription() != null) {
             method.getLangDoc().getDescriptionList().add(
                     fBundle.getXml2javaclassGetJavadoc02(argFieldStructure
@@ -611,7 +605,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
                 fBundle.getXml2javaclassGetReturnJavadoc(argFieldStructure
                         .getName())));
 
-        // メソッドの実装
+        // Method implementation.
         method.getLineList().add(
                 "return f"
                         + getFieldNameAdjustered(argClassStructure,
@@ -619,31 +613,31 @@ public class BlancoValueObjectKtXml2KotlinClass {
     }
 
     /**
-     * toStringメソッドを生成します。
+     * Generates toString method.
      *
      * @param argClassStructure
-     *            クラス情報。
+     *            Class information.
      */
     private void buildMethodToString(
             final BlancoValueObjectKtClassStructure argClassStructure) {
         final BlancoCgMethod method = fCgFactory.createMethod("toString",
-                "このバリューオブジェクトの文字列表現を取得します。");
+                "Gets the string representation of this value object.");
         fCgClass.getMethodList().add(method);
 
-        method.getLangDoc().getDescriptionList().add("<P>使用上の注意</P>");
+        method.getLangDoc().getDescriptionList().add("<P>Precautions for use</P>");
         method.getLangDoc().getDescriptionList().add("<UL>");
         method.getLangDoc().getDescriptionList().add(
-                "<LI>オブジェクトのシャロー範囲のみ文字列化の処理対象となります。");
+                "<LI>Only the shallow range of the object will be subject to the stringification process.");
         method.getLangDoc().getDescriptionList().add(
-                "<LI>オブジェクトが循環参照している場合には、このメソッドは使わないでください。");
+                "<LI>Do not use this method if the object has a circular reference.");
         method.getLangDoc().getDescriptionList().add("</UL>");
         method.setReturn(fCgFactory.createReturn("java.lang.String",
-                "バリューオブジェクトの文字列表現。"));
+                "String representation of a value object."));
 
         /*
-         * 当面の間、blancoValueObjectKt ではtoStringのoverrideを許しません。
+         * For the time being, toString override is not allowed in blancoValueObjectKt.
          * 2020/04/20 hmatsumoto
-         * overrideを設定しました。
+         * Sets override.
          */
         method.setOverride(true);
         method.setFinal(true);
@@ -660,32 +654,31 @@ public class BlancoValueObjectKtXml2KotlinClass {
 
             /*
              * 2020/04/20 hmatsumoto
-             * フィールド名にfをつけないように修正
+             * Fixed the field name without "f".
              */
             if (field.getType().endsWith("[]") == false) {
                 listLine.add("buf.append(\"" + (indexField == 0 ? "" : ",")
                         + field.getName() + "=\" + " + field.getName()
                         + ")");
             } else {
-                // 2006.05.31 t.iga 配列の場合には、先に
-                // その配列自身がnullかどうかのチェックが必要です。
+                // 2006.05.31 t.iga In the case of arrays, it is necessary to first check whether the array itself is null or not.
                 listLine.add("if (" + field.getName() + " == null) {");
-                // 0番目の項目である場合にはカンマなしの特別扱いをします。
+                // If it is the 0th item, it will be given special treatment without a comma.
                 listLine.add("buf.append(" + (indexField == 0 ? "\"" :
-                // 0番目ではない場合には、常にカンマを付与します。
+                // If it is not the 0th, a comma is always given.
                         "\",") + field.getName() + "=null\")");
                 listLine.add("} else {");
 
-                // 配列の場合にはディープにtoStringします。
+                // In the case of arrays, uses deep toString.
                 listLine.add("buf.append("
-                // 0番目の項目である場合にはカンマなしの特別扱いをします。
+                // If it is the 0th item, it will be given special treatment without a comma.
                         + (indexField == 0 ? "\"" :
-                        // 0番目ではない場合には、常にカンマを付与します。
+                        // If it is not the 0th, a comma is always given.
                                 "\",") + field.getName() + "=[\")");
                 listLine.add("for (int index = 0; index < "
                         + field.getName() + ".length; index++) {");
                 // 2006.05.31 t.iga
-                // ArrayListなどのtoStringと同様になるように、カンマのあとに半角スペースを付与するようにします。
+                // To make it similar to toString in ArrayList, etc., adds a half-width space after the comma.
                 listLine.add("buf.append((index == 0 ? \"\" : \", \") + "
                         + field.getName() + "[index])");
                 listLine.add("}");
@@ -698,11 +691,11 @@ public class BlancoValueObjectKtXml2KotlinClass {
     }
 
     /**
-     * 調整済みのフィールド名を取得します。
+     * Gets the adjusted field name.
      *
      * @param argFieldStructure
-     *            フィールド情報。
-     * @return 調整後のフィールド名。
+     *            Field information.
+     * @return Adjusted field name.
      */
     private String getFieldNameAdjustered(
             final BlancoValueObjectKtClassStructure argClassStructure,

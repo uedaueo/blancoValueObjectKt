@@ -15,12 +15,12 @@ public class BlancoValueObjectKtUtil {
 
     public static boolean isVerbose = false;
     /**
-     * SimpleClass名をキーに、パッケージ名を保持
+     * Stores the package name with the SimpleClass name as the key.
      */
     public static Map<String, String> packageMap = new HashMap<>();
 
     /**
-     * blancoValueObjectのリソースバンドルオブジェクト。
+     * Resource bundle object for blancoValueObject.
      */
     public final static BlancoValueObjectKtResourceBundle fBundle = new BlancoValueObjectKtResourceBundle();
 
@@ -39,9 +39,9 @@ public class BlancoValueObjectKtUtil {
             System.out.println("BlancoValueObjectKtUtil : processValueObjects start !");
         }
 
-        /* tmpdir はユニーク */
+        /* tmpdir is unique. */
         String baseTmpdir = input.getTmpdir();
-        /* searchTmpdir はカンマ区切り */
+        /* searchTmpdir is comma separated. */
         String tmpTmpdirs = input.getSearchTmpdir();
         List<String> searchTmpdirList = null;
         if (tmpTmpdirs != null && !tmpTmpdirs.equals(baseTmpdir)) {
@@ -54,7 +54,7 @@ public class BlancoValueObjectKtUtil {
         searchTmpdirList.add(baseTmpdir);
 
         for (String tmpdir : searchTmpdirList) {
-            // XML化された中間ファイルから情報を読み込む
+            // Reads information from XML-ized intermediate files.
             final File[] fileMeta = new File(tmpdir
                     + BlancoValueObjectKtConstants.TARGET_SUBDIRECTORY)
                     .listFiles();
@@ -80,21 +80,21 @@ public class BlancoValueObjectKtUtil {
                 continue;
             }
 
-            // ルートエレメントを取得します。
+            // Gets the root element.
             final BlancoXmlElement elementRoot = BlancoXmlBindingUtil
                     .getDocumentElement(documentMeta);
             if (elementRoot == null) {
-                // ルートエレメントが無い場合には処理中断します。
+                // If there is no root element, aborts the process.
                 continue;
             }
 
-            // sheet(Excelシート)のリストを取得します。
+            // Gets a list of sheets (Excel sheets).
             final List<BlancoXmlElement> listSheet = BlancoXmlBindingUtil
                     .getElementsByTagName(elementRoot, "sheet");
 
             for (BlancoXmlElement elementSheet : listSheet) {
                 /*
-                 * Java以外の言語用に記述されたシートにも対応．
+                 * Supports sheets written for languages other than Java.
                  */
                 List<BlancoXmlElement> listCommon = null;
                 for (String common : mapCommons.keySet()) {
@@ -104,8 +104,8 @@ public class BlancoValueObjectKtUtil {
                     if (listCommon.size() != 0) {
                         BlancoXmlElement elementCommon = listCommon.get(0);
 
-                        // パッケージ名の置き換えオプションが指定されていれば置き換え
-                        // Suffix があればそちらが優先です。
+                        // Replaces the package name if the Replace option is specified.
+                        // If there is a Suffix, it will take precedence.
                         String myPackage = BlancoXmlBindingUtil.getTextContent(elementCommon, "package");
 
                         if (packageSuffix != null && packageSuffix.length() > 0) {

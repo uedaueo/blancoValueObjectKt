@@ -16,7 +16,7 @@ import org.junit.Test;
 import java.io.IOException;
 
 /**
- * Kotlin言語用の生成試験。
+ * Generation test for Kotlin.
  *
  * @author IGA Tosiki
  * @author tueda
