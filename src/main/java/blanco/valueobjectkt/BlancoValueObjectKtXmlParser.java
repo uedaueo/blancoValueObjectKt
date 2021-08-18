@@ -80,7 +80,7 @@ public class BlancoValueObjectKtXmlParser {
             return null;
         }
 
-        System.out.println("[blancoValueObjectKt: " + argMetaXmlSourceFile.getName() + " を処理します。]");
+        System.out.println("[blancoValueObjectKt: Processes " + argMetaXmlSourceFile.getName() + ".]");
 
         return parse(documentMeta);
 
