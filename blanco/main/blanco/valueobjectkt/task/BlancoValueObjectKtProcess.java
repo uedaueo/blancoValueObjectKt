@@ -5,26 +5,26 @@ import java.io.IOException;
 import blanco.valueobjectkt.task.valueobject.BlancoValueObjectKtProcessInput;
 
 /**
- * 処理 [BlancoValueObjectKtProcess]インタフェース。
+ * Process [BlancoValueObjectKtProcess] interface.
  *
- * このインタフェースを継承して [blanco.valueobjectkt.task]パッケージに[BlancoValueObjectKtProcess]クラスを作成して実際のバッチ処理を実装してください。<br>
+ * Inherit this interface and create a [BlancoValueObjectKtProcessclass in the [blanco.valueobjectkt.task] package to implement the actual batch processing.<br>
  */
 interface BlancoValueObjectKtProcess {
     /**
-     * クラスをインスタンス化して処理を実行する際のエントリポイントです。
+     * The entry point for intastantiating the class and executing the process.
      *
-     * @param input 処理の入力パラメータ。
-     * @return 処理の実行結果。
-     * @throws IOException 入出力例外が発生した場合。
-     * @throws IllegalArgumentException 入力値に不正が見つかった場合。
+     * @param input Input parameters for a process.
+     * @return Result of the process.
+     * @throws IOException If an I/O exception occurs.
+     * @throws IllegalArgumentException If an invalid input value is found.
      */
     int execute(final BlancoValueObjectKtProcessInput input) throws IOException, IllegalArgumentException;
 
     /**
-     * 処理の中でアイテムが処理されるたびに進捗報告としてコールバックします。
+     * Whenever an item is processed in the process, it is called back as a progress report.
      *
-     * @param argProgressMessage 現在処理しているアイテムに関するメッセージ。
-     * @return 処理をそのまま継続する場合は false。処理中断をリクエストしたい場合は true。
+     * @param argProgressMessage Message about the item currently processed.
+     * @return It is false if you want to continue the process, or it is true  if you want to request to suspend the process.
      */
     boolean progress(final String argProgressMessage);
 }

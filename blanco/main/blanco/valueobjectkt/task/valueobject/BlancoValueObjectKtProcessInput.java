@@ -1,11 +1,11 @@
 package blanco.valueobjectkt.task.valueobject;
 
 /**
- * 処理クラス [BlancoValueObjectKtProcess]の入力バリューオブジェクトクラスです。
+ * An input value object class for the processing class [BlancoValueObjectKtProcess].
  */
 public class BlancoValueObjectKtProcessInput {
     /**
-     * verboseモードで動作させるかどうか。
+     * Whether to run in verbose mode.
      *
      * フィールド: [verbose]。
      * デフォルト: [false]。
@@ -98,7 +98,7 @@ public class BlancoValueObjectKtProcessInput {
     /**
      * フィールド [verbose] の値を設定します。
      *
-     * フィールドの説明: [verboseモードで動作させるかどうか。]。
+     * フィールドの説明: [Whether to run in verbose mode.]。
      *
      * @param argVerbose フィールド[verbose]に設定する値。
      */
@@ -109,7 +109,7 @@ public class BlancoValueObjectKtProcessInput {
     /**
      * フィールド [verbose] の値を取得します。
      *
-     * フィールドの説明: [verboseモードで動作させるかどうか。]。
+     * フィールドの説明: [Whether to run in verbose mode.]。
      * デフォルト: [false]。
      *
      * @return フィールド[verbose]から取得した値。
@@ -367,15 +367,15 @@ public class BlancoValueObjectKtProcessInput {
     }
 
     /**
-     * このバリューオブジェクトの文字列表現を取得します。
+     * Gets the string representation of this value object.
      *
-     * <P>使用上の注意</P>
+     * <P>Precautions for use</P>
      * <UL>
-     * <LI>オブジェクトのシャロー範囲のみ文字列化の処理対象となります。
-     * <LI>オブジェクトが循環参照している場合には、このメソッドは使わないでください。
+     * <LI>Only the shallow range of the object will be subject to the stringification process.
+     * <LI>Do not use this method if the object has a circular reference.
      * </UL>
      *
-     * @return バリューオブジェクトの文字列表現。
+     * @return String representation of a value object.
      */
     @Override
     public String toString() {
