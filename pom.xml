@@ -135,6 +135,20 @@
 
 	</dependencies>
 
+	<!-- ref: http://maven.apache.org/guides/mini/guide-central-repository-upload.html -->
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License</name>
+			<url>http://www.opensource.org/licenses/lgpl-license.php</url>
+			<distribution>repo</distribution>
+		</license>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
 	<build>
 		<plugins>
 
