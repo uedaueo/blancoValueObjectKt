@@ -6,7 +6,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * メッセージ定義[BlancoValueObjectKt]が内部的に利用するリソースバンドルクラス。
+ * A resource bundle class used internally by the message definition [BlancoValueObjectKt].
  *
  * リソースバンドル定義: [BlancoValueObjectKtMessage]。<BR>
  * このクラスはリソースバンドル定義書から自動生成されたリソースバンドルクラスです。<BR>

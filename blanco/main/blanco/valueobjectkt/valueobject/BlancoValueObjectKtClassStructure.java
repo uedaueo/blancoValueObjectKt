@@ -718,12 +718,12 @@ public class BlancoValueObjectKtClassStructure {
     }
 
     /**
-     * このバリューオブジェクトを指定のターゲットに複写します。
+     * Copies this value object to the specified target.
      *
-     * <P>使用上の注意</P>
+     * <P>Cautions for use</P>
      * <UL>
-     * <LI>オブジェクトのシャロー範囲のみ複写処理対象となります。
-     * <LI>オブジェクトが循環参照している場合には、このメソッドは使わないでください。
+     * <LI>Only the shallow range of the object will be subject to the copying process.
+     * <LI>Do not use this method if the object has a circular reference.
      * </UL>
      *
      * @param target target value object.
@@ -749,13 +749,13 @@ public class BlancoValueObjectKtClassStructure {
         target.fDescription = this.fDescription;
         // Name: fDescriptionList
         // Type: java.util.List
-        // フィールド[fDescriptionList]はサポート外の型[java.util.Listjava.lang.String]です。
+        // Field[fDescriptionList] is an unsupported type[java.util.Listjava.lang.String].
         // Name: fAnnotationList
         // Type: java.util.List
-        // フィールド[fAnnotationList]はサポート外の型[java.util.Listjava.lang.String]です。
+        // Field[fAnnotationList] is an unsupported type[java.util.Listjava.lang.String].
         // Name: fImportList
         // Type: java.util.List
-        // フィールド[fImportList]はサポート外の型[java.util.Listjava.lang.String]です。
+        // Field[fImportList] is an unsupported type[java.util.Listjava.lang.String].
         // Name: fAccess
         // Type: java.lang.String
         target.fAccess = this.fAccess;
@@ -779,22 +779,22 @@ public class BlancoValueObjectKtClassStructure {
         target.fAdjustDefaultValue = this.fAdjustDefaultValue;
         // Name: fExtends
         // Type: blanco.valueobjectkt.valueobject.BlancoValueObjectKtExtendsStructure
-        // フィールド[fExtends]はサポート外の型[blanco.valueobjectkt.valueobject.BlancoValueObjectKtExtendsStructure]です。
+        // Field[fExtends] is an unsupported type[blanco.valueobjectkt.valueobject.BlancoValueObjectKtExtendsStructure].
         // Name: fImplementsList
         // Type: java.util.List
-        // フィールド[fImplementsList]はサポート外の型[java.util.Listjava.lang.String]です。
+        // Field[fImplementsList] is an unsupported type[java.util.Listjava.lang.String].
         // Name: fFieldList
         // Type: java.util.List
-        // フィールド[fFieldList]はサポート外の型[java.util.Listblanco.valueobjectkt.valueobject.BlancoValueObjectKtFieldStructure]です。
+        // Field[fFieldList] is an unsupported type[java.util.Listblanco.valueobjectkt.valueobject.BlancoValueObjectKtFieldStructure].
         // Name: fDelegateList
         // Type: java.util.List
-        // フィールド[fDelegateList]はサポート外の型[java.util.Listblanco.valueobjectkt.valueobject.BlancoValueObjectKtDelegateStructure]です。
+        // Field[fDelegateList] is an unsupported type[java.util.Listblanco.valueobjectkt.valueobject.BlancoValueObjectKtDelegateStructure].
         // Name: fFileDescription
         // Type: java.lang.String
         target.fFileDescription = this.fFileDescription;
         // Name: fConstructorArgList
         // Type: java.util.List
-        // フィールド[fConstructorArgList]はサポート外の型[java.util.Listblanco.cg.valueobject.BlancoCgField]です。
+        // Field[fConstructorArgList] is an unsupported type[java.util.Listblanco.cg.valueobject.BlancoCgField].
         // Name: fPackageSuffix
         // Type: java.lang.String
         target.fPackageSuffix = this.fPackageSuffix;
