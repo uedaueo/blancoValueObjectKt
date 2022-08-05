@@ -109,6 +109,11 @@ public class BlancoValueObjectKtXml2KotlinClass {
     private BlancoCgClass fCgClass = null;
 
     /**
+     * Enum information for blancoCg to be used internally.
+     */
+    private BlancoCgEnum fCgEnum = null;
+
+    /**
      * Character encoding of auto-generated source files.
      */
     private String fEncoding = null;
@@ -141,8 +146,310 @@ public class BlancoValueObjectKtXml2KotlinClass {
         parser.setOverridePackage(this.fOverridePackage);
         final BlancoValueObjectKtClassStructure[] structures = parser.parse(argMetaXmlSourceFile);
         for (int index = 0; index < structures.length; index++) {
-            // Generates Kotlin source code from the obtained information.
-            structure2Source(structures[index], argDirectoryTarget);
+            BlancoValueObjectKtClassStructure classStructure = structures[index];
+            if (classStructure.getEnumeration()) {
+                // Generates Kotlin enum code from the obtained information.
+                generateEnum(classStructure, argDirectoryTarget);
+            } else {
+                // Generates Kotlin class code from the obtained information.
+                generateClass(classStructure, argDirectoryTarget);
+            }
+        }
+    }
+
+    /**
+     * AutoGenerate enum code from given class information value object.
+     *
+     * @param argEnumStructure
+     * @param argDirectoryTarget
+     * @throws IOException
+     */
+    public void generateEnum(
+            final BlancoValueObjectKtClassStructure argEnumStructure,
+            final File argDirectoryTarget) throws IOException {
+        /*
+         * The output directory will be in the format specified by the targetStyle argument of the ant task.
+         * For compatibility, the output directory will be blanco/main if it is not specified.
+         * by tueda, 2019/08/30
+         */
+        String strTarget = argDirectoryTarget
+                .getAbsolutePath(); // advanced
+        if (!this.isTargetStyleAdvanced()) {
+            strTarget += "/main"; // legacy
+        }
+        final File fileBlancoMain = new File(strTarget);
+
+        /* tueda DEBUG */
+        if (this.isVerbose()) {
+            System.out.println("generateEnum argDirectoryTarget : " + argDirectoryTarget.getAbsolutePath());
+        }
+
+        // Gets an instance of the BlancoCgObjectFactory class.
+        fCgFactory = BlancoCgObjectFactory.getInstance();
+
+        // Replaces the package name if the Replace option is specified.
+        // If Suffix is present, it takes precedence.
+        String myPackage = argEnumStructure.getPackage();
+        if (argEnumStructure.getPackageSuffix() != null && argEnumStructure.getPackageSuffix().length() > 0) {
+            myPackage = myPackage + "." + argEnumStructure.getPackageSuffix();
+        } else if (argEnumStructure.getOverridePackage() != null && argEnumStructure.getOverridePackage().length() > 0) {
+            myPackage = argEnumStructure.getOverridePackage();
+        }
+
+        fCgSourceFile = fCgFactory.createSourceFile(myPackage, null);
+        fCgSourceFile.setEncoding(fEncoding);
+
+        fCgEnum = fCgFactory.createEnum(argEnumStructure.getName(), "");
+        fCgSourceFile.getEnumList().add(fCgEnum);
+
+        /* Enumeration is always public */
+        fCgEnum.setAccess("public");
+
+        /* Desctiption */
+        fCgEnum.setDescription(argEnumStructure.getDescription());
+        for (String line : argEnumStructure.getDescriptionList()) {
+            fCgEnum.getLangDoc().getDescriptionList().add(line);
+        }
+
+        /* Sets the annotation for the class. */
+        List annotationList = argEnumStructure.getAnnotationList();
+        if (annotationList != null && annotationList.size() > 0) {
+            fCgClass.getAnnotationList().addAll(argEnumStructure.getAnnotationList());
+            /* tueda DEBUG */
+//            System.out.println("/* tueda */ structure2Source : class annotation = " + argClassStructure.getAnnotationList().get(0));
+        }
+
+        /* Sets the import for the class. */
+        for (int index = 0; index < argEnumStructure.getImportList()
+                .size(); index++) {
+            final String imported = (String) argEnumStructure.getImportList()
+                    .get(index);
+            fCgSourceFile.getImportList().add(imported);
+        }
+
+        for (int indexField = 0; indexField < argEnumStructure.getFieldList()
+                .size(); indexField++) {
+            // Processes each field.
+            final BlancoValueObjectKtFieldStructure fieldStructure = (BlancoValueObjectKtFieldStructure) argEnumStructure
+                    .getFieldList().get(indexField);
+
+            // If a required field is not set, exception processing will be performed.
+            if (fieldStructure.getName() == null) {
+                throw new IllegalArgumentException(fMsg
+                        .getMbvoji03(argEnumStructure.getName()));
+            }
+            /*
+             * Checks if filed is a constructotr argument.
+             */
+            Boolean isConstArg = fieldStructure.getConstArg();
+
+            if (isConstArg && fieldStructure.getType() == null) {
+                throw new IllegalArgumentException(fMsg.getMbvoji04(
+                        argEnumStructure.getName(), fieldStructure.getName()));
+            }
+
+            if (isConstArg != null && isConstArg) {
+                buildConstArg(argEnumStructure, fieldStructure);
+            } else {
+                // Generates a field.
+                buildEnumerate(argEnumStructure, fieldStructure);
+            }
+        }
+
+        // Auto-generates the actual source code based on the collected information.
+        BlancoCgTransformerFactory.getKotlinSourceTransformer().transform(
+                fCgSourceFile, fileBlancoMain);
+    }
+
+    /**
+     * build an constructor argument.
+     *
+     * @param argEnumStructure
+     * @param argFieldStructure
+     */
+    private void buildConstArg(
+            final BlancoValueObjectKtClassStructure argEnumStructure,
+            final BlancoValueObjectKtFieldStructure argFieldStructure
+    ) {
+        switch (fSheetLang) {
+            case BlancoCgSupportedLang.PHP:
+                if (argFieldStructure.getType() == "kotlin.Int") argFieldStructure.setType("kotlin.Long");
+                break;
+            /* If you want to add more languages, add the case here. */
+        }
+
+        /* Determines the type; if typeKt is set, it will take precedence. */
+        boolean isKtPreferred = true;
+        String typeRaw = argFieldStructure.getTypeKt();
+        if (typeRaw == null || typeRaw.length() == 0) {
+            typeRaw = argFieldStructure.getType();
+            isKtPreferred = false;
+        }
+
+        /*
+         * In blancoValueObject, the property name is prefixed with "f", but in Kotlin, it is not prefixed because of the implicit getter/setter.
+         */
+        final BlancoCgField constParam = fCgFactory.createField(argFieldStructure.getName(),
+                typeRaw, null);
+
+        fCgEnum.getConstructorArgList().add(constParam);
+
+        /*
+         * Supports Generic. Since blancoCg assumes that <> is attached and trims the package part, it will not be set correctly if it is not set here.
+         * If genericKt is set, it will take precedence.
+         */
+        String genericRaw = argFieldStructure.getGenericKt();
+        if (!isKtPreferred && (genericRaw == null || genericRaw.length() == 0)) {
+            genericRaw = argFieldStructure.getGeneric();
+        }
+        if (genericRaw != null && genericRaw.length() > 0) {
+            constParam.getType().setGenerics(genericRaw);
+        }
+
+//        if (this.isVerbose()) {
+//            System.out.println("!!! type = " + argFieldStructure.getType());
+//            System.out.println("!!! generic = " + field.getType().getGenerics());
+//        }
+
+        /*
+         * For the time being, private and getter/setter are not supported in blancoValueObjectKt.
+         */
+        constParam.setAccess("public");
+
+        if (argFieldStructure.getOpen()) {
+            constParam.setFinal(false);
+        } else {
+            constParam.setFinal(true);
+        }
+
+        // Supports nullable.
+        Boolean isNullable = argFieldStructure.getNullable();
+        if (isNullable != null && isNullable) {
+            constParam.setNotnull(false);
+        } else {
+            constParam.setNotnull(true);
+        }
+
+        // Supports value / variable.
+        Boolean isValue = argFieldStructure.getValue();
+        if (isValue != null && isValue) {
+            constParam.setConst(true);
+        } else {
+            constParam.setConst(false);
+        }
+
+        // Sets the JavaDoc for the field.
+        constParam.setDescription(argFieldStructure.getDescription());
+        for (String line : argFieldStructure.getDescriptionList()) {
+            constParam.getLangDoc().getDescriptionList().add(line);
+        }
+        constParam.getLangDoc().getDescriptionList().add(
+                fBundle.getXml2javaclassFieldName(argFieldStructure.getName()));
+
+        if (argFieldStructure.getDefault() != null || argFieldStructure.getDefaultKt() != null) {
+            final String type = constParam.getType().getName();
+
+            if (type.equals("java.util.Date")) {
+                /*
+                 * java.util.Date type does not allow default values.
+                 */
+                throw new IllegalArgumentException(fMsg.getMbvoji05(
+                        argEnumStructure.getName(), argFieldStructure
+                                .getName(), argFieldStructure.getDefault(),
+                        type));
+            }
+
+            /*
+             * In Kotlin, the default value of a property is mandatory in principle.
+             * However, in the abstract class, it can be omitted if the property has the abstract modifier.
+             * Nevertheless, blancoValueObjectKt will not support abstract properties for the time being.
+             */
+
+            /*
+             * If there is a defaultKt, it will take precedence.
+             */
+            String defaultRawValue = argFieldStructure.getDefaultKt();
+            if (!isKtPreferred && (defaultRawValue == null || defaultRawValue.length() == 0)) {
+                defaultRawValue = argFieldStructure.getDefault();
+            }
+
+            // Sets the default value for the field.
+            constParam.getLangDoc().getDescriptionList().add(
+                    BlancoCgSourceUtil.escapeStringAsLangDoc(BlancoCgSupportedLang.KOTLIN, fBundle.getXml2javaclassFieldDefault(defaultRawValue)));
+            if (argEnumStructure.getAdjustDefaultValue() == false) {
+                // If the variant of the default value is off, the value on the definition sheet is adopted as it is.
+                constParam.setDefault(defaultRawValue);
+            } else {
+
+                if (type.equals("kotlin.String")) {
+                    // Adds double-quotes.
+                    constParam.setDefault("\""
+                            + BlancoJavaSourceUtil
+                            .escapeStringAsJavaSource(defaultRawValue) + "\"");
+                } else if (type.equals("boolean") || type.equals("short")
+                        || type.equals("int") || type.equals("long")) {
+                    constParam.setDefault(defaultRawValue);
+                } else if (type.equals("kotlin.Boolean")
+                        || type.equals("kotlin.Int")
+                        || type.equals("kotlin.Long")) {
+                    constParam.setDefault("" /* Kotlin doesn't need "new". */
+                            + BlancoNameUtil.trimJavaPackage(type) + "("
+                            + defaultRawValue + ")");
+                } else if (type.equals("java.lang.Short")) {
+                    constParam.setDefault("new "
+                            + BlancoNameUtil.trimJavaPackage(type)
+                            + "((short) " + defaultRawValue
+                            + ")");
+                } else if (type.equals("java.math.BigDecimal")) {
+                    fCgSourceFile.getImportList().add("java.math.BigDecimal");
+                    // Converts a string to BigDecimal.
+                    constParam.setDefault("new BigDecimal(\""
+                            + defaultRawValue + "\")");
+                } else if (type.equals("kotlin.collections.List")
+                        || type.equals("kotlin.collections.ArrayList")) {
+                    // In the case of ArrayList, it will adopt the given character as is.
+                    // TODO: In the case of second generation blancoValueObject adoption, all class imports are appropriate.
+                    fCgSourceFile.getImportList().add(type);
+                    constParam.setDefault(defaultRawValue);
+                } else {
+                    throw new IllegalArgumentException(fMsg.getMbvoji05(
+                            argEnumStructure.getName(), argFieldStructure
+                                    .getName(), defaultRawValue,
+                            type));
+                }
+            }
+        }
+
+        /* Sets the annotation for the method. */
+        List annotationList = argFieldStructure.getAnnotationList();
+        if (annotationList != null && annotationList.size() > 0) {
+            constParam.getAnnotationList().addAll(annotationList);
+//            System.out.println("/* tueda */ method annotation = " + field.getAnnotationList().get(0));
+        }
+
+    }
+
+    /**
+     * build an enumerate.
+     *
+     * @param argEnumStructure
+     * @param argFieldStructure
+     */
+    private void buildEnumerate(
+            final BlancoValueObjectKtClassStructure argEnumStructure,
+            final BlancoValueObjectKtFieldStructure argFieldStructure
+    ) {
+        final BlancoCgEnumElement enumElement = fCgFactory.createEnumElement(argFieldStructure.getName(), "");
+        fCgEnum.getElementList().add(enumElement);
+
+        // Description
+        if (BlancoStringUtil.null2Blank(argFieldStructure.getDescription()).length() > 0) {
+            enumElement.setDescription(argFieldStructure.getDescription());
+        }
+
+        // value
+        if (BlancoStringUtil.null2Blank(argFieldStructure.getDefault()).length() > 0) {
+            enumElement.setDefault(argFieldStructure.getDefault());
         }
     }
 
@@ -156,7 +463,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
      * @throws IOException
      *             If an I/O exception occurs.
      */
-    public void structure2Source(
+    public void generateClass(
             final BlancoValueObjectKtClassStructure argClassStructure,
             final File argDirectoryTarget) throws IOException {
         /*
@@ -173,7 +480,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
 
         /* tueda DEBUG */
         if (this.isVerbose()) {
-            System.out.println("structure2Source argDirectoryTarget : " + argDirectoryTarget.getAbsolutePath());
+            System.out.println("generateClass argDirectoryTarget : " + argDirectoryTarget.getAbsolutePath());
         }
 
         // Gets an instance of the BlancoCgObjectFactory class.

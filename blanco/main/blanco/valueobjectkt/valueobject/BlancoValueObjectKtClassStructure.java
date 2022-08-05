@@ -117,6 +117,14 @@ public class BlancoValueObjectKtClassStructure {
     private Boolean fAdjustDefaultValue = true;
 
     /**
+     * 列挙型として定義します。
+     *
+     * フィールド: [enumeration]。
+     * デフォルト: [false]。
+     */
+    private Boolean fEnumeration = false;
+
+    /**
      * 継承するクラスを指定します。
      *
      * フィールド: [extends]。
@@ -496,6 +504,29 @@ public class BlancoValueObjectKtClassStructure {
     }
 
     /**
+     * フィールド [enumeration] の値を設定します。
+     *
+     * フィールドの説明: [列挙型として定義します。]。
+     *
+     * @param argEnumeration フィールド[enumeration]に設定する値。
+     */
+    public void setEnumeration(final Boolean argEnumeration) {
+        fEnumeration = argEnumeration;
+    }
+
+    /**
+     * フィールド [enumeration] の値を取得します。
+     *
+     * フィールドの説明: [列挙型として定義します。]。
+     * デフォルト: [false]。
+     *
+     * @return フィールド[enumeration]から取得した値。
+     */
+    public Boolean getEnumeration() {
+        return fEnumeration;
+    }
+
+    /**
      * フィールド [extends] の値を設定します。
      *
      * フィールドの説明: [継承するクラスを指定します。]。
@@ -705,6 +736,7 @@ public class BlancoValueObjectKtClassStructure {
         buf.append(",generateToString=" + fGenerateToString);
         buf.append(",adjustFieldName=" + fAdjustFieldName);
         buf.append(",adjustDefaultValue=" + fAdjustDefaultValue);
+        buf.append(",enumeration=" + fEnumeration);
         buf.append(",extends=" + fExtends);
         buf.append(",implementsList=" + fImplementsList);
         buf.append(",fieldList=" + fFieldList);
@@ -777,6 +809,9 @@ public class BlancoValueObjectKtClassStructure {
         // Name: fAdjustDefaultValue
         // Type: java.lang.Boolean
         target.fAdjustDefaultValue = this.fAdjustDefaultValue;
+        // Name: fEnumeration
+        // Type: java.lang.Boolean
+        target.fEnumeration = this.fEnumeration;
         // Name: fExtends
         // Type: blanco.valueobjectkt.valueobject.BlancoValueObjectKtExtendsStructure
         // Field[fExtends] is an unsupported type[blanco.valueobjectkt.valueobject.BlancoValueObjectKtExtendsStructure].

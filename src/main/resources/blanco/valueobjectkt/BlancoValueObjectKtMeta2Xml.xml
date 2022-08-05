@@ -125,6 +125,9 @@
         <propertykey name="adjustFieldName" waitX="2">
           <value>フィールド名の変形</value>
         </propertykey>
+        <propertykey name="enumeration" waitX="2">
+          <value>列挙型として定義</value>
+        </propertykey>
 
         <valuemapping>
           <result>true</result>
