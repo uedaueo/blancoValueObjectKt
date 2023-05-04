@@ -9,11 +9,12 @@
  */
 package blanco.valueobjectkt;
 
+import java.io.IOException;
+
+import org.junit.jupiter.api.Test;
+
 import blanco.valueobjectkt.task.BlancoValueObjectKtProcessImpl;
 import blanco.valueobjectkt.task.valueobject.BlancoValueObjectKtProcessInput;
-import org.junit.Test;
-
-import java.io.IOException;
 
 /**
  * Generation test for Kotlin.
