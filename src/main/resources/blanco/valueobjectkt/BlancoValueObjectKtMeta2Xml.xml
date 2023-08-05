@@ -245,11 +245,15 @@
         <tablecolumn name="fixedValueKt">
           <value>変更不可変数(Kt)</value>
         </tablecolumn>
-        <tablecolumn name="constructorArg">
-          <value>コンストラクタ引数</value>
-        </tablecolumn>
         <tablecolumn name="open">
           <value>オープン</value>
+          <value>open</value>
+        </tablecolumn>
+        <tablecolumn name="override">
+          <value>override</value>
+        </tablecolumn>
+        <tablecolumn name="constructorArg">
+          <value>コンストラクタ引数</value>
         </tablecolumn>
         <tablecolumn name="description">
           <value>説明</value>

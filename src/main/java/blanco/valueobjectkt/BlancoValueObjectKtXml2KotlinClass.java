@@ -26,6 +26,7 @@ import blanco.valueobjectkt.valueobject.BlancoValueObjectKtFieldStructure;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -322,6 +323,12 @@ public class BlancoValueObjectKtXml2KotlinClass {
             constParam.setFinal(true);
         }
 
+        if (argFieldStructure.getOverride()) {
+            constParam.setOverride(true);
+        } else {
+            constParam.setOverride(false);
+        }
+
         // Supports nullable.
         Boolean isNullable = argFieldStructure.getNullable();
         if (isNullable != null && isNullable) {
@@ -548,7 +555,9 @@ public class BlancoValueObjectKtXml2KotlinClass {
         }
 
         // Inheritance
+        boolean hasExtends = false;
         if (argClassStructure.getExtends() != null && BlancoStringUtil.null2Blank(argClassStructure.getExtends().getType()).length() > 0) {
+            hasExtends = true;
             BlancoCgType cgType = fCgFactory.createType(argClassStructure.getExtends().getType());
             fCgClass.getExtendClassList().add(cgType);
             if (BlancoStringUtil.null2Blank(argClassStructure.getExtends().getGenerics()).length() > 0) {
@@ -642,6 +651,28 @@ public class BlancoValueObjectKtXml2KotlinClass {
             buildMethodToString(argClassStructure);
         }
 
+        if (hasExtends) {
+            /* Only one inheritence is permitted in kotlin. */
+            BlancoCgType cgType = fCgClass.getExtendClassList().get(0);
+            /* if override is specified to constArgs, pass them to super class */
+            String overrideArgList = "";
+            boolean isFirst = true;
+            for (BlancoCgField param : fCgClass.getConstructorArgList()) {
+                if (param.getOverride()) {
+                    if (!isFirst) {
+                        overrideArgList +=", ";
+                    } else {
+                        isFirst = false;
+                    }
+                    overrideArgList += param.getName();
+                }
+            }
+            System.out.println("????? overrideArgList = " + overrideArgList);
+            if (!overrideArgList.isEmpty()) {
+                cgType.setConstructorArgs(overrideArgList);
+            }
+        }
+
         // TODO: Considers whether to externally flag whether to generate copyTo method.
 //        BlancoBeanUtils.generateCopyToMethod(fCgSourceFile, fCgClass);
 
@@ -709,6 +740,12 @@ public class BlancoValueObjectKtXml2KotlinClass {
             field.setFinal(false);
         } else {
             field.setFinal(true);
+        }
+
+        if (argFieldStructure.getOverride()) {
+            field.setOverride(true);
+        } else {
+            field.setOverride(false);
         }
 
         // Supports nullable.

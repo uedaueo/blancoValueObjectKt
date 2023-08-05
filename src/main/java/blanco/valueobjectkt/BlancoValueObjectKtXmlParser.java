@@ -914,6 +914,10 @@ public class BlancoValueObjectKtXmlParser {
             fieldStructure.setOpen("true".equals(BlancoXmlBindingUtil
                     .getTextContent(elementList, "open")));
 
+            /* add override modifier */
+            fieldStructure.setOverride("true".equals(BlancoXmlBindingUtil
+                    .getTextContent(elementList, "override")));
+
             argClassStructure.getFieldList().add(fieldStructure);
         }
     }

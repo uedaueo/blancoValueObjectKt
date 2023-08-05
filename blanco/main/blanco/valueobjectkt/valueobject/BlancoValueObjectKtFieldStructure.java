@@ -183,6 +183,13 @@ public class BlancoValueObjectKtFieldStructure {
     private Boolean fOpen;
 
     /**
+     * override 修飾子をつけます。コンストラクタ引数と同時に指定された場合は、親クラスのコンストラクタに渡されます。
+     *
+     * フィールド: [override]。
+     */
+    private Boolean fOverride;
+
+    /**
      * フィールド [no] の値を設定します。
      *
      * フィールドの説明: [項目番号。省略可能です。]。
@@ -719,6 +726,28 @@ public class BlancoValueObjectKtFieldStructure {
     }
 
     /**
+     * フィールド [override] の値を設定します。
+     *
+     * フィールドの説明: [override 修飾子をつけます。コンストラクタ引数と同時に指定された場合は、親クラスのコンストラクタに渡されます。]。
+     *
+     * @param argOverride フィールド[override]に設定する値。
+     */
+    public void setOverride(final Boolean argOverride) {
+        fOverride = argOverride;
+    }
+
+    /**
+     * フィールド [override] の値を取得します。
+     *
+     * フィールドの説明: [override 修飾子をつけます。コンストラクタ引数と同時に指定された場合は、親クラスのコンストラクタに渡されます。]。
+     *
+     * @return フィールド[override]から取得した値。
+     */
+    public Boolean getOverride() {
+        return fOverride;
+    }
+
+    /**
      * Gets the string representation of this value object.
      *
      * <P>Precautions for use</P>
@@ -757,6 +786,7 @@ public class BlancoValueObjectKtFieldStructure {
         buf.append(",minInclusive=" + fMinInclusive);
         buf.append(",maxInclusive=" + fMaxInclusive);
         buf.append(",open=" + fOpen);
+        buf.append(",override=" + fOverride);
         buf.append("]");
         return buf.toString();
     }
@@ -851,5 +881,8 @@ public class BlancoValueObjectKtFieldStructure {
         // Name: fOpen
         // Type: java.lang.Boolean
         target.fOpen = this.fOpen;
+        // Name: fOverride
+        // Type: java.lang.Boolean
+        target.fOverride = this.fOverride;
     }
 }
