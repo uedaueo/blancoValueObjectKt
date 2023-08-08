@@ -190,6 +190,13 @@ public class BlancoValueObjectKtFieldStructure {
     private Boolean fOverride;
 
     /**
+     * JsonProperty に定義する別名
+     *
+     * フィールド: [alias]。
+     */
+    private String fAlias;
+
+    /**
      * フィールド [no] の値を設定します。
      *
      * フィールドの説明: [項目番号。省略可能です。]。
@@ -748,6 +755,28 @@ public class BlancoValueObjectKtFieldStructure {
     }
 
     /**
+     * フィールド [alias] の値を設定します。
+     *
+     * フィールドの説明: [JsonProperty に定義する別名]。
+     *
+     * @param argAlias フィールド[alias]に設定する値。
+     */
+    public void setAlias(final String argAlias) {
+        fAlias = argAlias;
+    }
+
+    /**
+     * フィールド [alias] の値を取得します。
+     *
+     * フィールドの説明: [JsonProperty に定義する別名]。
+     *
+     * @return フィールド[alias]から取得した値。
+     */
+    public String getAlias() {
+        return fAlias;
+    }
+
+    /**
      * Gets the string representation of this value object.
      *
      * <P>Precautions for use</P>
@@ -787,6 +816,7 @@ public class BlancoValueObjectKtFieldStructure {
         buf.append(",maxInclusive=" + fMaxInclusive);
         buf.append(",open=" + fOpen);
         buf.append(",override=" + fOverride);
+        buf.append(",alias=" + fAlias);
         buf.append("]");
         return buf.toString();
     }
@@ -884,5 +914,8 @@ public class BlancoValueObjectKtFieldStructure {
         // Name: fOverride
         // Type: java.lang.Boolean
         target.fOverride = this.fOverride;
+        // Name: fAlias
+        // Type: java.lang.String
+        target.fAlias = this.fAlias;
     }
 }

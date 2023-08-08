@@ -557,6 +557,8 @@ public class BlancoValueObjectKtXmlParser {
                 .getTextContent(argElementCommon, "abstract")));
         argClassStructure.setData("true".equals(BlancoXmlBindingUtil
                 .getTextContent(argElementCommon, "data")));
+        argClassStructure.setJsonCreator("true".equals(BlancoXmlBindingUtil
+                .getTextContent(argElementCommon, "jsonCreator")));
         argClassStructure.setGenerateToString("true"
                 .equals(BlancoXmlBindingUtil.getTextContent(argElementCommon,
                         "generateToString")));
@@ -889,6 +891,9 @@ public class BlancoValueObjectKtXmlParser {
                     elementList, "default"));
             fieldStructure.setDefaultKt(BlancoXmlBindingUtil.getTextContent(
                     elementList, "defaultKt"));
+
+            fieldStructure.setAlias(BlancoXmlBindingUtil.getTextContent(
+                    elementList, "alias"));
 
             fieldStructure.setMinLength(BlancoXmlBindingUtil
                     .getTextContent(elementList, "minLength"));

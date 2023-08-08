@@ -620,6 +620,12 @@ public class BlancoValueObjectKtXml2KotlinClass {
             fCgSourceFile.getImportList().add(imported);
         }
 
+        if (argClassStructure.getJsonCreator()) {
+            fCgClass.setJsonCreator(true);
+            /* import com.fasterxml.jackson.annotation.* */
+            fCgSourceFile.getImportList().add("com.fasterxml.jackson.annotation.*");
+        }
+
         for (int indexField = 0; indexField < argClassStructure.getFieldList()
                 .size(); indexField++) {
             // Processes each field.
@@ -859,6 +865,17 @@ public class BlancoValueObjectKtXml2KotlinClass {
                             type));
                 }
             }
+        }
+
+        /* Set alias as annotation. */
+        String aliaString = argFieldStructure.getAlias();
+        if (!BlancoStringUtil.null2Blank(aliaString).trim().isEmpty() || argClassStructure.getJsonCreator()) {
+            String aliasName = argFieldStructure.getName();
+            if (!BlancoStringUtil.null2Blank(aliaString).trim().isEmpty()) {
+                aliasName = aliaString;
+            }
+            field.getAnnotationList().add("JsonProperty(\"" + aliasName + "\")");
+            fCgSourceFile.getImportList().add("com.fasterxml.jackson.annotation.*");
         }
 
         /* Sets the annotation for the method. */

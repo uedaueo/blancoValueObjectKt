@@ -119,6 +119,9 @@
         <propertykey name="data" waitX="2">
           <value>dataクラス</value>
         </propertykey>
+        <propertykey name="jsonCreator" waitX="2">
+          <value>JsonCreatorを指定</value>
+        </propertykey>
         <propertykey name="generateToString" waitX="2">
           <value>toStringメソッドの生成</value>
         </propertykey>
@@ -244,6 +247,9 @@
         </tablecolumn>
         <tablecolumn name="fixedValueKt">
           <value>変更不可変数(Kt)</value>
+        </tablecolumn>
+        <tablecolumn name="alias">
+          <value>別名</value>
         </tablecolumn>
         <tablecolumn name="open">
           <value>オープン</value>

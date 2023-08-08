@@ -186,6 +186,14 @@ public class BlancoValueObjectKtClassStructure {
     private String fOverridePackage;
 
     /**
+     * primary constructor に @JsonCreator を指定する。コンストラクタ引数には @JsonProperty を自動付与する（別名優先）
+     *
+     * フィールド: [jsonCreator]。
+     * デフォルト: [false]。
+     */
+    private Boolean fJsonCreator = false;
+
+    /**
      * フィールド [name] の値を設定します。
      *
      * フィールドの説明: [フィールド名を指定します。必須項目です。]。
@@ -708,6 +716,29 @@ public class BlancoValueObjectKtClassStructure {
     }
 
     /**
+     * フィールド [jsonCreator] の値を設定します。
+     *
+     * フィールドの説明: [primary constructor に @JsonCreator を指定する。コンストラクタ引数には @JsonProperty を自動付与する（別名優先）]。
+     *
+     * @param argJsonCreator フィールド[jsonCreator]に設定する値。
+     */
+    public void setJsonCreator(final Boolean argJsonCreator) {
+        fJsonCreator = argJsonCreator;
+    }
+
+    /**
+     * フィールド [jsonCreator] の値を取得します。
+     *
+     * フィールドの説明: [primary constructor に @JsonCreator を指定する。コンストラクタ引数には @JsonProperty を自動付与する（別名優先）]。
+     * デフォルト: [false]。
+     *
+     * @return フィールド[jsonCreator]から取得した値。
+     */
+    public Boolean getJsonCreator() {
+        return fJsonCreator;
+    }
+
+    /**
      * Gets the string representation of this value object.
      *
      * <P>Precautions for use</P>
@@ -745,6 +776,7 @@ public class BlancoValueObjectKtClassStructure {
         buf.append(",constructorArgList=" + fConstructorArgList);
         buf.append(",packageSuffix=" + fPackageSuffix);
         buf.append(",overridePackage=" + fOverridePackage);
+        buf.append(",jsonCreator=" + fJsonCreator);
         buf.append("]");
         return buf.toString();
     }
@@ -836,5 +868,8 @@ public class BlancoValueObjectKtClassStructure {
         // Name: fOverridePackage
         // Type: java.lang.String
         target.fOverridePackage = this.fOverridePackage;
+        // Name: fJsonCreator
+        // Type: java.lang.Boolean
+        target.fJsonCreator = this.fJsonCreator;
     }
 }
