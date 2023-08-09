@@ -215,7 +215,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
         /* Sets the annotation for the class. */
         List<String> annotationList = argEnumStructure.getAnnotationList();
         if (annotationList != null && annotationList.size() > 0) {
-            fCgClass.getAnnotationList().addAll(argEnumStructure.getAnnotationList());
+            fCgEnum.getAnnotationList().addAll(argEnumStructure.getAnnotationList());
             /* tueda DEBUG */
 //            System.out.println("/* tueda */ structure2Source : class annotation = " + argClassStructure.getAnnotationList().get(0));
         }
