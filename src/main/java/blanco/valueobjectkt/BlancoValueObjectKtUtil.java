@@ -34,6 +34,8 @@ public class BlancoValueObjectKtUtil {
         {put(fBundle.getMeta2xmlElementCommonPython(), BlancoCgSupportedLang.PYTHON);}
     };
 
+    public static Boolean isSerdeable = false;
+
     public static Map<String, String> processValueObjects(final BlancoValueObjectKtProcessInput input) {
         if (isVerbose) {
             System.out.println("BlancoValueObjectKtUtil : processValueObjects start !");

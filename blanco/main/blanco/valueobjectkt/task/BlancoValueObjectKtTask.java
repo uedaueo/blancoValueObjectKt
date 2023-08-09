@@ -84,6 +84,11 @@ public class BlancoValueObjectKtTask extends Task {
     protected boolean fIsFieldSearchTmpdirProcessed = false;
 
     /**
+     * フィールド [serdeable] に値がセットされたかどうか。
+     */
+    protected boolean fIsFieldSerdeableProcessed = false;
+
+    /**
      * verboseモードで動作させるかどうか。
      *
      * @param arg verboseモードで動作させるかどうか。
@@ -384,6 +389,32 @@ public class BlancoValueObjectKtTask extends Task {
     }
 
     /**
+     * Antタスクの[serdeable]アトリビュートのセッターメソッド。
+     *
+     * 項目番号: 12<br>
+     * 電文クラスに@Serdeableアノテーションを付与します。<br>
+     *
+     * @param arg セットしたい値
+     */
+    public void setSerdeable(final boolean arg) {
+        fInput.setSerdeable(arg);
+        fIsFieldSerdeableProcessed = true;
+    }
+
+    /**
+     * Antタスクの[serdeable]アトリビュートのゲッターメソッド。
+     *
+     * 項目番号: 12<br>
+     * 電文クラスに@Serdeableアノテーションを付与します。<br>
+     * デフォルト値[false]が設定されています。Apache Antタスク上でアトリビュートの指定が無い場合には、デフォルト値が設定されます。<br>
+     *
+     * @return このフィールドの値
+     */
+    public boolean getSerdeable() {
+        return fInput.getSerdeable();
+    }
+
+    /**
      * Antタスクのメイン処理。Apache Antから このメソッドが呼び出されます。
      *
      * @throws BuildException タスクとしての例外が発生した場合。
@@ -410,6 +441,7 @@ public class BlancoValueObjectKtTask extends Task {
             System.out.println("- packageSuffix:[" + getPackageSuffix() + "]");
             System.out.println("- overridePackage:[" + getOverridePackage() + "]");
             System.out.println("- searchTmpdir:[" + getSearchTmpdir() + "]");
+            System.out.println("- serdeable:[" + getSerdeable() + "]");
         }
 
         try {

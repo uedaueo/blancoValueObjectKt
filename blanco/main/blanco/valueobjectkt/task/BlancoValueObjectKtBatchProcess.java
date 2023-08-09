@@ -75,6 +75,8 @@ public class BlancoValueObjectKtBatchProcess {
                 input.setOverridePackage(arg.substring(17));
             } else if (arg.startsWith("-searchTmpdir=")) {
                 input.setSearchTmpdir(arg.substring(14));
+            } else if (arg.startsWith("-serdeable=")) {
+                input.setSerdeable(Boolean.valueOf(arg.substring(11)).booleanValue());
             } else if (arg.equals("-?") || arg.equals("-help")) {
                 usage();
                 System.exit(END_SUCCESS);
@@ -168,7 +170,7 @@ public class BlancoValueObjectKtBatchProcess {
      */
     public static final void usage() {
         System.out.println("BlancoValueObjectKtBatchProcess: Usage:");
-        System.out.println("  java blanco.valueobjectkt.task.BlancoValueObjectKtBatchProcess -verbose=value1 -metadir=value2 -targetdir=value3 -tmpdir=value4 -encoding=value5 -xmlrootelement=value6 -sheetType=value7 -targetStyle=value8 -lineSeparator=value9 -packageSuffix=value10 -overridePackage=value11 -searchTmpdir=value12");
+        System.out.println("  java blanco.valueobjectkt.task.BlancoValueObjectKtBatchProcess -verbose=value1 -metadir=value2 -targetdir=value3 -tmpdir=value4 -encoding=value5 -xmlrootelement=value6 -sheetType=value7 -targetStyle=value8 -lineSeparator=value9 -packageSuffix=value10 -overridePackage=value11 -searchTmpdir=value12 -serdeable=value13");
         System.out.println("    -verbose");
         System.out.println("      explanation[Whether to run in verbose mode.]");
         System.out.println("      type[boolean]");
@@ -213,6 +215,10 @@ public class BlancoValueObjectKtBatchProcess {
         System.out.println("    -searchTmpdir");
         System.out.println("      explanation[import文作成のために検索するtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。]");
         System.out.println("      type[string]");
+        System.out.println("    -serdeable");
+        System.out.println("      explanation[電文クラスに@Serdeableアノテーションを付与します。]");
+        System.out.println("      type[boolean]");
+        System.out.println("      default value[false]");
         System.out.println("    -? , -help");
         System.out.println("      explanation[show the usage.]");
     }

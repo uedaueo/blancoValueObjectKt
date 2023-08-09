@@ -96,6 +96,14 @@ public class BlancoValueObjectKtProcessInput {
     private String fSearchTmpdir;
 
     /**
+     * 電文クラスに@Serdeableアノテーションを付与します。
+     *
+     * フィールド: [serdeable]。
+     * デフォルト: [false]。
+     */
+    private boolean fSerdeable = false;
+
+    /**
      * フィールド [verbose] の値を設定します。
      *
      * フィールドの説明: [Whether to run in verbose mode.]。
@@ -367,6 +375,29 @@ public class BlancoValueObjectKtProcessInput {
     }
 
     /**
+     * フィールド [serdeable] の値を設定します。
+     *
+     * フィールドの説明: [電文クラスに@Serdeableアノテーションを付与します。]。
+     *
+     * @param argSerdeable フィールド[serdeable]に設定する値。
+     */
+    public void setSerdeable(final boolean argSerdeable) {
+        fSerdeable = argSerdeable;
+    }
+
+    /**
+     * フィールド [serdeable] の値を取得します。
+     *
+     * フィールドの説明: [電文クラスに@Serdeableアノテーションを付与します。]。
+     * デフォルト: [false]。
+     *
+     * @return フィールド[serdeable]から取得した値。
+     */
+    public boolean getSerdeable() {
+        return fSerdeable;
+    }
+
+    /**
      * Gets the string representation of this value object.
      *
      * <P>Precautions for use</P>
@@ -393,6 +424,7 @@ public class BlancoValueObjectKtProcessInput {
         buf.append(",packageSuffix=" + fPackageSuffix);
         buf.append(",overridePackage=" + fOverridePackage);
         buf.append(",searchTmpdir=" + fSearchTmpdir);
+        buf.append(",serdeable=" + fSerdeable);
         buf.append("]");
         return buf.toString();
     }
@@ -451,5 +483,8 @@ public class BlancoValueObjectKtProcessInput {
         // Name: fSearchTmpdir
         // Type: java.lang.String
         target.fSearchTmpdir = this.fSearchTmpdir;
+        // Name: fSerdeable
+        // Type: boolean
+        target.fSerdeable = this.fSerdeable;
     }
 }

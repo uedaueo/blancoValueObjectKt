@@ -549,6 +549,26 @@ public class BlancoValueObjectKtXmlParser {
             argClassStructure.setAnnotationList(createAnnotaionList(classAnnotation));
         }
 
+        /* Add @Serdeable annotation */
+        if (BlancoValueObjectKtUtil.isSerdeable) {
+            if (this.isVerbose()) {
+                System.out.println("@Serdeable annotaion is requested for " + argClassStructure.getName());
+            }
+            /* Check already added */
+            Boolean found = false;
+            for (String ann : argClassStructure.getAnnotationList()) {
+                if (ann.contains("Serdeable")) {
+                    found = true;
+                }
+            }
+            if (found) {
+                System.out.println("@Serdeable already exists. SKIP : " + argClassStructure.getName());
+            } else {
+                argClassStructure.getAnnotationList().add("Serdeable");
+                argClassStructure.getImportList().add("io.micronaut.serde.annotation.Serdeable");
+            }
+        }
+
         argClassStructure.setAccess(BlancoXmlBindingUtil.getTextContent(
                 argElementCommon, "access"));
         argClassStructure.setFinal("true".equals(BlancoXmlBindingUtil

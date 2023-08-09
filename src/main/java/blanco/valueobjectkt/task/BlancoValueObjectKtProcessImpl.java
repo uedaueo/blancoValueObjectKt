@@ -106,6 +106,8 @@ public class BlancoValueObjectKtProcessImpl implements BlancoValueObjectKtProces
                     .getTmpdir()
                     + BlancoValueObjectKtConstants.TARGET_SUBDIRECTORY);
 
+            BlancoValueObjectKtUtil.isSerdeable = input.getSerdeable();
+
             // Generates ValueObject from XML-ized meta file.
             // Scans the temporary folder first.
             final File[] fileMeta2 = new File(input.getTmpdir()
