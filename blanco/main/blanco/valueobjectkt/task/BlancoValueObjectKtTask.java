@@ -89,6 +89,11 @@ public class BlancoValueObjectKtTask extends Task {
     protected boolean fIsFieldSerdeableProcessed = false;
 
     /**
+     * フィールド [ignoreUnkown] に値がセットされたかどうか。
+     */
+    protected boolean fIsFieldIgnoreUnkownProcessed = false;
+
+    /**
      * verboseモードで動作させるかどうか。
      *
      * @param arg verboseモードで動作させるかどうか。
@@ -415,6 +420,32 @@ public class BlancoValueObjectKtTask extends Task {
     }
 
     /**
+     * Antタスクの[ignoreUnkown]アトリビュートのセッターメソッド。
+     *
+     * 項目番号: 13<br>
+     * 電文クラスに@JsonIgnoreProperties(ignoreUnknown = true)アノテーションを付与します。<br>
+     *
+     * @param arg セットしたい値
+     */
+    public void setIgnoreUnkown(final boolean arg) {
+        fInput.setIgnoreUnkown(arg);
+        fIsFieldIgnoreUnkownProcessed = true;
+    }
+
+    /**
+     * Antタスクの[ignoreUnkown]アトリビュートのゲッターメソッド。
+     *
+     * 項目番号: 13<br>
+     * 電文クラスに@JsonIgnoreProperties(ignoreUnknown = true)アノテーションを付与します。<br>
+     * デフォルト値[false]が設定されています。Apache Antタスク上でアトリビュートの指定が無い場合には、デフォルト値が設定されます。<br>
+     *
+     * @return このフィールドの値
+     */
+    public boolean getIgnoreUnkown() {
+        return fInput.getIgnoreUnkown();
+    }
+
+    /**
      * Antタスクのメイン処理。Apache Antから このメソッドが呼び出されます。
      *
      * @throws BuildException タスクとしての例外が発生した場合。
@@ -442,6 +473,7 @@ public class BlancoValueObjectKtTask extends Task {
             System.out.println("- overridePackage:[" + getOverridePackage() + "]");
             System.out.println("- searchTmpdir:[" + getSearchTmpdir() + "]");
             System.out.println("- serdeable:[" + getSerdeable() + "]");
+            System.out.println("- ignoreUnkown:[" + getIgnoreUnkown() + "]");
         }
 
         try {

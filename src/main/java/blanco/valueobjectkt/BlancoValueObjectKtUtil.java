@@ -35,6 +35,7 @@ public class BlancoValueObjectKtUtil {
     };
 
     public static Boolean isSerdeable = false;
+    public static Boolean isIgnoreUnknown = false;
 
     public static Map<String, String> processValueObjects(final BlancoValueObjectKtProcessInput input) {
         if (isVerbose) {

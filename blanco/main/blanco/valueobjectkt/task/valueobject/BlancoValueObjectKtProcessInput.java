@@ -104,6 +104,14 @@ public class BlancoValueObjectKtProcessInput {
     private boolean fSerdeable = false;
 
     /**
+     * 電文クラスに@JsonIgnoreProperties(ignoreUnknown = true)アノテーションを付与します。
+     *
+     * フィールド: [ignoreUnkown]。
+     * デフォルト: [false]。
+     */
+    private boolean fIgnoreUnkown = false;
+
+    /**
      * フィールド [verbose] の値を設定します。
      *
      * フィールドの説明: [Whether to run in verbose mode.]。
@@ -398,6 +406,29 @@ public class BlancoValueObjectKtProcessInput {
     }
 
     /**
+     * フィールド [ignoreUnkown] の値を設定します。
+     *
+     * フィールドの説明: [電文クラスに@JsonIgnoreProperties(ignoreUnknown = true)アノテーションを付与します。]。
+     *
+     * @param argIgnoreUnkown フィールド[ignoreUnkown]に設定する値。
+     */
+    public void setIgnoreUnkown(final boolean argIgnoreUnkown) {
+        fIgnoreUnkown = argIgnoreUnkown;
+    }
+
+    /**
+     * フィールド [ignoreUnkown] の値を取得します。
+     *
+     * フィールドの説明: [電文クラスに@JsonIgnoreProperties(ignoreUnknown = true)アノテーションを付与します。]。
+     * デフォルト: [false]。
+     *
+     * @return フィールド[ignoreUnkown]から取得した値。
+     */
+    public boolean getIgnoreUnkown() {
+        return fIgnoreUnkown;
+    }
+
+    /**
      * Gets the string representation of this value object.
      *
      * <P>Precautions for use</P>
@@ -425,6 +456,7 @@ public class BlancoValueObjectKtProcessInput {
         buf.append(",overridePackage=" + fOverridePackage);
         buf.append(",searchTmpdir=" + fSearchTmpdir);
         buf.append(",serdeable=" + fSerdeable);
+        buf.append(",ignoreUnkown=" + fIgnoreUnkown);
         buf.append("]");
         return buf.toString();
     }
@@ -486,5 +518,8 @@ public class BlancoValueObjectKtProcessInput {
         // Name: fSerdeable
         // Type: boolean
         target.fSerdeable = this.fSerdeable;
+        // Name: fIgnoreUnkown
+        // Type: boolean
+        target.fIgnoreUnkown = this.fIgnoreUnkown;
     }
 }

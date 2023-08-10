@@ -37,6 +37,7 @@ public class BlancoValueObjectKtTest {
         input.setLineSeparator("LF");
         input.setPackageSuffix("blanco");
         input.setSerdeable(true);
+        input.setIgnoreUnkown(true);
 
         BlancoValueObjectKtProcessImpl imple = new BlancoValueObjectKtProcessImpl();
         try {

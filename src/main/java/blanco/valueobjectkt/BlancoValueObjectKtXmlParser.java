@@ -569,6 +569,26 @@ public class BlancoValueObjectKtXmlParser {
             }
         }
 
+        /* Add @JsonIgnoreProperties(ignoreUnknown = true) annotation */
+        if (BlancoValueObjectKtUtil.isIgnoreUnknown) {
+            if (this.isVerbose()) {
+                System.out.println("ignoreUnknow annotaion is requested for " + argClassStructure.getName());
+            }
+            /* Check already added */
+            boolean found = false;
+            for (String ann : argClassStructure.getAnnotationList()) {
+                if (ann.contains("JsonIgnoreProperties")) {
+                    found = true;
+                }
+            }
+            if (found) {
+                System.out.println("@JsonIgnoreProperties already exists. SKIP : " + argClassStructure.getName());
+            } else {
+                argClassStructure.getAnnotationList().add("JsonIgnoreProperties(ignoreUnknown = true)");
+                argClassStructure.getImportList().add("com.fasterxml.jackson.annotation.*");
+            }
+        }
+
         argClassStructure.setAccess(BlancoXmlBindingUtil.getTextContent(
                 argElementCommon, "access"));
         argClassStructure.setFinal("true".equals(BlancoXmlBindingUtil
