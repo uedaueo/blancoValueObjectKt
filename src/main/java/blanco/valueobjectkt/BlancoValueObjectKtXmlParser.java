@@ -802,6 +802,7 @@ public class BlancoValueObjectKtXmlParser {
                 .getElementsByTagName(argElementListRoot, "field");
         for (int index = 0; index < listChildNodes.size(); index++) {
             final BlancoXmlElement elementList = listChildNodes.get(index);
+
             final BlancoValueObjectKtFieldStructure fieldStructure = new BlancoValueObjectKtFieldStructure();
 
             fieldStructure.setNo(BlancoXmlBindingUtil.getTextContent(
@@ -810,6 +811,13 @@ public class BlancoValueObjectKtXmlParser {
                     elementList, "name"));
             if (fieldStructure.getName() == null
                     || fieldStructure.getName().trim().length() == 0) {
+                continue;
+            }
+
+            // ignored property
+            if ("true".equals(BlancoXmlBindingUtil
+                    .getTextContent(elementList, "ignoredProperty"))) {
+                System.out.println("%%% ignored property! : " + fieldStructure.getName());
                 continue;
             }
 

@@ -261,6 +261,9 @@
         <tablecolumn name="constructorArg">
           <value>コンストラクタ引数</value>
         </tablecolumn>
+        <tablecolumn name="ignoredProperty">
+          <value>kotlinでは無視</value>
+        </tablecolumn>
         <tablecolumn name="description">
           <value>説明</value>
         </tablecolumn>

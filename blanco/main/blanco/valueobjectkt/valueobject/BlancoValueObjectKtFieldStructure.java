@@ -197,6 +197,14 @@ public class BlancoValueObjectKtFieldStructure {
     private String fAlias;
 
     /**
+     * このプロパティはkotlinでは無視します
+     *
+     * フィールド: [ignoredProperty]。
+     * デフォルト: [false]。
+     */
+    private Boolean fIgnoredProperty = false;
+
+    /**
      * フィールド [no] の値を設定します。
      *
      * フィールドの説明: [項目番号。省略可能です。]。
@@ -777,6 +785,29 @@ public class BlancoValueObjectKtFieldStructure {
     }
 
     /**
+     * フィールド [ignoredProperty] の値を設定します。
+     *
+     * フィールドの説明: [このプロパティはkotlinでは無視します]。
+     *
+     * @param argIgnoredProperty フィールド[ignoredProperty]に設定する値。
+     */
+    public void setIgnoredProperty(final Boolean argIgnoredProperty) {
+        fIgnoredProperty = argIgnoredProperty;
+    }
+
+    /**
+     * フィールド [ignoredProperty] の値を取得します。
+     *
+     * フィールドの説明: [このプロパティはkotlinでは無視します]。
+     * デフォルト: [false]。
+     *
+     * @return フィールド[ignoredProperty]から取得した値。
+     */
+    public Boolean getIgnoredProperty() {
+        return fIgnoredProperty;
+    }
+
+    /**
      * Gets the string representation of this value object.
      *
      * <P>Precautions for use</P>
@@ -817,6 +848,7 @@ public class BlancoValueObjectKtFieldStructure {
         buf.append(",open=" + fOpen);
         buf.append(",override=" + fOverride);
         buf.append(",alias=" + fAlias);
+        buf.append(",ignoredProperty=" + fIgnoredProperty);
         buf.append("]");
         return buf.toString();
     }
@@ -917,5 +949,8 @@ public class BlancoValueObjectKtFieldStructure {
         // Name: fAlias
         // Type: java.lang.String
         target.fAlias = this.fAlias;
+        // Name: fIgnoredProperty
+        // Type: java.lang.Boolean
+        target.fIgnoredProperty = this.fIgnoredProperty;
     }
 }
