@@ -107,7 +107,7 @@ public class BlancoValueObjectKtProcessImpl implements BlancoValueObjectKtProces
                     + BlancoValueObjectKtConstants.TARGET_SUBDIRECTORY);
 
             BlancoValueObjectKtUtil.isSerdeable = input.getSerdeable();
-            BlancoValueObjectKtUtil.isIgnoreUnknown = input.getIgnoreUnkown();
+            BlancoValueObjectKtUtil.isIgnoreUnknown = input.getIgnoreUnknown();
 
             // Generates ValueObject from XML-ized meta file.
             // Scans the temporary folder first.

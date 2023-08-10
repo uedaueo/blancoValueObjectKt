@@ -89,9 +89,9 @@ public class BlancoValueObjectKtTask extends Task {
     protected boolean fIsFieldSerdeableProcessed = false;
 
     /**
-     * フィールド [ignoreUnkown] に値がセットされたかどうか。
+     * フィールド [ignoreUnknown] に値がセットされたかどうか。
      */
-    protected boolean fIsFieldIgnoreUnkownProcessed = false;
+    protected boolean fIsFieldIgnoreUnknownProcessed = false;
 
     /**
      * verboseモードで動作させるかどうか。
@@ -420,20 +420,20 @@ public class BlancoValueObjectKtTask extends Task {
     }
 
     /**
-     * Antタスクの[ignoreUnkown]アトリビュートのセッターメソッド。
+     * Antタスクの[ignoreUnknown]アトリビュートのセッターメソッド。
      *
      * 項目番号: 13<br>
      * 電文クラスに@JsonIgnoreProperties(ignoreUnknown = true)アノテーションを付与します。<br>
      *
      * @param arg セットしたい値
      */
-    public void setIgnoreUnkown(final boolean arg) {
-        fInput.setIgnoreUnkown(arg);
-        fIsFieldIgnoreUnkownProcessed = true;
+    public void setIgnoreUnknown(final boolean arg) {
+        fInput.setIgnoreUnknown(arg);
+        fIsFieldIgnoreUnknownProcessed = true;
     }
 
     /**
-     * Antタスクの[ignoreUnkown]アトリビュートのゲッターメソッド。
+     * Antタスクの[ignoreUnknown]アトリビュートのゲッターメソッド。
      *
      * 項目番号: 13<br>
      * 電文クラスに@JsonIgnoreProperties(ignoreUnknown = true)アノテーションを付与します。<br>
@@ -441,8 +441,8 @@ public class BlancoValueObjectKtTask extends Task {
      *
      * @return このフィールドの値
      */
-    public boolean getIgnoreUnkown() {
-        return fInput.getIgnoreUnkown();
+    public boolean getIgnoreUnknown() {
+        return fInput.getIgnoreUnknown();
     }
 
     /**
@@ -473,7 +473,7 @@ public class BlancoValueObjectKtTask extends Task {
             System.out.println("- overridePackage:[" + getOverridePackage() + "]");
             System.out.println("- searchTmpdir:[" + getSearchTmpdir() + "]");
             System.out.println("- serdeable:[" + getSerdeable() + "]");
-            System.out.println("- ignoreUnkown:[" + getIgnoreUnkown() + "]");
+            System.out.println("- ignoreUnknown:[" + getIgnoreUnknown() + "]");
         }
 
         try {

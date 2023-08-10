@@ -106,10 +106,10 @@ public class BlancoValueObjectKtProcessInput {
     /**
      * 電文クラスに@JsonIgnoreProperties(ignoreUnknown = true)アノテーションを付与します。
      *
-     * フィールド: [ignoreUnkown]。
+     * フィールド: [ignoreUnknown]。
      * デフォルト: [false]。
      */
-    private boolean fIgnoreUnkown = false;
+    private boolean fIgnoreUnknown = false;
 
     /**
      * フィールド [verbose] の値を設定します。
@@ -406,26 +406,26 @@ public class BlancoValueObjectKtProcessInput {
     }
 
     /**
-     * フィールド [ignoreUnkown] の値を設定します。
+     * フィールド [ignoreUnknown] の値を設定します。
      *
      * フィールドの説明: [電文クラスに@JsonIgnoreProperties(ignoreUnknown = true)アノテーションを付与します。]。
      *
-     * @param argIgnoreUnkown フィールド[ignoreUnkown]に設定する値。
+     * @param argIgnoreUnknown フィールド[ignoreUnknown]に設定する値。
      */
-    public void setIgnoreUnkown(final boolean argIgnoreUnkown) {
-        fIgnoreUnkown = argIgnoreUnkown;
+    public void setIgnoreUnknown(final boolean argIgnoreUnknown) {
+        fIgnoreUnknown = argIgnoreUnknown;
     }
 
     /**
-     * フィールド [ignoreUnkown] の値を取得します。
+     * フィールド [ignoreUnknown] の値を取得します。
      *
      * フィールドの説明: [電文クラスに@JsonIgnoreProperties(ignoreUnknown = true)アノテーションを付与します。]。
      * デフォルト: [false]。
      *
-     * @return フィールド[ignoreUnkown]から取得した値。
+     * @return フィールド[ignoreUnknown]から取得した値。
      */
-    public boolean getIgnoreUnkown() {
-        return fIgnoreUnkown;
+    public boolean getIgnoreUnknown() {
+        return fIgnoreUnknown;
     }
 
     /**
@@ -456,7 +456,7 @@ public class BlancoValueObjectKtProcessInput {
         buf.append(",overridePackage=" + fOverridePackage);
         buf.append(",searchTmpdir=" + fSearchTmpdir);
         buf.append(",serdeable=" + fSerdeable);
-        buf.append(",ignoreUnkown=" + fIgnoreUnkown);
+        buf.append(",ignoreUnknown=" + fIgnoreUnknown);
         buf.append("]");
         return buf.toString();
     }
@@ -518,8 +518,8 @@ public class BlancoValueObjectKtProcessInput {
         // Name: fSerdeable
         // Type: boolean
         target.fSerdeable = this.fSerdeable;
-        // Name: fIgnoreUnkown
+        // Name: fIgnoreUnknown
         // Type: boolean
-        target.fIgnoreUnkown = this.fIgnoreUnkown;
+        target.fIgnoreUnknown = this.fIgnoreUnknown;
     }
 }
