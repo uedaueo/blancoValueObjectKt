@@ -175,4 +175,35 @@ public class BlancoValueObjectKtUtil {
         }
         return simpleName;
     }
+
+    /**
+     * Add new annotaion. ignore if duplicate.
+     * @param argAnnotation
+     * @param argFullAnnotation
+     * @param argImport
+     * @param argAnnotationList
+     * @param argImportList
+     * @return
+     */
+    static public boolean addNewAnnotation(
+            final String argAnnotation,
+            final String argFullAnnotation,
+            final String argImport,
+            final List<String> argAnnotationList,
+            final List<String> argImportList) {
+        /* Check already added */
+        boolean found = false;
+        for (String ann : argAnnotationList) {
+            if (ann.contains(argAnnotation)) {
+                found = true;
+            }
+        }
+        if (found) {
+            System.out.println("@" + argAnnotation + " already exists. SKIP!!");
+        } else {
+            argAnnotationList.add(argFullAnnotation);
+            argImportList.add(argImport);
+        }
+        return found;
+    }
 }

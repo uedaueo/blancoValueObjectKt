@@ -554,19 +554,13 @@ public class BlancoValueObjectKtXmlParser {
             if (this.isVerbose()) {
                 System.out.println("@Serdeable annotaion is requested for " + argClassStructure.getName());
             }
-            /* Check already added */
-            Boolean found = false;
-            for (String ann : argClassStructure.getAnnotationList()) {
-                if (ann.contains("Serdeable")) {
-                    found = true;
-                }
-            }
-            if (found) {
-                System.out.println("@Serdeable already exists. SKIP : " + argClassStructure.getName());
-            } else {
-                argClassStructure.getAnnotationList().add("Serdeable");
-                argClassStructure.getImportList().add("io.micronaut.serde.annotation.Serdeable");
-            }
+            BlancoValueObjectKtUtil.addNewAnnotation(
+                    "Serdeable",
+                    "Serdeable",
+                    "io.micronaut.serde.annotation.Serdeable",
+                    argClassStructure.getAnnotationList(),
+                    argClassStructure.getImportList()
+            );
         }
 
         /* Add @JsonIgnoreProperties(ignoreUnknown = true) annotation */
@@ -574,19 +568,13 @@ public class BlancoValueObjectKtXmlParser {
             if (this.isVerbose()) {
                 System.out.println("ignoreUnknow annotaion is requested for " + argClassStructure.getName());
             }
-            /* Check already added */
-            boolean found = false;
-            for (String ann : argClassStructure.getAnnotationList()) {
-                if (ann.contains("JsonIgnoreProperties")) {
-                    found = true;
-                }
-            }
-            if (found) {
-                System.out.println("@JsonIgnoreProperties already exists. SKIP : " + argClassStructure.getName());
-            } else {
-                argClassStructure.getAnnotationList().add("JsonIgnoreProperties(ignoreUnknown = true)");
-                argClassStructure.getImportList().add("com.fasterxml.jackson.annotation.*");
-            }
+            BlancoValueObjectKtUtil.addNewAnnotation(
+                    "JsonIgnoreProperties",
+                    "JsonIgnoreProperties(ignoreUnknown = true)",
+                    "com.fasterxml.jackson.annotation.*",
+                    argClassStructure.getAnnotationList(),
+                    argClassStructure.getImportList()
+            );
         }
 
         argClassStructure.setAccess(BlancoXmlBindingUtil.getTextContent(
@@ -883,12 +871,22 @@ public class BlancoValueObjectKtXmlParser {
             fieldStructure.setRequired("true".equals(required));
             if (fieldStructure.getRequired()) {
                 /* NotNull anotation is used by micronaut-validation, so field use-site-target is required. */
-                fieldStructure.getAnnotationList().add("field:NotNull");
-                argClassStructure.getImportList().add("javax.validation.constraints.NotNull");
+                BlancoValueObjectKtUtil.addNewAnnotation(
+                        "field:NotNull",
+                        "field:NotNull",
+                        "javax.validation.constraints.NotNull",
+                        fieldStructure.getAnnotationList(),
+                        argClassStructure.getImportList()
+                );
             } else if (BlancoValueObjectKtUtil.isNullableAnnotation) {
                 /* Nullable annotation is for serde serializer on constructor parameter. */
-                fieldStructure.getAnnotationList().add("Nullable");
-                argClassStructure.getImportList().add("io.micronaut.core.annotation.Nullable");
+                BlancoValueObjectKtUtil.addNewAnnotation(
+                        "Nullable",
+                        "Nullable",
+                        "io.micronaut.core.annotation.Nullable",
+                        fieldStructure.getAnnotationList(),
+                        argClassStructure.getImportList()
+                );
             }
 
             // Supports Nullable.
