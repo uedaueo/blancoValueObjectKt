@@ -94,6 +94,11 @@ public class BlancoValueObjectKtTask extends Task {
     protected boolean fIsFieldIgnoreUnknownProcessed = false;
 
     /**
+     * フィールド [nullableAnnotation] に値がセットされたかどうか。
+     */
+    protected boolean fIsFieldNullableAnnotationProcessed = false;
+
+    /**
      * verboseモードで動作させるかどうか。
      *
      * @param arg verboseモードで動作させるかどうか。
@@ -446,6 +451,32 @@ public class BlancoValueObjectKtTask extends Task {
     }
 
     /**
+     * Antタスクの[nullableAnnotation]アトリビュートのセッターメソッド。
+     *
+     * 項目番号: 14<br>
+     * 「必須」が指定されていないパラメータに@Nullableアノテーションを強制します<br>
+     *
+     * @param arg セットしたい値
+     */
+    public void setNullableAnnotation(final boolean arg) {
+        fInput.setNullableAnnotation(arg);
+        fIsFieldNullableAnnotationProcessed = true;
+    }
+
+    /**
+     * Antタスクの[nullableAnnotation]アトリビュートのゲッターメソッド。
+     *
+     * 項目番号: 14<br>
+     * 「必須」が指定されていないパラメータに@Nullableアノテーションを強制します<br>
+     * デフォルト値[false]が設定されています。Apache Antタスク上でアトリビュートの指定が無い場合には、デフォルト値が設定されます。<br>
+     *
+     * @return このフィールドの値
+     */
+    public boolean getNullableAnnotation() {
+        return fInput.getNullableAnnotation();
+    }
+
+    /**
      * Antタスクのメイン処理。Apache Antから このメソッドが呼び出されます。
      *
      * @throws BuildException タスクとしての例外が発生した場合。
@@ -474,6 +505,7 @@ public class BlancoValueObjectKtTask extends Task {
             System.out.println("- searchTmpdir:[" + getSearchTmpdir() + "]");
             System.out.println("- serdeable:[" + getSerdeable() + "]");
             System.out.println("- ignoreUnknown:[" + getIgnoreUnknown() + "]");
+            System.out.println("- nullableAnnotation:[" + getNullableAnnotation() + "]");
         }
 
         try {

@@ -112,6 +112,14 @@ public class BlancoValueObjectKtProcessInput {
     private boolean fIgnoreUnknown = false;
 
     /**
+     * 「必須」が指定されていないパラメータに@Nullableアノテーションを強制します
+     *
+     * フィールド: [nullableAnnotation]。
+     * デフォルト: [false]。
+     */
+    private boolean fNullableAnnotation = false;
+
+    /**
      * フィールド [verbose] の値を設定します。
      *
      * フィールドの説明: [Whether to run in verbose mode.]。
@@ -429,6 +437,29 @@ public class BlancoValueObjectKtProcessInput {
     }
 
     /**
+     * フィールド [nullableAnnotation] の値を設定します。
+     *
+     * フィールドの説明: [「必須」が指定されていないパラメータに@Nullableアノテーションを強制します]。
+     *
+     * @param argNullableAnnotation フィールド[nullableAnnotation]に設定する値。
+     */
+    public void setNullableAnnotation(final boolean argNullableAnnotation) {
+        fNullableAnnotation = argNullableAnnotation;
+    }
+
+    /**
+     * フィールド [nullableAnnotation] の値を取得します。
+     *
+     * フィールドの説明: [「必須」が指定されていないパラメータに@Nullableアノテーションを強制します]。
+     * デフォルト: [false]。
+     *
+     * @return フィールド[nullableAnnotation]から取得した値。
+     */
+    public boolean getNullableAnnotation() {
+        return fNullableAnnotation;
+    }
+
+    /**
      * Gets the string representation of this value object.
      *
      * <P>Precautions for use</P>
@@ -457,6 +488,7 @@ public class BlancoValueObjectKtProcessInput {
         buf.append(",searchTmpdir=" + fSearchTmpdir);
         buf.append(",serdeable=" + fSerdeable);
         buf.append(",ignoreUnknown=" + fIgnoreUnknown);
+        buf.append(",nullableAnnotation=" + fNullableAnnotation);
         buf.append("]");
         return buf.toString();
     }
@@ -521,5 +553,8 @@ public class BlancoValueObjectKtProcessInput {
         // Name: fIgnoreUnknown
         // Type: boolean
         target.fIgnoreUnknown = this.fIgnoreUnknown;
+        // Name: fNullableAnnotation
+        // Type: boolean
+        target.fNullableAnnotation = this.fNullableAnnotation;
     }
 }

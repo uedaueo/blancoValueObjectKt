@@ -882,8 +882,13 @@ public class BlancoValueObjectKtXmlParser {
             }
             fieldStructure.setRequired("true".equals(required));
             if (fieldStructure.getRequired()) {
+                /* NotNull anotation is used by micronaut-validation, so field use-site-target is required. */
                 fieldStructure.getAnnotationList().add("field:NotNull");
                 argClassStructure.getImportList().add("javax.validation.constraints.NotNull");
+            } else if (BlancoValueObjectKtUtil.isNullableAnnotation) {
+                /* Nullable annotation is for serde serializer on constructor parameter. */
+                fieldStructure.getAnnotationList().add("Nullable");
+                argClassStructure.getImportList().add("io.micronaut.core.annotation.Nullable");
             }
 
             // Supports Nullable.

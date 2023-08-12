@@ -79,6 +79,8 @@ public class BlancoValueObjectKtBatchProcess {
                 input.setSerdeable(Boolean.valueOf(arg.substring(11)).booleanValue());
             } else if (arg.startsWith("-ignoreUnknown=")) {
                 input.setIgnoreUnknown(Boolean.valueOf(arg.substring(15)).booleanValue());
+            } else if (arg.startsWith("-nullableAnnotation=")) {
+                input.setNullableAnnotation(Boolean.valueOf(arg.substring(20)).booleanValue());
             } else if (arg.equals("-?") || arg.equals("-help")) {
                 usage();
                 System.exit(END_SUCCESS);
@@ -172,7 +174,7 @@ public class BlancoValueObjectKtBatchProcess {
      */
     public static final void usage() {
         System.out.println("BlancoValueObjectKtBatchProcess: Usage:");
-        System.out.println("  java blanco.valueobjectkt.task.BlancoValueObjectKtBatchProcess -verbose=value1 -metadir=value2 -targetdir=value3 -tmpdir=value4 -encoding=value5 -xmlrootelement=value6 -sheetType=value7 -targetStyle=value8 -lineSeparator=value9 -packageSuffix=value10 -overridePackage=value11 -searchTmpdir=value12 -serdeable=value13 -ignoreUnknown=value14");
+        System.out.println("  java blanco.valueobjectkt.task.BlancoValueObjectKtBatchProcess -verbose=value1 -metadir=value2 -targetdir=value3 -tmpdir=value4 -encoding=value5 -xmlrootelement=value6 -sheetType=value7 -targetStyle=value8 -lineSeparator=value9 -packageSuffix=value10 -overridePackage=value11 -searchTmpdir=value12 -serdeable=value13 -ignoreUnknown=value14 -nullableAnnotation=value15");
         System.out.println("    -verbose");
         System.out.println("      explanation[Whether to run in verbose mode.]");
         System.out.println("      type[boolean]");
@@ -223,6 +225,10 @@ public class BlancoValueObjectKtBatchProcess {
         System.out.println("      default value[false]");
         System.out.println("    -ignoreUnknown");
         System.out.println("      explanation[電文クラスに@JsonIgnoreProperties(ignoreUnknown = true)アノテーションを付与します。]");
+        System.out.println("      type[boolean]");
+        System.out.println("      default value[false]");
+        System.out.println("    -nullableAnnotation");
+        System.out.println("      explanation[「必須」が指定されていないパラメータに@Nullableアノテーションを強制します]");
         System.out.println("      type[boolean]");
         System.out.println("      default value[false]");
         System.out.println("    -? , -help");
