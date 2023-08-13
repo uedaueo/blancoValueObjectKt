@@ -869,24 +869,26 @@ public class BlancoValueObjectKtXmlParser {
                 }
             }
             fieldStructure.setRequired("true".equals(required));
-            if (fieldStructure.getRequired()) {
-                /* NotNull anotation is used by micronaut-validation, so field use-site-target is required. */
-                BlancoValueObjectKtUtil.addNewAnnotation(
-                        "field:NotNull",
-                        "field:NotNull",
-                        "javax.validation.constraints.NotNull",
-                        fieldStructure.getAnnotationList(),
-                        argClassStructure.getImportList()
-                );
-            } else if (BlancoValueObjectKtUtil.isNullableAnnotation) {
-                /* Nullable annotation is for serde serializer on constructor parameter. */
-                BlancoValueObjectKtUtil.addNewAnnotation(
-                        "Nullable",
-                        "Nullable",
-                        "io.micronaut.core.annotation.Nullable",
-                        fieldStructure.getAnnotationList(),
-                        argClassStructure.getImportList()
-                );
+            if (!argClassStructure.getEnumeration()) {
+                if (fieldStructure.getRequired()) {
+                    /* NotNull anotation is used by micronaut-validation, so field use-site-target is required. */
+                    BlancoValueObjectKtUtil.addNewAnnotation(
+                            "field:NotNull",
+                            "field:NotNull",
+                            "javax.validation.constraints.NotNull",
+                            fieldStructure.getAnnotationList(),
+                            argClassStructure.getImportList()
+                    );
+                } else if (BlancoValueObjectKtUtil.isNullableAnnotation) {
+                    /* Nullable annotation is for serde serializer on constructor parameter. */
+                    BlancoValueObjectKtUtil.addNewAnnotation(
+                            "Nullable",
+                            "Nullable",
+                            "io.micronaut.core.annotation.Nullable",
+                            fieldStructure.getAnnotationList(),
+                            argClassStructure.getImportList()
+                    );
+                }
             }
 
             // Supports Nullable.
