@@ -273,14 +273,14 @@ class BlancoValueObjectKtMessageResourceBundle {
     /**
      * bundle[BlancoValueObjectKtMessage], key[MBVOJI09]
      *
-     * [クラス名[{0}] kotlinではdataクラスは必ずfinal扱いとなります。] (ja)<br>
+     * [クラス名[{0}] kotlinではdataクラスとsealedクラスは必ずfinal扱いとなります。] (ja)<br>
      *
      * @param arg0 置換文字列{0}を置換する値。java.lang.String型を与えてください。
      * @return key[MBVOJI09]に対応する値。外部から読み込みができない場合には、定義書の値を戻します。必ずnull以外の値が戻ります。
      */
     public String getMbvoji09(final String arg0) {
         // 初期値として定義書の値を利用します。
-        String strFormat = "クラス名[{0}] kotlinではdataクラスは必ずfinal扱いとなります。";
+        String strFormat = "クラス名[{0}] kotlinではdataクラスとsealedクラスは必ずfinal扱いとなります。";
         try {
             if (fResourceBundle != null) {
                 strFormat = fResourceBundle.getString("MBVOJI09");

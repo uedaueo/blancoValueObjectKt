@@ -536,7 +536,7 @@ public class BlancoValueObjectKtXml2KotlinClass {
         }
         fCgClass.setAccess(access);
         // Whether it is a Final class or not.
-        if (argClassStructure.getData() && !argClassStructure.getFinal()) {
+        if ((argClassStructure.getData() || argClassStructure.getSealed()) && !argClassStructure.getFinal()) {
             if (this.isVerbose()) {
                 System.out.println(fMsg
                         .getMbvoji09(argClassStructure.getName()));

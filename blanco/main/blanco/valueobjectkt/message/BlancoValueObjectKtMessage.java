@@ -188,7 +188,7 @@ public class BlancoValueObjectKtMessage {
      * Gets the string of message definition ID [BlancoValueObjectKt] and key [MBVOJI09].
      *
      * No.10:
-     * String [クラス名[{0}] kotlinではdataクラスは必ずfinal扱いとなります。]
+     * String [クラス名[{0}] kotlinではdataクラスとsealedクラスは必ずfinal扱いとなります。]
      *
      * @param arg0 Value of the replacement string {0}.
      * @return Message string.
