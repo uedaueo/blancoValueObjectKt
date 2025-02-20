@@ -77,6 +77,14 @@ public class BlancoValueObjectKtClassStructure {
     private Boolean fData = true;
 
     /**
+     * sealedクラスかどうか。
+     *
+     * フィールド: [sealed]。
+     * デフォルト: [true]。
+     */
+    private Boolean fSealed = true;
+
+    /**
      * クラスが拡張可能かどうか。kotlin では通常は true。
      *
      * フィールド: [final]。
@@ -394,6 +402,29 @@ public class BlancoValueObjectKtClassStructure {
      */
     public Boolean getData() {
         return fData;
+    }
+
+    /**
+     * フィールド [sealed] の値を設定します。
+     *
+     * フィールドの説明: [sealedクラスかどうか。]。
+     *
+     * @param argSealed フィールド[sealed]に設定する値。
+     */
+    public void setSealed(final Boolean argSealed) {
+        fSealed = argSealed;
+    }
+
+    /**
+     * フィールド [sealed] の値を取得します。
+     *
+     * フィールドの説明: [sealedクラスかどうか。]。
+     * デフォルト: [true]。
+     *
+     * @return フィールド[sealed]から取得した値。
+     */
+    public Boolean getSealed() {
+        return fSealed;
     }
 
     /**
@@ -762,6 +793,7 @@ public class BlancoValueObjectKtClassStructure {
         buf.append(",importList=" + fImportList);
         buf.append(",access=" + fAccess);
         buf.append(",data=" + fData);
+        buf.append(",sealed=" + fSealed);
         buf.append(",final=" + fFinal);
         buf.append(",abstract=" + fAbstract);
         buf.append(",generateToString=" + fGenerateToString);
@@ -826,6 +858,9 @@ public class BlancoValueObjectKtClassStructure {
         // Name: fData
         // Type: java.lang.Boolean
         target.fData = this.fData;
+        // Name: fSealed
+        // Type: java.lang.Boolean
+        target.fSealed = this.fSealed;
         // Name: fFinal
         // Type: java.lang.Boolean
         target.fFinal = this.fFinal;

@@ -295,6 +295,30 @@ class BlancoValueObjectKtMessageResourceBundle {
     }
 
     /**
+     * bundle[BlancoValueObjectKtMessage], key[MBVOJI0A]
+     *
+     * [クラス名[{0}] kotlinではdata修飾子とsealed修飾子は同時に指定できません。] (ja)<br>
+     *
+     * @param arg0 置換文字列{0}を置換する値。java.lang.String型を与えてください。
+     * @return key[MBVOJI0A]に対応する値。外部から読み込みができない場合には、定義書の値を戻します。必ずnull以外の値が戻ります。
+     */
+    public String getMbvoji0a(final String arg0) {
+        // 初期値として定義書の値を利用します。
+        String strFormat = "クラス名[{0}] kotlinではdata修飾子とsealed修飾子は同時に指定できません。";
+        try {
+            if (fResourceBundle != null) {
+                strFormat = fResourceBundle.getString("MBVOJI0A");
+            }
+        } catch (MissingResourceException ex) {
+        }
+        final MessageFormat messageFormat = new MessageFormat(strFormat);
+        final StringBuffer strbuf = new StringBuffer();
+        // 与えられた引数を元に置換文字列を置き換えます。
+        messageFormat.format(new Object[] {arg0}, strbuf, null);
+        return strbuf.toString();
+    }
+
+    /**
      * bundle[BlancoValueObjectKtMessage], key[MBVOJA01]
      *
      * [メタディレクトリ[{0}]が存在しません。] (ja)<br>

@@ -119,6 +119,9 @@
         <propertykey name="data" waitX="2">
           <value>dataクラス</value>
         </propertykey>
+        <propertykey name="sealed" waitX="2">
+          <value>sealedクラス</value>
+        </propertykey>
         <propertykey name="jsonCreator" waitX="2">
           <value>JsonCreatorを指定</value>
         </propertykey>

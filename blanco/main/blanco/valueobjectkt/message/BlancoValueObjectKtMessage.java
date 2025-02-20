@@ -202,6 +202,23 @@ public class BlancoValueObjectKtMessage {
     }
 
     /**
+     * Gets the string of message definition ID [BlancoValueObjectKt] and key [MBVOJI0A].
+     *
+     * No.11:
+     * String [クラス名[{0}] kotlinではdata修飾子とsealed修飾子は同時に指定できません。]
+     *
+     * @param arg0 Value of the replacement string {0}.
+     * @return Message string.
+     */
+    public String getMbvoji0a(final String arg0) {
+        if (arg0 == null) {
+            throw new IllegalArgumentException("The parameter [arg0] of the method [getMbvoji0a] has been given null. However, null cannot be given to this parameter.");
+        }
+
+        return "[MBVOJI0A] " + fBundle.getMbvoji0a(arg0);
+    }
+
+    /**
      * Gets the string of message definition ID [BlancoValueObjectKt] and key [MBVOJA01].
      *
      * No.11:

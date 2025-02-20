@@ -221,8 +221,17 @@ public class BlancoValueObjectKtXmlParser {
                 elementCommon, "access"));
         objClassStructure.setAbstract("true".equals(BlancoXmlBindingUtil
                 .getTextContent(elementCommon, "abstract")));
+
         objClassStructure.setData("true".equals(BlancoXmlBindingUtil
                 .getTextContent(elementCommon, "data")));
+        objClassStructure.setSealed("true".equals(BlancoXmlBindingUtil
+                .getTextContent(elementCommon, "sealed")));
+        if (objClassStructure.getData() && objClassStructure.getSealed()) {
+            /* Cannot specify both data and sealed. */
+            throw new IllegalArgumentException(fMsg
+                    .getMbvoji0a(objClassStructure.getName()));
+        }
+
         objClassStructure.setGenerateToString("true"
                 .equals(BlancoXmlBindingUtil.getTextContent(elementCommon,
                         "generateToString")));
@@ -583,8 +592,17 @@ public class BlancoValueObjectKtXmlParser {
                 .getTextContent(argElementCommon, "final")));
         argClassStructure.setAbstract("true".equals(BlancoXmlBindingUtil
                 .getTextContent(argElementCommon, "abstract")));
+
         argClassStructure.setData("true".equals(BlancoXmlBindingUtil
                 .getTextContent(argElementCommon, "data")));
+        argClassStructure.setSealed("true".equals(BlancoXmlBindingUtil
+                .getTextContent(argElementCommon, "sealed")));
+        if (argClassStructure.getData() && argClassStructure.getSealed()) {
+            /* Cannot specify both data and sealed. */
+            throw new IllegalArgumentException(fMsg
+                    .getMbvoji0a(argClassStructure.getName()));
+        }
+
         argClassStructure.setJsonCreator("true".equals(BlancoXmlBindingUtil
                 .getTextContent(argElementCommon, "jsonCreator")));
         argClassStructure.setGenerateToString("true"

@@ -526,6 +526,14 @@ public class BlancoValueObjectKtXml2KotlinClass {
                 access = "data";
             }
         }
+        // Whether it is a sealed class or not.
+        if (argClassStructure.getSealed()) {
+            if (access != null && access.length() > 0) {
+                access += " sealed";
+            } else {
+                access = "sealed";
+            }
+        }
         fCgClass.setAccess(access);
         // Whether it is a Final class or not.
         if (argClassStructure.getData() && !argClassStructure.getFinal()) {
