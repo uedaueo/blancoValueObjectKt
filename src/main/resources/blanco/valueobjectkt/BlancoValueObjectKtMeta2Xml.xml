@@ -154,6 +154,19 @@
         </propertykey>
       </propertyblock>
 
+      <propertyblock name="blancovalueobjectphp-extendskt" waitY="1">
+        <startstring>バリューオブジェクト定義(php)・継承(Kt)</startstring>
+        <propertykey name="name" waitX="2">
+          <value>クラス名</value>
+        </propertykey>
+        <propertykey name="package" waitX="2">
+          <value>パッケージ</value>
+        </propertykey>
+        <propertykey name="generic" waitX="2">
+          <value>総称型</value>
+        </propertykey>
+      </propertyblock>
+
       <tableblock name="blancovalueobjectphp-implements" waitY="2" titleheight="2" rowname="import">
         <startstring>バリューオブジェクト定義(php)・実装</startstring>
 

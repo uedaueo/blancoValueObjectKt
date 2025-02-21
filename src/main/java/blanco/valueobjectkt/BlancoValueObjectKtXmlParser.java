@@ -391,10 +391,15 @@ public class BlancoValueObjectKtXmlParser {
         }
 
         // Value object definition (PHP) inheritance
-        final List<BlancoXmlElement> extendsList = BlancoXmlBindingUtil
+        List<BlancoXmlElement> extendsList = BlancoXmlBindingUtil
                 .getElementsByTagName(argElementSheet,
-                        "blancovalueobjectphp-extends");
-        if (extendsList != null && extendsList.size() != 0) {
+                        "blancovalueobjectphp-extendskt");
+        /* extendsList is always not null. */
+        if (extendsList.isEmpty()) {
+            extendsList = BlancoXmlBindingUtil
+                    .getElementsByTagName(argElementSheet, "blancovalueobjectphp-extends");
+        }
+        if (!extendsList.isEmpty()) {
             final BlancoXmlElement elementExtendsRoot = extendsList.get(0);
             parseExtendsPhp(elementExtendsRoot, objClassStructure, argClassList);
         }
