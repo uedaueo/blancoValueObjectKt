@@ -95,6 +95,9 @@
         <propertykey name="generic" waitX="2">
           <value>総称型</value>
         </propertykey>
+        <propertykey name="virtualParams" waitX="2">
+          <value>仮想パラメータ</value>
+        </propertykey>
         <propertykey name="annotation" waitX="2">
           <value>アノテーション</value>
         </propertykey>

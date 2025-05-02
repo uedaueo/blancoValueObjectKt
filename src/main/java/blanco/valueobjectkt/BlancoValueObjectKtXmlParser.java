@@ -551,6 +551,12 @@ public class BlancoValueObjectKtXmlParser {
             argClassStructure.setGeneric(classGenerics);
         }
 
+        /* Save virtualParams of generic, just for TypeReference. */
+        String virtualParams = BlancoXmlBindingUtil.getTextContent(
+                argElementCommon, "virtualParams");
+        if (BlancoStringUtil.null2Blank(virtualParams).length() > 0) {
+            argClassStructure.setVirtualParams(virtualParams);
+        }
 
         /* Supports annotation of class. (Kt), if any, takes precedence. */
         String classAnnotation = BlancoXmlBindingUtil.getTextContent(

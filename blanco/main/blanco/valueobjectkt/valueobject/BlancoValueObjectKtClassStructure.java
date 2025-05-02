@@ -30,6 +30,13 @@ public class BlancoValueObjectKtClassStructure {
     private String fGeneric;
 
     /**
+     * このクラスで使用されている仮想パラメータの一覧（カンマ区切り、TypeReference作成用）
+     *
+     * フィールド: [virtualParams]。
+     */
+    private String fVirtualParams;
+
+    /**
      * クラスの説明です。
      *
      * フィールド: [description]。
@@ -265,6 +272,28 @@ public class BlancoValueObjectKtClassStructure {
      */
     public String getGeneric() {
         return fGeneric;
+    }
+
+    /**
+     * フィールド [virtualParams] の値を設定します。
+     *
+     * フィールドの説明: [このクラスで使用されている仮想パラメータの一覧（カンマ区切り、TypeReference作成用）]。
+     *
+     * @param argVirtualParams フィールド[virtualParams]に設定する値。
+     */
+    public void setVirtualParams(final String argVirtualParams) {
+        fVirtualParams = argVirtualParams;
+    }
+
+    /**
+     * フィールド [virtualParams] の値を取得します。
+     *
+     * フィールドの説明: [このクラスで使用されている仮想パラメータの一覧（カンマ区切り、TypeReference作成用）]。
+     *
+     * @return フィールド[virtualParams]から取得した値。
+     */
+    public String getVirtualParams() {
+        return fVirtualParams;
     }
 
     /**
@@ -787,6 +816,7 @@ public class BlancoValueObjectKtClassStructure {
         buf.append("name=" + fName);
         buf.append(",package=" + fPackage);
         buf.append(",generic=" + fGeneric);
+        buf.append(",virtualParams=" + fVirtualParams);
         buf.append(",description=" + fDescription);
         buf.append(",descriptionList=" + fDescriptionList);
         buf.append(",annotationList=" + fAnnotationList);
@@ -840,6 +870,9 @@ public class BlancoValueObjectKtClassStructure {
         // Name: fGeneric
         // Type: java.lang.String
         target.fGeneric = this.fGeneric;
+        // Name: fVirtualParams
+        // Type: java.lang.String
+        target.fVirtualParams = this.fVirtualParams;
         // Name: fDescription
         // Type: java.lang.String
         target.fDescription = this.fDescription;
